@@ -460,7 +460,7 @@ wrapt==1.16.0
     # via
     #   -r constraints.in
     #   deprecat
-xarray==2024.10.0
+xarray==2024.9.0
     # via -r constraints.in
 xmltodict==0.14.2
     # via moto
