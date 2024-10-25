@@ -22,6 +22,7 @@ v1.9.next
 - Cherry picks from 1.8 (#1624-#1626, #1629-#1631) (:pull:`1637`)
 - Updates to index APIs - add `order_by` to dataset search, index name attribute, product most recent change method (:pull:`1643`)
 - Fix alembic migrations (:pull:`1645`)
+- Make psycopg2 an optional dependency (:pull:`1648`)
 
 v1.9.0-rc9 (3rd July 2024)
 ==========================
