@@ -6,7 +6,8 @@
 Module
 """
 
-from psycopg2.extras import NumericRange
+# from psycopg2.extras import NumericRange
+from sqlalchemy.dialects.postgresql import Range as PgRange
 
 from datacube.drivers.postgres._fields import SimpleDocField, RangeBetweenExpression, EqualsExpression, \
     NumericRangeDocField
@@ -26,5 +27,5 @@ def test_build_query_expressions():
 
     assert [EqualsExpression(_sat_field, "LANDSAT_8")] == to_expressions(_fields.get, platform="LANDSAT_8")
     assert [RangeBetweenExpression(
-        _lat_field, 4, 23.0, _range_class=NumericRange
+        _lat_field, 4, 23.0, _range_class=PgRange
     )] == to_expressions(_fields.get, lat=Range(4, 23))

@@ -13,7 +13,6 @@ from datetime import datetime, date
 from decimal import Decimal
 from typing import Any, Callable, Type, Tuple, Union
 
-from psycopg2.extras import NumericRange, DateTimeTZRange
 from sqlalchemy.types import TIMESTAMP
 from sqlalchemy import cast, func, and_
 from sqlalchemy.dialects import postgresql as postgres
@@ -300,7 +299,7 @@ class NumericDocField(SimpleDocField):
     def between(self, low, high):
         # Numeric fields actually stored as ranges in current schema.
         # return ValueBetweenExpression(self, low, high)
-        return RangeBetweenExpression(self, low, high, _range_class=NumericRange)
+        return RangeBetweenExpression(self, low, high, _range_class=PgRange)
 
     def parse_value(self, value):
         return Decimal(value)
@@ -448,7 +447,7 @@ class NumericRangeDocField(RangeDocField):
         """
         :rtype: Expression
         """
-        return RangeBetweenExpression(self, low, high, _range_class=NumericRange)
+        return RangeBetweenExpression(self, low, high, _range_class=PgRange)
 
 
 class IntRangeDocField(NumericRangeDocField):
@@ -512,7 +511,7 @@ class DateRangeDocField(RangeDocField):
                 self,
                 tz_as_utc(low).astimezone(timezone.utc),
                 tz_as_utc(high).astimezone(timezone.utc),
-                _range_class=DateTimeTZRange
+                _range_class=PgRange
             )
         else:
             raise ValueError("Unknown comparison type for date range: "

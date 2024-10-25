@@ -100,21 +100,25 @@ class PostGisDb:
 
     @staticmethod
     def _create_engine(url, application_name=None, iam_rds_auth=False, iam_rds_timeout=600, pool_timeout=60) -> Engine:
-        engine = create_engine(
-            url,
-            echo=False,
-            echo_pool=False,
+        try:
+            engine = create_engine(
+                url,
+                echo=False,
+                echo_pool=False,
 
-            # 'AUTOCOMMIT' here means READ-COMMITTED isolation level with autocommit on.
-            # When a transaction is needed we will do an explicit begin/commit.
-            isolation_level='AUTOCOMMIT',
-            json_serializer=_to_json,
-            # If a connection is idle for this many seconds, SQLAlchemy will renew it rather
-            # than assuming it's still open. Allows servers to close idle connections without clients
-            # getting errors.
-            pool_recycle=pool_timeout,
-            connect_args={'application_name': application_name},
-        )
+                # 'AUTOCOMMIT' here means READ-COMMITTED isolation level with autocommit on.
+                # When a transaction is needed we will do an explicit begin/commit.
+                isolation_level='AUTOCOMMIT',
+                json_serializer=_to_json,
+                # If a connection is idle for this many seconds, SQLAlchemy will renew it rather
+                # than assuming it's still open. Allows servers to close idle connections without clients
+                # getting errors.
+                pool_recycle=pool_timeout,
+                connect_args={'application_name': application_name},
+            )
+        except ModuleNotFoundError:
+            raise IndexSetupError('psycopg2 is required to work with the database. '
+                                  'Please install the [postgres] or [test] depdencies.')
 
         if iam_rds_auth:
             from datacube.utils.aws import obtain_new_iam_auth_token

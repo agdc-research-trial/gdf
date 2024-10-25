@@ -11,6 +11,7 @@ tests_require = [
     'pytest-timeout',
     'pytest-httpserver',
     'moto<5.0',  # 5.0 will require changes to some tests.
+    'psycopg2',
 ]
 
 types_require = [
@@ -47,6 +48,7 @@ extras_require = {
     "types": types_require,
     'cf': ['compliance-checker>=4.0.0'],
     'netcdf': ['netcdf4'],
+    'postgres': ['psycopg2'],
 }
 
 extras_require['dev'] = sorted(set(sum([extras_require[k] for k in [
@@ -57,6 +59,7 @@ extras_require['dev'] = sorted(set(sum([extras_require[k] for k in [
     's3',
     'distributed',
     'netcdf',
+    'postgres',
 ]], [])))
 
 # An 'all' option, following ipython naming conventions.
@@ -119,7 +122,6 @@ setup(
         'distributed',
         'jsonschema>=4.18',  # New reference resolution API
         'numpy',
-        'psycopg2',
         'lark',
         'pandas',
         'python-dateutil',

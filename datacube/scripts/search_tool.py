@@ -14,7 +14,7 @@ import sys
 from functools import partial
 
 import click
-from psycopg2._range import Range
+from sqlalchemy.dialects.postgresql import Range
 from functools import singledispatch
 
 from datacube.ui import click as ui
@@ -137,7 +137,7 @@ def printable_dt(val):
 @printable.register(Range)
 def printable_r(val):
     """
-    :type val: psycopg2._range.Range
+    :type val: sqlalchemy.dialects.postgresql.Range
     """
     if val.lower_inf:
         return printable(val.upper)
