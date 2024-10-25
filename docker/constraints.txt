@@ -103,7 +103,7 @@ cryptography==43.0.3
     #   secretstorage
 cycler==0.12.1
     # via matplotlib
-dask==2024.10.0
+dask==2024.9.1
     # via
     #   -r constraints.in
     #   distributed
