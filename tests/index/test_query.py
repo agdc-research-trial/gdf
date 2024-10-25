@@ -6,7 +6,6 @@
 Module
 """
 
-# from psycopg2.extras import NumericRange
 from sqlalchemy.dialects.postgresql import Range as PgRange
 
 from datacube.drivers.postgres._fields import SimpleDocField, RangeBetweenExpression, EqualsExpression, \

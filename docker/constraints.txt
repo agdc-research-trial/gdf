@@ -9,43 +9,47 @@ affine==2.4.0
     #   -r constraints.in
     #   odc-geo
     #   rasterio
-alabaster==0.7.16
+alabaster==0.7.13
     # via sphinx
-alembic==1.13.3
+alembic==1.12.1
     # via -r constraints.in
 antlr4-python3-runtime==4.7.2
     # via cf-units
-astroid==3.3.5
+astroid==3.2.2
     # via pylint
-attrs==24.2.0
+async-timeout==4.0.2
+    # via redis
+attrs==22.2.0
     # via
     #   -r constraints.in
     #   fiona
     #   hypothesis
     #   jsonschema
+    #   pytest
     #   rasterio
     #   referencing
-babel==2.16.0
+babel==2.11.0
     # via sphinx
-boto3==1.35.48
+bleach==6.0.0
+    # via readme-renderer
+boto3==1.26.70
     # via
     #   -r constraints.in
     #   moto
-botocore==1.35.48
+botocore==1.29.70
     # via
     #   boto3
     #   moto
     #   s3transfer
-bottleneck==1.4.2
+bottleneck==1.3.6
     # via -r constraints.in
-cachetools==5.5.0
+cachetools==5.3.0
     # via
     #   -r constraints.in
     #   odc-geo
-certifi==2024.8.30
+certifi==2022.12.7
     # via
     #   fiona
-    #   netcdf4
     #   pyproj
     #   rasterio
     #   requests
@@ -53,20 +57,20 @@ cf-units==3.2.0
     # via
     #   -r constraints.in
     #   compliance-checker
-cffi==1.17.1
+cffi==1.16.0
     # via
     #   -r constraints.in
     #   cryptography
-cftime==1.6.4.post1
+cftime==1.6.2
     # via
     #   cf-units
     #   compliance-checker
     #   netcdf4
-charset-normalizer==3.4.0
+charset-normalizer==3.0.1
     # via requests
-ciso8601==2.3.1
+ciso8601==2.3.0
     # via -r constraints.in
-click==8.1.7
+click==8.1.3
     # via
     #   -r constraints.in
     #   click-plugins
@@ -84,83 +88,79 @@ cligj==0.7.2
     # via
     #   fiona
     #   rasterio
-cloudpickle==3.1.0
+cloudpickle==2.2.1
     # via
     #   -r constraints.in
     #   dask
     #   distributed
 commonmark==0.9.1
     # via recommonmark
-compliance-checker==5.1.1
+compliance-checker==5.1.0
     # via -r constraints.in
-contourpy==1.3.0
+contourpy==1.0.7
     # via matplotlib
-coverage==7.6.4
+coverage==7.1.0
     # via pytest-cov
-cryptography==43.0.3
+cryptography==39.0.1
     # via
     #   moto
     #   secretstorage
-cycler==0.12.1
+cycler==0.11.0
     # via matplotlib
-dask==2024.10.0
+dask==2023.2.0
     # via
     #   -r constraints.in
     #   distributed
-deprecat==2.1.3
+decorator==5.1.1
+    # via validators
+deprecat==2.1.1
     # via -r constraints.in
-dill==0.3.9
+dill==0.3.8
     # via pylint
-distributed==2024.10.0
+distributed==2023.2.0
     # via -r constraints.in
-docutils==0.19
+docutils==0.18.1
     # via
     #   readme-renderer
     #   recommonmark
     #   sphinx
     #   sphinx-click
     #   sphinx-rtd-theme
-fiona==1.10.1
+fiona==1.9.1
     # via -r constraints.in
-fonttools==4.54.1
+fonttools==4.38.0
     # via matplotlib
-fsspec==2024.10.0
+fsspec==2023.1.0
     # via dask
-geoalchemy2==0.15.2
+geoalchemy2==0.13.1
     # via -r constraints.in
-greenlet==3.1.1
+greenlet==3.0.3
     # via
     #   -r constraints.in
     #   sqlalchemy
-hypothesis==6.115.5
+heapdict==1.0.1
+    # via zict
+hypothesis==6.68.1
     # via -r constraints.in
-idna==3.10
+idna==3.4
     # via requests
 imagesize==1.4.1
     # via sphinx
-importlib-metadata==8.5.0
-    # via
-    #   compliance-checker
-    #   twine
-importlib-resources==6.4.5
-    # via compliance-checker
+importlib-metadata==6.0.0
+    # via twine
 iniconfig==2.0.0
     # via pytest
-isodate==0.7.2
+isodate==0.6.1
     # via compliance-checker
-isort==5.13.2
+isort==4.3.21
     # via pylint
-jaraco-classes==3.4.0
-    # via keyring
-jaraco-context==6.0.1
-    # via keyring
-jaraco-functools==4.1.0
+jaraco-classes==3.2.3
     # via keyring
 jeepney==0.8.0
     # via
     #   keyring
     #   secretstorage
-jinja2==3.1.4
+jinja2==3.1.2
     # via
     #   cf-units
     #   compliance-checker
@@ -171,55 +171,52 @@ jmespath==1.0.1
     # via
     #   boto3
     #   botocore
-jsonschema==4.23.0
+jsonschema==4.18.4
     # via -r constraints.in
-jsonschema-specifications==2024.10.1
+jsonschema-specifications==2023.7.1
     # via jsonschema
-keyring==25.4.1
+keyring==23.13.1
     # via twine
-kiwisolver==1.4.7
+kiwisolver==1.4.4
     # via matplotlib
-lark==1.2.2
+lark==1.1.5
     # via -r constraints.in
 locket==1.0.0
     # via
     #   distributed
     #   partd
-lxml==5.3.0
+lxml==5.2.2
     # via
     #   -r constraints.in
     #   compliance-checker
-    #   owslib
-mako==1.3.6
+mako==1.3.0
     # via alembic
-markdown-it-py==3.0.0
+markdown-it-py==2.1.0
     # via rich
-markupsafe==3.0.2
+markupsafe==2.1.2
     # via
     #   jinja2
     #   mako
     #   werkzeug
-matplotlib==3.9.2
+matplotlib==3.7.0
     # via -r constraints.in
-mccabe==0.7.0
+mccabe==0.6.1
     # via pylint
 mdurl==0.1.2
     # via markdown-it-py
-more-itertools==10.5.0
-    # via
-    #   jaraco-classes
-    #   jaraco-functools
-moto==4.2.14
+more-itertools==9.0.0
+    # via jaraco-classes
+moto==4.1.2
     # via -r constraints.in
-msgpack==1.1.0
+msgpack==1.0.4
     # via distributed
-netcdf4==1.7.2
+munch==2.5.0
+    # via fiona
+netcdf4==1.6.2
     # via
     #   -r constraints.in
     #   compliance-checker
-nh3==0.2.18
-    # via readme-renderer
-numpy==2.1.2
+numpy==1.26.4
     # via
     #   -r constraints.in
     #   bottleneck
@@ -232,14 +229,14 @@ numpy==2.1.2
     #   pandas
     #   rasterio
     #   shapely
+    #   snuggs
     #   xarray
-odc-geo==0.4.8
+odc-geo==0.4.7
     # via -r constraints.in
-owslib==0.32.0
+owslib==0.27.2
     # via compliance-checker
-packaging==24.1
+packaging==23.0
     # via
-    #   compliance-checker
     #   dask
     #   distributed
     #   geoalchemy2
@@ -248,62 +245,62 @@ packaging==24.1
     #   setuptools-scm
     #   sphinx
     #   xarray
-pandas==2.2.3
+pandas==2.1.4
     # via
     #   -r constraints.in
     #   xarray
-partd==1.4.2
+partd==1.3.0
     # via dask
 pendulum==3.0.0
     # via
     #   -r constraints.in
     #   compliance-checker
-pillow==11.0.0
+pillow==9.4.0
     # via matplotlib
-pkginfo==1.10.0
+pkginfo==1.9.6
     # via twine
-platformdirs==4.3.6
+platformdirs==4.2.2
     # via pylint
-pluggy==1.5.0
+pluggy==1.0.0
     # via pytest
-psutil==6.1.0
+psutil==5.9.4
     # via distributed
-psycopg2==2.9.10
+psycopg2==2.9.5
     # via -r constraints.in
-pycodestyle==2.12.1
+pycodestyle==2.5.0
     # via -r constraints.in
-pycparser==2.22
+pycparser==2.21
     # via cffi
-pygeoif==1.5.0
+pygeoif==1.0.0
     # via compliance-checker
-pygments==2.18.0
+pygments==2.14.0
     # via
     #   readme-renderer
     #   rich
     #   sphinx
-pylint==3.3.1
+pylint==3.2.2
     # via -r constraints.in
-pyparsing==3.2.0
+pyparsing==3.0.9
     # via
     #   matplotlib
-    #   rasterio
-pyproj==3.7.0
+    #   snuggs
+pyproj==3.6.1
     # via
     #   -r constraints.in
     #   compliance-checker
     #   odc-geo
-pytest==8.3.3
+pytest==7.2.1
     # via
     #   -r constraints.in
     #   pytest-cov
     #   pytest-timeout
-pytest-cov==5.0.0
+pytest-cov==4.0.0
     # via -r constraints.in
-pytest-httpserver==1.1.0
+pytest-httpserver==1.0.6
     # via -r constraints.in
-pytest-timeout==2.3.1
+pytest-timeout==2.1.0
     # via -r constraints.in
-python-dateutil==2.9.0.post0
+python-dateutil==2.8.2
     # via
     #   -r constraints.in
     #   botocore
@@ -313,30 +310,32 @@ python-dateutil==2.9.0.post0
     #   pandas
     #   pendulum
     #   time-machine
-pytz==2024.2
-    # via pandas
-pyyaml==6.0.2
+pytz==2022.7.1
+    # via
+    #   babel
+    #   owslib
+    #   pandas
+pyyaml==6.0.1
     # via
     #   -r constraints.in
     #   dask
     #   distributed
     #   owslib
-    #   responses
-rasterio==1.4.1
+rasterio==1.3.11
     # via -r constraints.in
-readme-renderer==43.0
+readme-renderer==37.3
     # via twine
 recommonmark==0.7.1
     # via -r constraints.in
-redis==5.2.0
+redis==4.5.1
     # via -r constraints.in
-referencing==0.35.1
+referencing==0.30.0
     # via
     #   jsonschema
     #   jsonschema-specifications
-regex==2024.9.11
+regex==2022.10.31
     # via compliance-checker
-requests==2.32.3
+requests==2.28.2
     # via
     #   compliance-checker
     #   moto
@@ -345,37 +344,41 @@ requests==2.32.3
     #   responses
     #   sphinx
     #   twine
-requests-toolbelt==1.0.0
+requests-toolbelt==0.10.1
     # via twine
-responses==0.25.3
+responses==0.22.0
     # via moto
 rfc3986==2.0.0
     # via twine
-rich==13.9.3
+rich==13.3.1
     # via twine
-rpds-py==0.20.0
+rpds-py==0.9.2
     # via
     #   jsonschema
     #   referencing
-ruamel-yaml==0.18.6
+ruamel-yaml==0.17.21
     # via -r constraints.in
-ruamel-yaml-clib==0.2.12
-    # via ruamel-yaml
-s3transfer==0.10.3
+s3transfer==0.6.0
     # via boto3
 secretstorage==3.3.3
     # via keyring
-setuptools-scm==8.1.0
+setuptools-scm==7.1.0
     # via -r constraints.in
-shapely==2.0.6
+shapely==2.0.4
     # via
     #   -r constraints.in
     #   compliance-checker
     #   odc-geo
 six==1.16.0
-    # via python-dateutil
+    # via
+    #   bleach
+    #   isodate
+    #   munch
+    #   python-dateutil
 snowballstemmer==2.2.0
     # via sphinx
+snuggs==1.4.7
+    # via rasterio
 sortedcontainers==2.4.0
     # via
     #   distributed
@@ -387,86 +390,92 @@ sphinx==5.3.0
     #   sphinx-autodoc-typehints
     #   sphinx-click
     #   sphinx-rtd-theme
-    #   sphinxcontrib-jquery
-sphinx-autodoc-typehints==1.23.0
+sphinx-autodoc-typehints==1.22
     # via -r constraints.in
-sphinx-click==6.0.0
+sphinx-click==4.4.0
     # via -r constraints.in
-sphinx-rtd-theme==2.0.0
+sphinx-rtd-theme==1.2.0
     # via -r constraints.in
-sphinxcontrib-applehelp==2.0.0
+sphinxcontrib-applehelp==1.0.4
     # via sphinx
-sphinxcontrib-devhelp==2.0.0
+sphinxcontrib-devhelp==1.0.2
     # via sphinx
-sphinxcontrib-htmlhelp==2.1.0
+sphinxcontrib-htmlhelp==2.0.1
     # via sphinx
-sphinxcontrib-jquery==4.1
+sphinxcontrib-jquery==2.0.0
     # via sphinx-rtd-theme
 sphinxcontrib-jsmath==1.0.1
     # via sphinx
-sphinxcontrib-qthelp==2.0.0
+sphinxcontrib-qthelp==1.0.3
     # via sphinx
-sphinxcontrib-serializinghtml==2.0.0
+sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
-sqlalchemy==2.0.36
+sqlalchemy==2.0.24
     # via
     #   -r constraints.in
     #   alembic
     #   geoalchemy2
-tblib==3.0.0
+tblib==1.7.0
     # via distributed
-time-machine==2.16.0
+time-machine==2.14.1
     # via pendulum
 toml==0.10.2
-    # via -r constraints.in
-tomlkit==0.13.2
+    # via
+    #   -r constraints.in
+    #   responses
+tomlkit==0.12.5
     # via pylint
-toolz==1.0.0
+toolz==0.12.0
     # via
     #   -r constraints.in
     #   dask
     #   distributed
     #   partd
-tornado==6.4.1
+tornado==6.2
     # via distributed
-twine==5.1.1
+twine==4.0.2
     # via -r constraints.in
-typing-extensions==4.12.2
+types-toml==0.10.8.3
+    # via responses
+typing-extensions==4.12.0
     # via
     #   -r constraints.in
     #   alembic
     #   pygeoif
+    #   setuptools-scm
     #   sqlalchemy
-tzdata==2024.2
+tzdata==2023.4
     # via
     #   pandas
     #   pendulum
-urllib3==2.2.3
+urllib3==1.26.14
     # via
     #   botocore
     #   distributed
     #   requests
     #   responses
     #   twine
-validators==0.34.0
+validators==0.20.0
     # via compliance-checker
-werkzeug==3.0.5
+webencodings==0.5.1
+    # via bleach
+werkzeug==2.2.2
     # via
     #   moto
     #   pytest-httpserver
-wheel==0.44.0
+wheel==0.38.4
     # via -r constraints.in
 wrapt==1.16.0
     # via
     #   -r constraints.in
     #   deprecat
-xarray==2024.10.0
+xarray==2023.12.0
     # via -r constraints.in
-xmltodict==0.14.2
+xmltodict==0.13.0
     # via moto
-zict==3.0.0
+zict==2.2.0
     # via distributed
-zipp==3.20.2
+zipp==3.13.0
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
