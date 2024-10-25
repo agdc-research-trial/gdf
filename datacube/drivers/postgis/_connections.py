@@ -118,7 +118,7 @@ class PostGisDb:
             )
         except ModuleNotFoundError:
             raise IndexSetupError('psycopg2 is required to work with the database. '
-                                  'Please install the [postgres] or [test] depdencies.')
+                                  'Please install the [postgres] or [test] dependencies.')
 
         if iam_rds_auth:
             from datacube.utils.aws import obtain_new_iam_auth_token
