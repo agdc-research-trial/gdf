@@ -8,8 +8,10 @@ What's New
 v1.9.next
 =========
 
-v1.9.0-rc10 (25th October 2024)
+v1.9.0-rc11 (28th October 2024)
 ===============================
+
+(Replaces rc10 which was a bungled pre-release.)
 
 - Permissions management cleanup in postgis driver. (:pull:`1613`)
 - Add `skip_broken_datasets` and `dc_load_limit` config options. (:pull:`1616`)
@@ -27,6 +29,7 @@ v1.9.0-rc10 (25th October 2024)
 - Fix alembic migrations (:pull:`1645`)
 - Make psycopg2 an optional dependency (:pull:`1648`)
 - Cherry pick recent merged PRs from develop branch and update whats_new for rc10 release. (:pull:`1647`)
+- Update whats_new for rc11 release. (:pull:`1649`)
 
 v1.9.0-rc9 (3rd July 2024)
 ==========================
