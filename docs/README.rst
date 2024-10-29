@@ -50,6 +50,12 @@ Requires a Unix like system that includes ``make``.
 
    pip install -r requirements.txt
 
+#. Install sphinx-autobuild with pip
+
+.. code-block:: bash
+
+   pip install sphinx-autobuild
+
 #. Run the autobuild.
 
 .. code-block:: bash
