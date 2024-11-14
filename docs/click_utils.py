@@ -33,10 +33,7 @@ def find_script_callable_from_env(name, env):
 
 
 def find_script_callable(name):
-    try:
-        from importlib_metadata import entry_points
-    except ModuleNotFoundError:
-        from importlib.metadata import entry_points
+    from importlib.metadata import entry_points
     return list(entry_points(
         group='console_scripts', name=name))[0].load()
 

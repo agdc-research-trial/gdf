@@ -136,7 +136,6 @@ setup(
         'packaging',
         'odc-geo>=0.4.8',
         'deprecat',
-        'importlib_metadata>3.5;python_version<"3.10"',
     ],
     extras_require=extras_require,
     tests_require=tests_require,
