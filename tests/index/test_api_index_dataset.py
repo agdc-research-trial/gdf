@@ -11,7 +11,7 @@ from uuid import UUID
 
 from datacube.index.postgres._datasets import DatasetResource
 from datacube.index.exceptions import DuplicateRecordError
-from datacube.model import DatasetType, MetadataType, Dataset
+from datacube.model import Product, MetadataType, Dataset
 
 _nbar_uuid = UUID('f2f12372-8366-11e5-817e-1040f381a756')
 _ortho_uuid = UUID('5cf41d98-eda9-11e4-8a8e-1040f381a756')
@@ -133,7 +133,7 @@ _EXAMPLE_METADATA_TYPE = MetadataType(
     dataset_search_fields={}
 )
 
-_EXAMPLE_DATASET_TYPE = DatasetType(
+_EXAMPLE_PRODUCT = Product(
     _EXAMPLE_METADATA_TYPE,
     {
         'name': 'eo',
@@ -146,7 +146,7 @@ _EXAMPLE_DATASET_TYPE = DatasetType(
 
 def _build_dataset(doc):
     sources = {name: _build_dataset(src) for name, src in doc['lineage']['source_datasets'].items()}
-    return Dataset(_EXAMPLE_DATASET_TYPE, doc, uri='file://test.zzz', sources=sources)
+    return Dataset(_EXAMPLE_PRODUCT, doc, uri='file://test.zzz', sources=sources)
 
 
 _EXAMPLE_NBAR_DATASET = _build_dataset(_EXAMPLE_NBAR)
@@ -231,7 +231,7 @@ class MockIndex:
 
 def test_index_dataset():
     mock_db = MockDb()
-    mock_index = MockIndex(mock_db, _EXAMPLE_DATASET_TYPE)
+    mock_index = MockIndex(mock_db, _EXAMPLE_PRODUCT)
     datasets = DatasetResource(mock_db, mock_index)
     dataset = datasets.add(_EXAMPLE_NBAR_DATASET)
 
@@ -257,7 +257,7 @@ def test_index_dataset():
 
 def test_index_already_ingested_source_dataset():
     mock_db = MockDb()
-    mock_index = MockIndex(mock_db, _EXAMPLE_DATASET_TYPE)
+    mock_index = MockIndex(mock_db, _EXAMPLE_PRODUCT)
     datasets = DatasetResource(mock_db, mock_index)
     dataset = datasets.add(_EXAMPLE_NBAR_DATASET.sources['ortho'])
 
@@ -271,7 +271,7 @@ def test_index_already_ingested_source_dataset():
 
 def test_index_two_levels_already_ingested():
     mock_db = MockDb()
-    mock_index = MockIndex(mock_db, _EXAMPLE_DATASET_TYPE)
+    mock_index = MockIndex(mock_db, _EXAMPLE_PRODUCT)
     datasets = DatasetResource(mock_db, mock_index)
     dataset = datasets.add(_EXAMPLE_NBAR_DATASET.sources['ortho'].sources['satellite_telemetry_data'])
 

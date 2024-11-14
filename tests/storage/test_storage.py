@@ -12,7 +12,7 @@ from affine import Affine, identity
 from rasterio.warp import Resampling
 
 from datacube.drivers.datasource import DataSource
-from datacube.model import Dataset, DatasetType, MetadataType
+from datacube.model import Dataset, Product, MetadataType
 from datacube.testutils.io import RasterFileDataSource
 from datacube.storage import BandInfo
 from datacube.drivers.netcdf import create_netcdf_storage_unit, Variable
@@ -560,7 +560,7 @@ _EXAMPLE_METADATA_TYPE = MetadataType(
     dataset_search_fields={}
 )
 
-_EXAMPLE_DATASET_TYPE = DatasetType(
+_EXAMPLE_PRODUCT = Product(
     _EXAMPLE_METADATA_TYPE,
     {
         'name': 'ls5_nbar_scene',
@@ -595,7 +595,7 @@ def test_multiband_support_in_datasetsource(example_gdal_path):
     }
 
     # Without new band attribute, default to band number 1
-    d = Dataset(_EXAMPLE_DATASET_TYPE, defn, uri='file:///tmp')
+    d = Dataset(_EXAMPLE_PRODUCT, defn, uri='file:///tmp')
 
     ds = RasterDatasetDataSource(BandInfo(d, 'green'))
 
@@ -611,7 +611,7 @@ def test_multiband_support_in_datasetsource(example_gdal_path):
     # With new 'image.bands.[band].band' attribute
     band_num = 3
     defn['image']['bands']['green']['band'] = band_num
-    d = Dataset(_EXAMPLE_DATASET_TYPE, defn, uri='file:///tmp')
+    d = Dataset(_EXAMPLE_PRODUCT, defn, uri='file:///tmp')
 
     ds = RasterDatasetDataSource(BandInfo(d, 'green'))
 
@@ -636,7 +636,7 @@ def test_netcdf_multi_part():
     }
 
     def ds(uri):
-        d = Dataset(_EXAMPLE_DATASET_TYPE, defn, uri=uri)
+        d = Dataset(_EXAMPLE_PRODUCT, defn, uri=uri)
         return RasterDatasetDataSource(BandInfo(d, 'green'))
 
     for i in range(3):

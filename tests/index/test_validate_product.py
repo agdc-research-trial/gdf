@@ -10,7 +10,7 @@ from copy import deepcopy
 
 import pytest
 
-from datacube.model import DatasetType
+from datacube.model import Product
 from datacube.utils import InvalidDocException
 
 only_mandatory_fields = {
@@ -21,27 +21,27 @@ only_mandatory_fields = {
 }
 
 
-@pytest.mark.parametrize("valid_dataset_type_update", [
+@pytest.mark.parametrize("valid_product_update", [
     {},
     {'storage': {'crs': 'EPSG:3577'}},
     # With the optional properties
     {'measurements': [{'name': 'band_70', 'dtype': 'int16', 'nodata': -999, 'units': '1'}]}
 ])
-def test_accepts_valid_docs(valid_dataset_type_update):
+def test_accepts_valid_docs(valid_product_update):
     doc = deepcopy(only_mandatory_fields)
-    doc.update(valid_dataset_type_update)
+    doc.update(valid_product_update)
     # Should have no errors.
-    DatasetType.validate(doc)
+    Product.validate(doc)
 
 
-def test_incomplete_dataset_type_invalid():
+def test_incomplete_product_is_invalid():
     # Invalid: An empty doc.
     with pytest.raises(InvalidDocException) as e:
-        DatasetType.validate({})
+        Product.validate({})
 
 
 # Changes to the above dict that should render it invalid.
-@pytest.mark.parametrize("invalid_dataset_type_update", [
+@pytest.mark.parametrize("invalid_product_update", [
     # Mandatory
     {'name': None},
     # Should be an object
@@ -57,14 +57,14 @@ def test_incomplete_dataset_type_invalid():
     {'mappings': {}},
     {'mappings': ''}
 ])
-def test_rejects_invalid_docs(invalid_dataset_type_update):
+def test_rejects_invalid_docs(invalid_product_update):
     mapping = deepcopy(only_mandatory_fields)
-    mapping.update(invalid_dataset_type_update)
+    mapping.update(invalid_product_update)
     with pytest.raises(InvalidDocException) as e:
-        DatasetType.validate(mapping)
+        Product.validate(mapping)
 
 
-@pytest.mark.parametrize("valid_dataset_type_measurement", [
+@pytest.mark.parametrize("valid_product_measurement", [
     {
         'name': '1',
         'dtype': 'int16',
@@ -80,15 +80,15 @@ def test_rejects_invalid_docs(invalid_dataset_type_update):
         # TODO: flags/spectral
     },
 ])
-def test_accepts_valid_measurements(valid_dataset_type_measurement):
+def test_accepts_valid_measurements(valid_product_measurement):
     mapping = deepcopy(only_mandatory_fields)
-    mapping['measurements'] = [valid_dataset_type_measurement]
+    mapping['measurements'] = [valid_product_measurement]
     # Should have no errors.
-    DatasetType.validate(mapping)
+    Product.validate(mapping)
 
 
 # Changes to the above dict that should render it invalid.
-@pytest.mark.parametrize("invalid_dataset_type_measurement", [
+@pytest.mark.parametrize("invalid_product_measurement", [
     # no name
     {'nodata': -999},
     # nodata must be numeric
@@ -100,8 +100,8 @@ def test_accepts_valid_measurements(valid_dataset_type_measurement):
     # Unknown property
     {'name': 'red', 'asdf': 'asdf'},
 ])
-def test_rejects_invalid_measurements(invalid_dataset_type_measurement):
+def test_rejects_invalid_measurements(invalid_product_measurement):
     mapping = deepcopy(only_mandatory_fields)
-    mapping['measurements'] = {'10': invalid_dataset_type_measurement}
+    mapping['measurements'] = {'10': invalid_product_measurement}
     with pytest.raises(InvalidDocException) as e:
-        DatasetType.validate(mapping)
+        Product.validate(mapping)

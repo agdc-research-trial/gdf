@@ -6,7 +6,7 @@ import pytest
 import numpy
 from copy import deepcopy
 from datacube.testutils import mk_sample_dataset, mk_sample_product
-from datacube.model import (DatasetType, GridSpec, Measurement,
+from datacube.model import (Product, GridSpec, Measurement,
                             MetadataType, Range, ranges_overlap)
 from odc.geo import CRS, BoundingBox
 from odc.geo.geom import polygon
@@ -173,7 +173,7 @@ def test_product_load_hints():
                                           resolution={'x': 10, 'y': -10}))
 
     assert 'load' in product.definition
-    assert DatasetType.validate(product.definition) is None
+    assert Product.validate(product.definition) is None
 
     hints = product._extract_load_hints()
     assert hints['crs'] == CRS('epsg:3857')
@@ -209,13 +209,13 @@ def test_product_load_hints():
     # check schema: crs and resolution are compulsory
     for k in ('resolution', 'crs'):
         doc = deepcopy(product.definition)
-        assert DatasetType.validate(doc) is None
+        assert Product.validate(doc) is None
 
         doc['load'].pop(k)
         assert k not in doc['load']
 
         with pytest.raises(InvalidDocException):
-            DatasetType.validate(doc)
+            Product.validate(doc)
 
     # check GridSpec leakage doesn't happen for fully defined gridspec
     product = mk_sample_product('test', with_grid_spec=True)

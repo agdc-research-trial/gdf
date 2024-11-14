@@ -231,7 +231,7 @@ def mk_sample_dataset(bands,
     if product_opts is None:
         product_opts = {}
 
-    ds_type = mk_sample_product(product_name,
+    product = mk_sample_product(product_name,
                                 measurements=measurements,
                                 **product_opts)
 
@@ -254,7 +254,7 @@ def mk_sample_dataset(bands,
             "uris": uri
         }
 
-    return Dataset(ds_type, {
+    return Dataset(product, {
         'id': id,
         'format': {'name': format},
         'image': {'bands': image_bands},

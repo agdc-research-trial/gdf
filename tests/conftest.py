@@ -18,7 +18,7 @@ from datacube import Datacube
 from odc.geo import CRS, wh_
 from odc.geo.geobox import GeoBox
 from datacube.utils.documents import read_documents
-from datacube.model import Measurement, MetadataType, DatasetType, Dataset
+from datacube.model import Measurement, MetadataType, Product, Dataset
 from datacube.index.eo3 import prep_eo3
 
 AWS_ENV_VARS = (
@@ -282,7 +282,7 @@ def eo3_dataset_s2(eo3_metadata):
         ],
     }
 
-    return Dataset(DatasetType(eo3_metadata, product_doc), prep_eo3(ds_doc))
+    return Dataset(Product(eo3_metadata, product_doc), prep_eo3(ds_doc))
 
 
 netcdf_num = 1
