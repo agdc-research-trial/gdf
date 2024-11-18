@@ -22,7 +22,7 @@ Data Cube Explorer
 
 `Data Cube Explorer`_ is a web application for searching and browsing the metadata
 available from an Open Data Cube. It has rich visualisation abilities to show the
-available data extents, and can be used to browse the provence of indexed data.
+available data extents, and can be used to browse the provenance of indexed data.
 
 See the `Digital Earth Australia Explorer`_ for an example deployment showing the power of this tool.
 

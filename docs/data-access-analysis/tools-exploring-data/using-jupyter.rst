@@ -1,4 +1,4 @@
-Using Juypter Notebooks
+Using Jupyter Notebooks
 =======================
 
 One of the most common ways to use an Open Data Cube is through interactively writing Python code within a Jupyter Notebook.

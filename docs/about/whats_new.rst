@@ -1123,7 +1123,7 @@ v1.1.10 Rabid Rabbit (5 October 2016)
   - Metadata type name is now used as primary key when adding products.
     This allows easy migration of products from one database to another
 
-  - :meth:`.DatasetResource.has` now takes dataset id insted of :class:`.model.Dataset`
+  - :meth:`.DatasetResource.has` now takes dataset id instead of :class:`.model.Dataset`
 
   - Fixed an issues where database connections weren't recycled fast enough in some cases
 

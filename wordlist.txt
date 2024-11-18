@@ -58,7 +58,6 @@ brazil
 Bugfix
 Bugfixes
 bY
-carrotandcompany
 cbk
 cd
 CEOS
@@ -246,7 +245,6 @@ ini
 INI
 init
 installable
-insted
 io
 ipynb
 isel
@@ -259,8 +257,6 @@ jsonschema
 Jupyter
 jupyter
 JupyterLab
-Juypter
-juypter
 JSK
 KeyboardInterrupt
 Kirill
@@ -398,7 +394,6 @@ prefetch
 PRIMEM
 prog
 Proj
-provence
 psql
 pts
 pwd

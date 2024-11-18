@@ -21,7 +21,7 @@ To make it easier to get started with Open Data Cube, the following reference po
 .. image:: ../cheatsheets/ODC_Cheatsheet.jpg
    :target: https://raw.githubusercontent.com/opendatacube/datacube-core/develop/docs/cheatsheets/ODC_Cheatsheet.pdf
    :alt: ODC Cheatsheet
-   :width: 400px 
+   :width: 400px
 
 
 .. _`Digital Earth Australia Sandbox`: https://www.dea.ga.gov.au/developers/sandbox
@@ -49,4 +49,4 @@ To make it easier to get started with Open Data Cube, the following reference po
     :maxdepth: 4
     :caption: Examples
 
-    tools-exploring-data/using-juypter.rst
+    tools-exploring-data/using-jupyter.rst
