@@ -392,9 +392,11 @@ pre
 precollection
 prefetch
 PRIMEM
+PRs
 prog
 Proj
 psql
+psycopg
 pts
 pwd
 px
