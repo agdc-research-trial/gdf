@@ -74,6 +74,10 @@ def test_load_data(tmpdir):
 
     assert progress_call_data == [(1, 2), (2, 2)]
 
+    ds_data = Datacube.load_data(sources, geobox, mm, dask_chunks={'x': 8, 'y': 8})
+    assert ds_data.aa.nodata == nodata
+    np.testing.assert_array_equal(aa, ds_data.aa.values[0])
+
 
 def test_load_data_with_url_mangling(tmpdir):
     actual_tmpdir = Path(str(tmpdir))

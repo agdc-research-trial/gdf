@@ -1,6 +1,7 @@
 # datacube dependencies
 Sphinx<6.0.0 # be compatible to sphinx_rtd_theme
 affine
+antimeridian
 attrs>=18.1
 # boto is too huge, need to set lower bound
 boto3>1.17.0
@@ -15,8 +16,10 @@ click>=8.0
 cloudpickle>=0.4
 # For Python 3.12 support
 compliance-checker>=5.1.0
-dask>=2021.10.1
-distributed>=2021.10.0
+# dask 2024.11.x is broken.
+dask>=2021.10.1,<2024.11.0
+distributed>=2021.10.0,<2024.11.0
+deprecat
 fiona
 geoalchemy2
 # For Python 3.12 support
@@ -29,9 +32,10 @@ lxml>=5.0.0
 matplotlib
 moto<5
 netcdf4>=1.5.8
-# 1.26.0 is the first version to support Python 3.12
-numpy>=1.26.0
-pandas>=2.0
+# Numpy 2
+numpy>=2
+odc-geo>=0.4.8
+pandas>=2.2.2
 # For Python 3.12 support
 pendulum>=3.0
 psycopg2
