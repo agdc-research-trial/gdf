@@ -109,7 +109,7 @@ cryptography==39.0.1
     #   secretstorage
 cycler==0.11.0
     # via matplotlib
-dask==2023.2.0
+dask==2024.10.0
     # via
     #   -r constraints.in
     #   distributed
@@ -119,7 +119,7 @@ deprecat==2.1.1
     # via -r constraints.in
 dill==0.3.8
     # via pylint
-distributed==2023.2.0
+distributed==2024.10.0
     # via -r constraints.in
 docutils==0.18.1
     # via

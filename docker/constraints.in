@@ -17,8 +17,8 @@ cloudpickle>=0.4
 # For Python 3.12 support
 compliance-checker>=5.1.0
 # dask 2024.11.x is broken.
-dask>=2021.10.1,<2024.11.0
-distributed>=2021.10.0,<2024.11.0
+dask>=2023.2.0,<2024.11.0
+distributed>=2024.2.0,<2024.11.0
 deprecat
 fiona
 geoalchemy2
