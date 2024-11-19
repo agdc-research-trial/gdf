@@ -52,6 +52,7 @@ cachetools==5.3.0
 certifi==2022.12.7
     # via
     #   fiona
+    #   netcdf4
     #   pyproj
     #   rasterio
     #   requests
@@ -63,8 +64,9 @@ cffi==1.16.0
     # via
     #   -r constraints.in
     #   cryptography
-cftime==1.6.2
+cftime==1.6.4.post1
     # via
+    #   -r constraints.in
     #   cf-units
     #   compliance-checker
     #   netcdf4
@@ -212,7 +214,7 @@ msgpack==1.0.4
     # via distributed
 munch==2.5.0
     # via fiona
-netcdf4==1.6.2
+netcdf4==1.7.2
     # via
     #   -r constraints.in
     #   compliance-checker

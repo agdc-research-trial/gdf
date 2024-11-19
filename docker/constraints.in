@@ -11,6 +11,7 @@ cachetools
 cf-units>3.1.1
 # For Python 3.12 support
 cffi>=1.16.0
+cftime>=1.6.4
 ciso8601
 click>=8.0
 cloudpickle>=0.4
@@ -31,7 +32,7 @@ lark
 lxml>=5.0.0
 matplotlib
 moto<5
-netcdf4>=1.5.8
+netcdf4>=1.7.1-post1
 # Numpy 2
 numpy>=2
 odc-geo>=0.4.8
