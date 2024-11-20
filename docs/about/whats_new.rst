@@ -10,7 +10,9 @@ v1.9.next
 
 * Documentation fixes (:pull:`1659`)
 * Don't use importlib_metadata (:pull:`1657`)
-* Pin upstream libraries to get CI tests running with numpy2 (:pull:`1659`)
+* Pin upstream libraries to get CI tests running with numpy2 (:pull:`1661`)
+* Calculate spatial extent in 4326 and reproject when no dedicated spatial extent for
+  the requested CRS is available (:pull:`1662`)
 
 v1.9.0-rc11 (28th October 2024)
 ===============================
