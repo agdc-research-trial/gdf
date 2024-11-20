@@ -10,7 +10,7 @@ v1.9.next
 
 * Documentation fixes (:pull:`1659`)
 * Don't use importlib_metadata (:pull:`1657`)
-* Pin dask due to recent instabilities, esp. with numpy2 (:pull:`1659`)
+* Pin upstream libraries to get CI tests running with numpy2 (:pull:`1659`)
 
 v1.9.0-rc11 (28th October 2024)
 ===============================
