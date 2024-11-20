@@ -54,7 +54,7 @@ recommonmark
 redis
 ruamel.yaml
 # cython3 support
-shapely>=2.0.2
+shapely>=2.0.6
 sphinx-click
 sphinx_autodoc_typehints
 sphinx_rtd_theme

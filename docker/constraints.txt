@@ -367,7 +367,7 @@ secretstorage==3.3.3
     # via keyring
 setuptools-scm==7.1.0
     # via -r constraints.in
-shapely==2.0.4
+shapely==2.0.6
     # via
     #   -r constraints.in
     #   antimeridian
