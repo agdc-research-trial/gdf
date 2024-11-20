@@ -480,7 +480,9 @@ class PostgisDbAPI:
     def spatial_extent(self, ids, crs):
         SpatialIndex = self._db.spatial_index(crs)  # noqa: N806
         if SpatialIndex is None:
-            return None
+            # Requested a CRS that has no spatial index, so use 4326 (which always has a spatial index)
+            # and reproject to requested CRS.
+            return self.spatial_extent(ids, CRS("epsg:4326")).to_crs(crs)
         query = select(
             func.ST_AsGeoJSON(func.ST_Union(SpatialIndex.extent))
         ).select_from(
