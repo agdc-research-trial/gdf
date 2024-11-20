@@ -8,6 +8,9 @@ What's New
 v1.8.next
 =========
 - Don't error when adding a dataset whose product doesn't have an id value (:pull:`1630`)
+- Update docs (:pull:`1631`,:pull:`1651`)
+- Update docker image and CI (multiple PRs)
+- Pin out bad versions of dask (:pull:`1663`)
 
 v1.8.19 (2nd July 2024)
 =======================
