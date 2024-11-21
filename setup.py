@@ -95,8 +95,8 @@ setup(
         'cachetools',
         'click>=5.0',
         'cloudpickle>=0.4',
-        'dask[array]',
-        'distributed',
+        'dask[array]<2024.11.0',  # Dask versions from 2024.11 cause problems with numpy2
+        'distributed<2024.11.0',
         'jsonschema>=4.18',  # New reference resolution API
         'netcdf4',
         'numpy',
