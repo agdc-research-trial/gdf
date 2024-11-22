@@ -12,12 +12,15 @@ If you are using `Digital Earth Australia`_, see the
 .. _`AWS`: https://knowledge.dea.ga.gov.au/setup/AWS/data_and_metadata.html
 .. _`DEA Sandbox`: https://knowledge.dea.ga.gov.au/setup/sandbox.html
 
-
 Digital Earth Africa
 --------------------
 
 https://www.digitalearthafrica.org/
 
+Digital Earth Pacific
+---------------------
+
+https://www.spc.int/DigitalEarthPacific
 
 Swiss Data Cube
 ---------------
@@ -46,6 +49,11 @@ http://datacube.sci.am/
 Mongolian and Kyrgyz Data Cubes
 -------------------------------
 https://eosphere.co.uk/mongolia-and-kyrgyzstan-data-cubes
+
+
+World Food Programme Humanitarian Data Cube
+-------------------------------------------
+https://data.earthobservation.vam.wfp.org/
 
 
 .. note::
