@@ -15,6 +15,7 @@ v1.9.next
 * Pin upstream libraries to get CI tests running with numpy2 (:pull:`1661`)
 * Calculate spatial extent in epsg:4326 and reproject when no dedicated spatial extent for
   the requested CRS is available (:pull:`1662`)
+* Documentation updates for 1.9 release (:pull:`1664`)
 
 v1.9.0-rc11 (28th October 2024)
 ===============================
