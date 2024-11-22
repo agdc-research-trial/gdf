@@ -18,7 +18,6 @@ The Open Data Cube software is based around the datacube-core_ library. In addit
 core library, there are a range of tools that can be installed on top to enable
 further capabilities, such as open web services or metadata exploration.
 
-
 All software in the Open Data Cube project family is released under the `Apache 2.0
 <https://github.com/opendatacube/datacube-core/blob/develop/LICENSE>`_ license.
 
@@ -31,54 +30,45 @@ All software in the Open Data Cube project family is released under the `Apache 
 .. _datacube-core: https://github.com/opendatacube/datacube-core
 
 
-Packages
-========
+The Open Data Cube Software Ecosystem
+=====================================
 
-Key packages in the Open Data Cube ecosystem include:
+The Open Data Cube is a software ecosystem consisting of a number of Python packages.
 
-* ``odc-geo``: Provides low level geometry, CRS handling and reprojecting utilities, and the `.odc`
-  xarray extensions.
-* ``odc-loading``: Provides tools for loading data from files in local or cloud storage into
-  xarray objects.  (Depends on ``odc-geo``)
-* ``odc-stac``: Supports integrated data discovery from STAC API endpoints and loading of data into
-  xarray objects.  (Depends on ``odc-geo`` and ``odc-loading``)
-* ``datacube`` (aka ``datacube-core``: Supports integrated data discovery from a locally-maintained ODC
-  database, and loading of data into xarray objects.  (Depends on ``odc-geo``.  Supports extended loading
-  features using ``odc-loading``, but also has it's own legacy loading engine)
-* ``datacube-explorer``: Provides a web-based front end and a STAC-API endpoint for browsing and searching
-   the contents of an ODC database.  (Depends on ``odc-geo`` and ``datacube-core``)
-* ``datacube-ows``: Provides WMS, WMTS, and WCS web service endpoints for serving data from one or more
-  ODC databases, for supplying raw data or rendered visualisations to web maps or GIS applications.  Includes a
-  powerful configurable visualisation library.  (Depends on ``odc-geo`` and ``datacube-core``)
-* ``odc-apps-dc-tools``: Provides a collection of command line tools for indexing large data collections
-  into an ODC database from various locations, including local file system, s3 buckets. Note that these tools
-  assume that metadata for the data being indexed is already available, in either eo3 or STAC format.
-  (Depends on ``odc-geo`` and ``datacube-core``)
-* ``eodatasets3``: Provides tools for generating eo3 format metadata and repackaging data in COG format.
-  (Depends on ``odc-geo`` and ``datacube-core``)
-* ``odc-algo``: a Python library providing EO processing and analysis methods (Depends on ``odc-geo``
-  and ``datacube-core``)
-* ``odc-stats`` (aka ``Statistician``): Supports cloud-scalable generation of statistical summary products.
-  (Depends on ``odc-geo``, ``datacube-core`` and ``odc-algo``).
-* ``datacube-alchemist``: Supports generation of cloud-scalable generation of derivative products.
-  (Depends on ``odc-geo``, ``datacube-core``, ``odc-algo``, ``eodatasets3`` and ``odc-apps-dc-tools``)
+The most important packages in the ecosystem are described in the `ODC Software Packages`_
+section.
+
+Two packages in particular have overlapping functionality and are worthy of early attention:
+
+: _`ODC Software Packages`: extensions
 
 Datacube-core or odc-stac?
 --------------------------
 
-``datacube-core`` provides many powerful tools and services, however many the needs of many new users
-can be met much more easily with ``odc-stac``.  If you have access to an ODC database that somebody else
-maintains, you probably already have access to an environment with datacube-core installed and configured.
-If you want to create and maintain your own ODC database, you will need to install ``datacube-core``.  Most
-other use case scenarios should look at ``odc-stac`` first.
+`datacube-core`_ provides many powerful tools and services, however many the needs of many new users
+can be met much more easily with `odc-stac`_.
 
-This diagram shows the relationships between, and highlights the differences between ``odc-stac`` and
-``datacube-core``, as of datacube 1.9:
+Both `odc-stac`_ and `datacube-core`_ allow searching collections of earth observation data and loading
+it into xarray data structures.  The main differences are in the metadata model that each use
+(STAC for `odc-stac`_ and `eo3`_ for `datacube-core`),
+and in performing search and discovery via STAC-API endpoints (in the case of `odc-stac`_)
+or a relational database (in the case of `datacube-core`_).
+
+If you have access to an ODC database that somebody else
+maintains, you probably already have access to an environment with datacube-core installed and configured.
+If you want to create and maintain your own ODC database, you will need to install `datacube-core`_.  Most
+other use case scenarios should look at `odc-stac`_ first.
+
+This diagram illustrates the relationships between, and highlights the differences between `odc-stac`_ and
+`datacube-core`_, as of datacube 1.9:
 
 .. figure:: ../diagrams/odc1.9-arch.png
    :name: high-level-overview
 
    Datacube-core vs odc-stac
+
+.. _eo3: https://github.com/opendatacube/eo3
+.. _odc-stac: https://github.com/opendatacube/odc-stac
 
 Use Cases
 =========
