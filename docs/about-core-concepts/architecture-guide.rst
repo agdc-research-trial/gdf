@@ -42,4 +42,5 @@ on the choice of index driver.
 
 .. figure:: ../diagrams/odc-md-conceptual.png
     :name: md-conceptual
+    
     Conceptual model of ODC metadata.
