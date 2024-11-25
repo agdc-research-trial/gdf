@@ -15,7 +15,7 @@ Dataset metadata format
 For a detailed description of the format of a valid dataset document, refer to the
 `formal specification`_ in the eo3 github repository.
 
-.. _`formal specification`: //https://github.com/opendatacube/eo3/blob/develop/SPECIFICATION.md
+.. _`formal specification`: https://github.com/opendatacube/eo3/blob/develop/SPECIFICATION.md
 
 Ingested Datasets
 =================

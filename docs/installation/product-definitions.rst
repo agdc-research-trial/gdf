@@ -63,3 +63,7 @@ and you can update them using ``datacube product update <path-to-file>``.
 
 A tool exists that can help you keep products in sync between a CSV list of products and the ODC
 dataset. See the `datacube-product-sync <https://github.com/opendatacube/odc-tools/blob/develop/apps/dc_tools/README.md#dc-sync-products>`_ tool.
+
+For a detailed description of the format of a valid product document, refer to the `formal specification`_.
+
+.. _`formal specification`: https://github.com/opendatacube/eo3/blob/develop/SPECIFICATION-odc-product.md
