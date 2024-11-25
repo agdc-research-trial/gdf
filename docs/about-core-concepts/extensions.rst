@@ -73,7 +73,7 @@ DC Tools
 --------
 
 `odc-apps-dc-tools`_ provides a collection of command line tools for indexing large data collections
-into an ODC database from various locations, including local file system, s3 buckets. Note that these tools
+into an ODC database from various locations, including local file system or S3 buckets. Note that these tools
 assume that metadata for the data being indexed is already available, in either eo3 or STAC format.
 
 (Depends on `odc-geo`_ and `datacube-core`_)

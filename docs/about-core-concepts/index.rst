@@ -40,13 +40,13 @@ section.
 
 Two packages in particular have overlapping functionality and are worthy of early attention:
 
-: _`ODC Software Packages`: extensions
+.. _`ODC Software Packages`: extensions
 
 Datacube-core or odc-stac?
 --------------------------
 
-`datacube-core`_ provides many powerful tools and services, however many the needs of many new users
-can be met much more easily with `odc-stac`_.
+`datacube-core`_ provides many powerful tools and services, however the needs of many new users
+can be met more easily with `odc-stac`_.
 
 Both `odc-stac`_ and `datacube-core`_ allow searching collections of earth observation data and loading
 it into xarray data structures.  The main differences are in the metadata model that each use
