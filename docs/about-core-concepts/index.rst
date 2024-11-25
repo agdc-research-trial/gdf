@@ -40,7 +40,7 @@ section.
 
 Two packages in particular have overlapping functionality and are worthy of early attention:
 
-.. _`ODC Software Packages`: extensions
+.. _`ODC Software Packages`: extensions.html
 
 Datacube-core or odc-stac?
 --------------------------
