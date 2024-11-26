@@ -10,7 +10,7 @@ USGS's Landsat Collection 2, Planet and a wide range of other organisations.
 The ODC can index from STAC, although this process is not fully integrated, it is
 done in production. An example of this is captured in these `Sentinel-2 Indexing notes`_. And
 in addition to indexing from STAC, `Datacube Explorer`_ can present ODC metadata as STAC
-documents. through a STAC API.
+documents, through a STAC API.
 
 The key design constraint that the ODC currently has is it's reliance on a direct
 PostgreSQL connection, so one should consider how others in their team will access
