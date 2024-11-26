@@ -17,6 +17,7 @@ from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Uniq
 from sqlalchemy.dialects import postgresql as postgres
 from sqlalchemy.sql import func
 from datacube.drivers.postgis._core import METADATA
+from sqlalchemy.exc import ProgrammingError
 
 
 # revision identifiers, used by Alembic.
@@ -27,12 +28,15 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    op.add_column("dataset",
-                  Column("uri_scheme", String, comment="The scheme of the uri."),
-                  schema="odc")
-    op.add_column("dataset",
-                  Column("uri_body", String, comment="The body of the uri."),
-                  schema="odc")
+    try:
+        op.add_column("dataset",
+                    Column("uri_scheme", String, comment="The scheme of the uri."),
+                    schema="odc")
+        op.add_column("dataset",
+                    Column("uri_body", String, comment="The body of the uri."),
+                    schema="odc")
+    except ProgrammingError:
+        print("Columns uri_scheme and uri_body already exist in dataset table.")
     # select first active location from DatasetLocation and insert into Dataset
     conn = op.get_bind()
     conn.execute(
@@ -41,14 +45,11 @@ def upgrade() -> None:
                     uri_scheme = subquery.uri_scheme,
                     uri_body = subquery.uri_body
                 FROM (
-                    SELECT 
-                        l.dataset_ref,
-                        l.uri_scheme,
-                        l.uri_body
+                    SELECT DISTINCT ON (l.dataset_ref) 
+                        l.dataset_ref, l.uri_scheme, l.uri_body
                     FROM odc.location l
                     WHERE archived IS NULL
-                    ORDER BY added
-                    LIMIT 1
+                    ORDER BY l.dataset_ref, l.added
                 ) subquery
                 WHERE d.id = subquery.dataset_ref;""")
     )
