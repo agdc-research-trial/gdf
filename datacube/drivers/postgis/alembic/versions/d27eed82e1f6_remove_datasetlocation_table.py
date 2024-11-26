@@ -37,14 +37,20 @@ def upgrade() -> None:
     conn = op.get_bind()
     conn.execute(
         sa.text("""UPDATE odc.dataset d
-                SET d.uri_scheme=(
-                    SELECT l.uri_scheme FROM odc.location l
-                    WHERE l.dataset_ref=d.id AND archived IS NULL
-                    ORDER BY added LIMIT 1),
-                d.uri_body=(
-                    SELECT l.uri_body FROM odc.location l
-                    WHERE l.dataset_ref=d.id AND archived IS NULL
-                    ORDER BY added LIMIT 1)""")
+                SET 
+                    uri_scheme = subquery.uri_scheme,
+                    uri_body = subquery.uri_body
+                FROM (
+                    SELECT 
+                        l.dataset_ref,
+                        l.uri_scheme,
+                        l.uri_body
+                    FROM odc.location l
+                    WHERE archived IS NULL
+                    ORDER BY added
+                    LIMIT 1
+                ) subquery
+                WHERE d.id = subquery.dataset_ref;""")
     )
 
     op.drop_table("location", schema="odc", if_exists=True)
