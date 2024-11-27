@@ -1,8 +1,8 @@
 
 .. py:currentmodule:: datacube
 
-Passing ODC Configuration
-*************************
+ODC Configuration (Details)
+***************************
 
 Open Data Cube configuration files, supported configuration options, and basic use cases and defaults
 are described in :doc:`configuration`.
