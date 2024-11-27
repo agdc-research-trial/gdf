@@ -17,35 +17,34 @@ The :abbr:`ODC (Open Data Cube)` uses metadata to organise the data.
 The metadata includes the data's spatial and temporal information, 
 creation, lineage, and versioning.
 
-The management aspect of the :abbr:`ODC (Open Data Cube)` is for 
+This aspect of the :abbr:`ODC (Open Data Cube)` is for 
 data providers and holders, be they large organisations with 
 their own satellites or individuals with bespoke collections 
 of Earth observation data.
 
 To read more about managing data, see :doc:`architecture-guide`.
 
-Processing Data
----------------
-
-In the :abbr:`ODC (Open Data Cube)` ecosystem, processing means 
-manipulating the data in any way: this could be displaying a true-colour image 
-by combining the red, green, and blue bands from a multispectral sensor, 
-or producing a land cover dataset by applying a machine learning algorithm 
-to multiple Earth observation datasets. Processing can be done at any scale, 
-from small regions to entire continents.
-
-The processing aspect of the :abbr:`ODC (Open Data Cube)` is for 
-those who want to work with the data. This includes analysts and scientists.
-
-To read more about processing data, see :doc:`accessing-data`.
-
-All Functionality
+Working With Data
 -----------------
 
+In the :abbr:`ODC (Open Data Cube)` ecosystem, working with data could be 
+displaying a true-colour image by combining the red, green, and blue bands from a multispectral sensor, 
+or producing a land cover dataset by applying a machine learning algorithm 
+to multiple Earth observation datasets. Data can be used and processed at any scale, 
+from small regions to entire continents.
+
+This aspect of the :abbr:`ODC (Open Data Cube)` is for 
+those who want to work with the data. This includes analysts and scientists.
+
+To read more about working with data, see :doc:`accessing-data`.
+
+ODC Software Packages
+---------------------
+
 The :abbr:`ODC (Open Data Cube)` has numerous :term:`Python` packages 
-that provide different functionality. To read more about the packages, 
-see :doc:`extensions`, which provides a description of each package and relevant 
-links to their repositories.
+that provide additional functionality, such as web services and large scale processing. 
+To read more about the packages, see :doc:`extensions`, which provides a 
+description of each package and relevant links to their repositories.
 
 Existing Deployments
 --------------------

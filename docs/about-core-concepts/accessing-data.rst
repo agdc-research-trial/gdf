@@ -1,7 +1,7 @@
 Accessing Data
 ==============
 
-When processing Earth observation data, it must be read from the 
+When working with Earth observation data, it must be read from the 
 relevant file containing it and then stored in the computer's memory. 
 
 The Open Data Cube (ODC) ecosystem represents Earth observation data as 
@@ -24,15 +24,15 @@ spatio-temporal arrays. An example Xarray from the
    a spatio-temporal array.
 
 Depending on how the data is managed, there are different :abbr:`ODC (Open Data Cube)` ecosystem packages 
-that can be used to open Earth observation data as a labelled Xarray:
+that can be used to open Earth observation data as a spatio-temporal Xarray:
 
 * datacube-core_: accessing data from an existing Open Data Cube deployment
-* odc-stac_: accessing data from an existing STAC API
+* odc-stac_: accessing data from an existing :abbr:`STAC (SpatioTemporal Asset Catalog)` :term:`API`
 * rioxarray_: accessing data from data files
 
 rioxarray_ is not managed by the maintainers of the :abbr:`ODC (Open Data Cube)` Ecosystem, but has been 
-inspired by the ODC ecosystem. It provides a method to create labelled Xarrays similar 
-to those produced within the ODC ecosystem.
+inspired by the :abbr:`ODC (Open Data Cube)` ecosystem. It provides a method to create labelled Xarrays similar 
+to those produced within the :abbr:`ODC (Open Data Cube)` ecosystem.
 
 The flowchart in :numref:`stac-or-core-image` may help you understand the best package 
 for accessing data depending on how the data are managed.

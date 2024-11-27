@@ -60,7 +60,7 @@ which are described in the :doc:`odc-ecosystem` section.
     odc-ecosystem
 
 .. toctree::
-    :caption: The ODC for Data Management
+    :caption: Managing Data
 
     architecture-guide
     datasets
@@ -68,7 +68,7 @@ which are described in the :doc:`odc-ecosystem` section.
     metadata-types
 
 .. toctree::
-    :caption: The ODC for Data Processing
+    :caption: Working With Data
 
     accessing-data
 
