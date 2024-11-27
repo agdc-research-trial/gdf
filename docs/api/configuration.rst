@@ -26,6 +26,8 @@ Full API
 
    :members:
 
+.. currentmodule:: datacube.cfg
+
 .. autoclass:: ODCEnvironment
 
    :members:
