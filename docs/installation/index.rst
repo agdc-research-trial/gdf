@@ -31,6 +31,7 @@ This section contains information on setting up and managing the Open Data Cube.
     :maxdepth: 4
 
     database/configuration
+    database/passing-configuration
     database/setup
     metadata-types
     product-definitions
