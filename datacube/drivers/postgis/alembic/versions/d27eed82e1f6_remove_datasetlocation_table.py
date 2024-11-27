@@ -30,22 +30,22 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     try:
         op.add_column("dataset",
-                    Column("uri_scheme", String, comment="The scheme of the uri."),
-                    schema="odc")
+                      Column("uri_scheme", String, comment="The scheme of the uri."),
+                      schema="odc")
         op.add_column("dataset",
-                    Column("uri_body", String, comment="The body of the uri."),
-                    schema="odc")
+                      Column("uri_body", String, comment="The body of the uri."),
+                      schema="odc")
     except ProgrammingError:
         print("Columns uri_scheme and uri_body already exist in dataset table.")
     # select first active location from DatasetLocation and insert into Dataset
     conn = op.get_bind()
     conn.execute(
         sa.text("""UPDATE odc.dataset d
-                SET 
+                SET
                     uri_scheme = subquery.uri_scheme,
                     uri_body = subquery.uri_body
                 FROM (
-                    SELECT DISTINCT ON (l.dataset_ref) 
+                    SELECT DISTINCT ON (l.dataset_ref)
                         l.dataset_ref, l.uri_scheme, l.uri_body
                     FROM odc.location l
                     WHERE archived IS NULL
