@@ -4,6 +4,6 @@ Dataset Type
 
 .. currentmodule:: datacube
 
-.. autoclass:: datacube.model.DatasetType
+.. autoclass:: datacube.model.Product
 
    :members:
