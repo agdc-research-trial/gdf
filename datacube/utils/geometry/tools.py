@@ -72,7 +72,7 @@ def roi_boundary(roi, pts_per_side=2):
 
     roi needs to be in the normalised form, i.e. no open-ended start/stop, see roi_normalise
 
-    :returns: Nx2 float32 array of X,Y points on the perimeter of the envelope defined by `roi`
+    :returns: Nx2 float64 array of X,Y points on the perimeter of the envelope defined by `roi`
     """
     yy, xx = roi
     xx = np.linspace(xx.start, xx.stop, pts_per_side, dtype='float64')
