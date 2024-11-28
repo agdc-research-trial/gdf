@@ -50,6 +50,7 @@ from datacube.utils.geometry._base import (
     _norm_crs_or_error,
     _make_crs_key,
 )
+from datacube.utils.geometry.tools import gbox_boundary
 from datacube.testutils.geom import (
     epsg4326,
     epsg3577,
@@ -1588,3 +1589,50 @@ def test_lonalt_bounds_more_than_180():
 
     assert geometry.lonlat_bounds(poly, "quick") == approx((-150, -30, 150, 30))
     assert geometry.lonlat_bounds(poly, "safe") == approx((-150, -30, 150, 30))
+
+
+def test_small_resolution_precision():
+    src_gbox = GeoBox(
+        4096,
+        4096,
+        Affine(
+            4.214193778650287e-08,
+            0.0,
+            -52.78332070428918,
+            0.0,
+            -4.2139759941471435e-08,
+            -24.400836166256216,
+        ),
+        CRS(
+            """GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,
+            AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],
+            UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AXIS["Latitude",NORTH],
+            AXIS["Longitude",EAST],AUTHORITY["EPSG","4326"]]"""
+        ),
+    )
+    dst_gbox = GeoBox(
+        2390,
+        2390,
+        Affine(0.001, 0.0, -5875812.3, 0.0, -0.001, -2802348.662),
+        CRS("EPSG:3857"),
+    )
+
+    tr = native_pix_transform(src_gbox, dst_gbox)
+    assert tr.back(gbox_boundary(dst_gbox, 5)) == [
+        (17.730897903442383, 3939.7479182481766),
+        (145.0965130329132, 3939.7479182481766),
+        (272.46212792396545, 3939.7479182481766),
+        (399.8277428150177, 3939.7479182481766),
+        (527.19335770607, 3939.7479182481766),
+        (527.19335770607, 4055.7427748441696),
+        (527.19335770607, 4171.737626671791),
+        (527.19335770607, 4287.732474088669),
+        (527.19335770607, 4403.727317094803),
+        (399.8277428150177, 4403.727317094803),
+        (272.46212792396545, 4403.727317094803),
+        (145.0965130329132, 4403.727317094803),
+        (17.730897903442383, 4403.727317094803),
+        (17.730897903442383, 4287.732474088669),
+        (17.730897903442383, 4171.737626671791),
+        (17.730897903442383, 4055.7427748441696)
+    ]
