@@ -37,7 +37,8 @@ extensions = [
     'autodocsumm',
     'nbsphinx',
     'sphinx.ext.napoleon',
-    'sphinx.ext.autosectionlabel'
+    'sphinx.ext.autosectionlabel',
+    'IPython.sphinxext.ipython_console_highlighting',  # Highlights notebook cells
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -106,10 +107,7 @@ graphviz_output_format = 'svg'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-if on_rtd:
-    html_theme = 'pydata_sphinx_theme'
-else:
-    html_theme = 'pydata_sphinx_theme'
+html_theme = 'pydata_sphinx_theme'
 
 html_theme_options = {
     "navigation_depth": 1,
@@ -119,8 +117,8 @@ html_theme_options = {
     "footer_items": ["odc-footer"],
     "page_sidebar_items": [
         "page-toc",
-        "autoclass_page_toc",
-        "autosummary_page_toc",
+       "autoclass_page_toc",  # Embeds the template at _templates/autoclass_page_toc.html
+       "autosummary_page_toc",
         "edit-this-page"
     ],
     "icon_links": [
