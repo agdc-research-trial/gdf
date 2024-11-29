@@ -98,7 +98,7 @@ class MetadataTypeResource(AbstractMetadataTypeResource):
     def check_field_indexes(self, allow_table_lock: bool = False,
                             rebuild_views: bool = False, rebuild_indexes: bool = False) -> None:
         # Cannot implement this method without separating index implementation into
-        # separate layer from the API Resource implmentations.
+        # separate layer from the API Resource implementations.
         pass
 
     def get_all(self) -> Iterable[MetadataType]:

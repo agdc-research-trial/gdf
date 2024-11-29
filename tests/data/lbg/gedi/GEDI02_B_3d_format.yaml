@@ -64,7 +64,7 @@ measurements:
     aliases: [band_12]
     dtype: float32
     nodata: 0
-    units: na # Maxmimum canopy cover that can be penetrated considering the SNR of the waveform
+    units: na # Maximum canopy cover that can be penetrated considering the SNR of the waveform
   - name: "surface_flag"
     aliases: [band_13]
     dtype: uint8

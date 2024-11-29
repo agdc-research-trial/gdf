@@ -37,7 +37,7 @@ class Index(AbstractIndex):
     #   Database/storage feature support flags
     supports_write = True
 
-    #   User managment support flags
+    #   User management support flags
     supports_users = True
 
     #   Lineage support flags

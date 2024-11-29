@@ -704,7 +704,7 @@ class AbstractProductResource(ABC):
         """
         Return all products for given metadata types
 
-        :param types: An interable of MetadataType models
+        :param types: An iterable of MetadataType models
         :return: An iterable of Product models
         """
         mdts = set(mdt.name for mdt in types)
@@ -893,7 +893,7 @@ class AbstractLineageResource(ABC):
     @abstractmethod
     def merge(self, rels: LineageRelations, allow_updates: bool = False, validate_only: bool = False) -> None:
         """
-        Merge an entire LineageRelations collection into the databse.
+        Merge an entire LineageRelations collection into the database.
 
         :param rels: The LineageRelations collection to merge.
         :param allow_updates: If False and the merging rels would require index updates,
@@ -1347,7 +1347,7 @@ class AbstractDatasetResource(ABC):
         :return: Iterable of less mature datasets
         """
         if isinstance(delta, bool):
-            _LOG.warning("received delta as a boolean value. Int is prefered")
+            _LOG.warning("received delta as a boolean value. Int is preferred")
             if delta is True:  # treat True as default
                 delta = 500
             else:  # treat False the same as None
@@ -1432,7 +1432,7 @@ class AbstractDatasetResource(ABC):
         This will be very slow and inefficient for large databases, and is really
         only intended for small and/or experimental databases.
 
-        :param archived: If true, return all archived datasets, if false, all unarchived datatsets
+        :param archived: If true, return all archived datasets, if false, all unarchived datasets
         :return: Iterable of dataset ids
         """
 
@@ -1939,7 +1939,7 @@ class AbstractDatasetResource(ABC):
         generated Dataset class that is a subclass of tuple.
 
         Only the requested fields will be returned together with related derived attributes as property functions
-        similer to the datacube.model.Dataset class. For example, if 'extent'is requested all of
+        similar to the datacube.model.Dataset class. For example, if 'extent'is requested all of
         'crs', 'extent', 'transform', and 'bounds' are available as property functions.
 
         The field_names can be custom fields in addition to those specified in metadata_type, fixed fields, or
@@ -2176,7 +2176,7 @@ class AbstractIndex(ABC):
     #    Supports per-CRS spatial indexes (Requires supports_write)
     supports_spatial_indexes = False
 
-    # User managment support flags
+    # User management support flags
     #   support the index.users API
     supports_users = False
 
@@ -2267,7 +2267,7 @@ class AbstractIndex(ABC):
         """
         Create a spatial index for a CRS.
 
-        Note that a newly created spatial index is empty.  If there are already datatsets in the index whose
+        Note that a newly created spatial index is empty.  If there are already datasets in the index whose
         extents can be safely projected into the CRS, then it is necessary to also call update_spatial_index
         otherwise they will not be found by queries against that CRS.
 

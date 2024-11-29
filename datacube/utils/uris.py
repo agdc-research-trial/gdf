@@ -154,7 +154,7 @@ def normalise_path(p: Union[str, pathlib.Path],
                    base: Optional[Union[str, pathlib.Path]] = None) -> pathlib.Path:
     """Turn path into absolute path resolving any `../` and `.`
 
-       If path is relative pre-pend `base` path to it, `base` if set should be
+       If path is relative prepend `base` path to it, `base` if set should be
        an absolute path. If not set, current working directory (as seen by the
        user launching the process, including any possible symlinks) will be
        used.

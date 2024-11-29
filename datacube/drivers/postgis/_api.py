@@ -747,7 +747,7 @@ class PostgisDbAPI:
         """
         Insert bulk lineage records (e.g. for index cloning)
 
-        :param values: An array of values dicts for bulk inser
+        :param values: An array of values dicts for bulk insert
         :return: Tuple[count of rows loaded, count of rows skipped]
         """
         requested = len(values)

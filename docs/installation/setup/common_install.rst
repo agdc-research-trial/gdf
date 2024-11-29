@@ -48,7 +48,7 @@ Set a password for the "postgres" database role using the command::
 
 and set the password when prompted. The password text will be hidden from the console for security purposes.
 
-Type **Control+D** or **\\q** to exit the posgreSQL prompt.
+Type **Control+D** or **\\q** to exit the postgresql prompt.
 
 By default in Ubuntu, Postgresql is configured to use ``ident sameuser`` authentication for any connections from the same machine which is useful for development. Check out the excellent Postgresql documentation for more information, but essentially this means that if your Ubuntu username is ``foo`` and you add ``foo`` as a Postgresql user then you can connect to a database without requiring a password for many functions.
 

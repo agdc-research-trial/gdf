@@ -890,7 +890,7 @@ class DatasetResource(AbstractDatasetResource, IndexResourceAddIn):
         generated Dataset class that is a subclass of tuple.
 
         Only the requested fields will be returned together with related derived attributes as property functions
-        similer to the datacube.model.Dataset class. For example, if 'extent'is requested all of
+        similar to the datacube.model.Dataset class. For example, if 'extent'is requested all of
         'crs', 'extent', 'transform', and 'bounds' are available as property functions.
 
         The field_names can be custom fields in addition to those specified in metadata_type, fixed fields, or

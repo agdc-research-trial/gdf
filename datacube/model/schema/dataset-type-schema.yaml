@@ -21,7 +21,7 @@ properties:
         type: object
     extra_dimensions:
         type: array
-        description: Describes extra dimenions between (t) and (y, x)
+        description: Describes extra dimensions between (t) and (y, x)
         items:
             "$ref": "#/definitions/extra_dimensions"
     storage:

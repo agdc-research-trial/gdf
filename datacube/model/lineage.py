@@ -122,7 +122,7 @@ class LineageTree:
         """
         Finds subtree with root at dsid, if there is one.
 
-        Immediately retunrs the first match found with not-None children, but keeps track of first
+        Immediately returns the first match found with not-None children, but keeps track of first
         children=None match to return if no not-None matches.
 
 
@@ -318,7 +318,7 @@ class LineageRelations:
 
         Raises InconsistentLineageException if we already have this id with a different home
 
-        :param id_: The dataet id
+        :param id_: The dataset id
         :param home: The home string
         """
         if id_ in self._homes:
@@ -385,7 +385,7 @@ class LineageRelations:
         """
         Merge in a LineageTree, ensuring it is consistent with the collection so far.
 
-        Raises InconsistentLineageException if tree contains cyclic depenedencies or inconsistent direction
+        Raises InconsistentLineageException if tree contains cyclic dependencies or inconsistent direction
 
         :param tree: The LineageTree to merge
         :param parent_node: The parent node (used to mark recursive traversal - should be None on first call)
@@ -445,7 +445,7 @@ class LineageRelations:
         Intended to be used by index drivers when adding lineage data to an index.
 
         Raises InconsistentLineageException if updates are required and allow_updates is False, or if
-        merging the two LineageRelations would result in cyclic depenedencies.
+        merging the two LineageRelations would result in cyclic dependencies.
 
         :param existing_relations: The relations currently in an index.
         :param allow_updates: Whether updates to existing records are allowed.

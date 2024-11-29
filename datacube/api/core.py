@@ -385,7 +385,7 @@ class Datacube:
 
             Any form that can be converted to a CRS by odc-geo is accepted.
 
-            This differs from the ``crs`` parameter desribed above, which is used to define the CRS
+            This differs from the ``crs`` parameter described above, which is used to define the CRS
             of the coordinates in the query itself.
 
         :param resolution:

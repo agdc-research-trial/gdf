@@ -145,7 +145,7 @@ def get_creds_with_retry(session: Session,
                          sleep: float = 0.1) -> Optional[Credentials]:
     """ Attempt to obtain credentials upto `max_tries` times with back off
     :param session: botocore session, see mk_boto_session
-    :param max_tries: number of attempt before failing and returing None
+    :param max_tries: number of attempt before failing and returning None
     :param sleep: number of seconds to sleep after first failure (doubles on every consecutive failure)
     """
     for i in range(max_tries):

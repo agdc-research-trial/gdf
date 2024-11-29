@@ -50,7 +50,7 @@ class PostgresDb(object):
     or else use a separate instance of this class in each process.
     """
 
-    driver_name = 'postgres'   # Mostly to support parametised tests
+    driver_name = 'postgres'   # Mostly to support parametrised tests
 
     def __init__(self, engine):
         # We don't recommend using this constructor directly as it may change.
@@ -129,7 +129,7 @@ class PostgresDb(object):
         Close any idle connections in the pool.
 
         This is good practice if you are keeping this object in scope
-        but wont be using it for a while.
+        but won't be using it for a while.
 
         Connections should not be shared between processes, so this should be called
         before forking if the same instance will be used.

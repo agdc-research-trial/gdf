@@ -33,7 +33,7 @@ AWS_ENV_VARS = (
 def example_gdal_path(data_folder):
     """Return the pathname of a sample geotiff file
 
-    Use this fixture by specifiying an argument named 'example_gdal_path' in your
+    Use this fixture by specifying an argument named 'example_gdal_path' in your
     test method.
     """
     return str(os.path.join(data_folder, "sample_tile_151_-29.tif"))
@@ -290,7 +290,7 @@ netcdf_num = 1
 
 @pytest.fixture
 def tmpnetcdf_filename(tmpdir):
-    """Return a generated filename for a non-existant netcdf file"""
+    """Return a generated filename for a non-existent netcdf file"""
     global netcdf_num
     filename = str(tmpdir.join("testfile_np_%s.nc" % netcdf_num))
     netcdf_num += 1

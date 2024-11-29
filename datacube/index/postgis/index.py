@@ -60,7 +60,7 @@ class Index(AbstractIndex):
     supports_transactions = True
     supports_spatial_indexes = True
 
-    #   User managment support flags
+    #   User management support flags
     supports_users = True
 
     #   Lineage support flags
@@ -141,7 +141,7 @@ class Index(AbstractIndex):
         Close any idle connections database connections.
 
         This is good practice if you are keeping the Index instance in scope
-        but wont be using it for a while.
+        but won't be using it for a while.
 
         (Connections are normally closed automatically when this object is deleted: ie. no references exist)
         """

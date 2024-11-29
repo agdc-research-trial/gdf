@@ -180,7 +180,7 @@ def resolve_with_lineage(doc: SimpleDocNav,
     """
     Dataset driver for the (new) external lineage API
 
-    API paramters
+    API parameters
     :param doc: Dataset docnav
     :param uri: location uri
 

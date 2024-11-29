@@ -236,7 +236,7 @@ hyperspectral
 iam
 IAM
 ident
-identifer
+identifier
 img
 importlib
 INEGI

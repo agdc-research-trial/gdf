@@ -46,7 +46,7 @@ def test_rio_rd_entry():
     with pytest.raises(ValueError):
         rde.new_instance({'pool': []})
 
-    # check pool re-use
+    # check pool reuse
     pool = ThreadPoolExecutor(max_workers=1)
     rdr = rde.new_instance({'pool': pool})
     assert rdr._pool is pool

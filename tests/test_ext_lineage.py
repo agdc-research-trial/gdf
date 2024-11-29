@@ -561,7 +561,7 @@ def test_good_consistency_check(big_src_lineage_tree, src_lineage_tree, big_src_
 def test_bad_diamond(src_lineage_tree_with_bad_diamond, big_src_tree_ids):
     # Test detection of trees that have a diamond relationship in which both paths are extended.
     # E.g. If A->B->C->D  and A->E->C->D, the C->D relationship should only be recorded
-    # under one branch (B or A) and the other occurence of C should have no children recorded.
+    # under one branch (B or A) and the other occurrence of C should have no children recorded.
     with pytest.raises(InconsistentLineageException, match="Duplicate nodes in LineageTree"):
         rels = LineageRelations(tree=src_lineage_tree_with_bad_diamond)
 

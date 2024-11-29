@@ -35,7 +35,7 @@ def index_connect(config_env: ODCEnvironment | None = None,
 
     driver_name = config_env.index_driver
     index_driver = index_driver_by_name(driver_name)
-    # No neeed to check for missing index driver - already checked during config parsing.
+    # No need to check for missing index driver - already checked during config parsing.
     assert index_driver is not None
     return index_driver.connect_to_index(config_env,
                                          application_name=application_name,

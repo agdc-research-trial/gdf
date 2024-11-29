@@ -939,7 +939,7 @@ class GridSpec:
            dimension order.
 
         :param BoundingBox bounds: Boundary coordinates of the required grid
-        :param dict geobox_cache: Optional cache to re-use geoboxes instead of creating new one each time
+        :param dict geobox_cache: Optional cache to reuse geoboxes instead of creating new one each time
         :return: iterator of grid cells with :py:class:`GeoBox` tiles
         """
         def geobox(tile_index):
@@ -975,7 +975,7 @@ class GridSpec:
         :param odc.geo.Geometry geopolygon: Polygon to tile
         :param tile_buffer: Optional <float,float> tuple, (extra padding for the query
                             in native units of this GridSpec)
-        :param dict geobox_cache: Optional cache to re-use geoboxes instead of creating new one each time
+        :param dict geobox_cache: Optional cache to reuse geoboxes instead of creating new one each time
         :return: iterator of grid cells with :py:class:`GeoBox` tiles
         """
         geopolygon = geopolygon.to_crs(self.crs)
@@ -1192,7 +1192,7 @@ class ExtraDimensions:
         return start_index, stop_index
 
     def chunk_size(self) -> Tuple[Tuple[str, ...], Tuple[int, ...]]:
-        """Returns the names and shapes of dimenions in dimension order
+        """Returns the names and shapes of dimensions in dimension order
 
         :return: A tuple containing the names and max sizes of each dimension
         """

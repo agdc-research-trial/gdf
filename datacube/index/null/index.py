@@ -29,7 +29,7 @@ class Index(AbstractIndex):
     supports_eo3 = True
     supports_nongeo = True
 
-    #   User managment support flags
+    #   User management support flags
     supports_users = True
 
     def __init__(self, env: ODCEnvironment) -> None:

@@ -68,7 +68,7 @@ def validate_eo3_offsets(field_name, mdt_name, defn):
 
 def validate_eo3_compatible_type(doc):
     """
-    Valdate that a metadata type document is EO3 compatible.
+    Validate that a metadata type document is EO3 compatible.
 
     N.B. Assumes the document has already been validated as a valid ODC metadata type document.
 

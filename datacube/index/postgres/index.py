@@ -57,7 +57,7 @@ class Index(AbstractIndex):
     supports_persistance = True
     supports_transactions = True
 
-    #   User managment support flags
+    #   User management support flags
     supports_users = True
 
     #   Lineage support flags

@@ -12,12 +12,12 @@ from typing import cast, Any, Callable, List, Mapping, Sequence, Tuple, Union
 
 # Type that can be checked for changes.
 # (MyPy approximation without recursive references)
-Changable = Union[str, int, None, Sequence[Any], Mapping[str, Any]]
+Changeable = Union[str, int, None, Sequence[Any], Mapping[str, Any]]
 # More accurate recursive definition:
-# Changable = Union[str, int, None, Sequence["Changable"], Mapping[str, "Changable"]]
+# Changeable = Union[str, int, None, Sequence["Changeable"], Mapping[str, "Changeable"]]
 
 
-def contains(v1: Changable, v2: Changable, case_sensitive: bool = False) -> bool:
+def contains(v1: Changeable, v2: Changeable, case_sensitive: bool = False) -> bool:
     """
     Check that v1 is a superset of v2.
 
@@ -53,14 +53,14 @@ OffsetElem = Union[str, int]
 Offset = Tuple[OffsetElem, ...]
 
 # Representation of a changed value
-ChangedValue = Union[MissingSentinel, Changable]
+ChangedValue = Union[MissingSentinel, Changeable]
 
 # Representation of a change
 Change = Tuple[Offset, ChangedValue, ChangedValue]
 
 
-def get_doc_changes(original: Changable,
-                    new: Changable,
+def get_doc_changes(original: Changeable,
+                    new: Changeable,
                     base_prefix: Offset = ()
                     ) -> List[Change]:
     """
@@ -105,7 +105,7 @@ class DocumentMismatchError(Exception):
     pass
 
 
-def check_doc_unchanged(original: Changable, new: Changable, doc_name: str) -> None:
+def check_doc_unchanged(original: Changeable, new: Changeable, doc_name: str) -> None:
     """
     Raise an error if any fields have been modified on a document.
 

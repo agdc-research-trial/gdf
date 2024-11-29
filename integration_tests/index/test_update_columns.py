@@ -85,7 +85,7 @@ def test_added_column(clirunner, uninitialised_postgres_db):
 
 @pytest.mark.parametrize('datacube_env_name', ('datacube', ))
 def test_readd_column(clirunner, uninitialised_postgres_db):
-    # Run on an empty database. drop columns and readd
+    # Run on an empty database. drop columns and re-add
     result = clirunner(["--env", "datacube", "system", "init"])
     assert "Created." in result.output
 
