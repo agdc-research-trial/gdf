@@ -39,7 +39,7 @@ doc_require = [
     'beautifulsoup4',
     'nbsphinx',
     'ipython',
-    'pydata-sphinx-theme==0.9.0',
+    'pydata-sphinx-theme',
 ]
 
 extras_require = {

@@ -341,5 +341,8 @@ remaining configuration options only apply to the ``postgres`` and
 
 Need to know more?
 ==================
+   This default config is only used after exhausting the default search path. If you have
+   provided your own search path via any of the above methods and none of the paths exist, then an error is raised.
+
 
 A full description of the ODC configuration engine can be found in :doc:`passing-configuration`.
