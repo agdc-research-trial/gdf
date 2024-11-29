@@ -17,6 +17,7 @@ v1.9.next
   the requested CRS is available (:pull:`1662`)
 * Fix broken alembic migration (:pull:`1667`)
 * Fix broken documentation build (:pull:`1668`)
+* Rename `DatasetType` to `Product` in all the tests (:pull:`1671`)
 
 v1.9.0-rc11 (28th October 2024)
 ===============================
