@@ -110,15 +110,16 @@ graphviz_output_format = 'svg'
 html_theme = 'pydata_sphinx_theme'
 
 html_theme_options = {
-    "navigation_depth": 1,
+    "navigation_depth": 2, # defaults to 4
+    "show_toc_level": 2,
+    "header_links_before_dropdown": 3,
+    "navbar_align": "left",
     "show_prev_next": False,
     "collapse_navigation": True,
     "use_edit_page_button": True,
-    "footer_items": ["odc-footer"],
-    "page_sidebar_items": [
+    # "footer_items": ["odc-footer"],
+    "secondary_sidebar_items": [
         "page-toc",
-       "autoclass_page_toc",  # Embeds the template at _templates/autoclass_page_toc.html
-       "autosummary_page_toc",
         "edit-this-page"
     ],
     "icon_links": [
@@ -171,88 +172,6 @@ latex_documents = [
 numfig = True
 
 
-def custom_page_funcs(app, pagename, templatename, context, doctree):
-
-    def get_autosummary_toc():
-        soup = bs(context["body"], "html.parser")
-
-        class_sections = soup.find(class_='class')
-        if class_sections != None:
-            return ""
-
-        matches = soup.find_all('dl')
-        if matches == None or len(matches) == 0:
-            return ""
-
-        out = {
-            'title': '',
-            'menu_items': []
-        }
-
-        #  remove the class dt
-        pyclass = matches.pop(0)
-        pyclass = pyclass.find('dt')
-        if pyclass != None:
-            out['title'] = pyclass.get('id')
-
-        for match in matches:
-            match_dt = match.find('dt')
-            link = match.find(class_="headerlink")
-            if link != None:
-                out['menu_items'].append({
-                    'title': match_dt.get('id'),
-                    'link': link['href']
-                })
-
-        return out
-
-    def get_class_toc():
-        soup = bs(context["body"], "html.parser")
-
-        class_sections = soup.find_all(class_='autosummary')
-        if class_sections == None or len(class_sections) == 0:
-            return ""
-
-        out = {
-            'title': '',
-            'menu_items': []
-        }
-        class_title = soup.find(class_='class')
-        if class_title == None:
-            return ""
-
-        pyclass = class_title.find('dt')
-        if pyclass != None:
-            out['title'] = pyclass.get('id')
-
-        for section in class_sections:
-            out_section = {
-                'title': '',
-                'menu_items': []
-            }
-            out_section['title'] = section.find_previous_sibling('p').text.replace(':', '')
-            matches = section.find_all('tr')
-            for match in matches:
-                link = match.find(class_="internal")
-
-                if link != None:
-                    title = link['title']
-                    if title != None:
-                        title = title.replace(out['title'], '')
-                    out_section['menu_items'].append({
-                        'title': title,
-                        'link': link['href']
-                    })
-            if len(out_section['menu_items']) > 0:
-                out['menu_items'].append(out_section)
-
-        # print(out)
-        return out
-
-    context['get_class_toc'] = get_class_toc
-    context['get_autosummary_toc'] = get_autosummary_toc
-
-
 def setup(app):
     # Fix bug where code isn't being highlighted
     app.add_css_file('pygments.css')
@@ -261,8 +180,6 @@ def setup(app):
     app.add_object_type('confval', 'confval',
                         objname='configuration value',
                         indextemplate='pair: %s; configuration value')
-
-    app.connect("html-page-context", custom_page_funcs)
 
 
 # Clean up generated documentation files that RTD seems to be having trouble with
