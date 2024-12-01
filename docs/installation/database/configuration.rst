@@ -212,7 +212,7 @@ specified per-environment.
 
    The database connection timeout, in seconds.
 
-   Connections in the connection pool that are idle for more than than the
+   Connections in the connection pool that are idle for more than the
    configured timeout are automatically closed.
 
    Defaults to 60.
@@ -478,15 +478,16 @@ If none of the above exist then a basic default configuration is used, equivalen
 
 .. code-block:: yaml
 
-   default:
-      db_hostname: ''
-      db_database: datacube
-      index_driver: default
-      db_connection_timeout: 60
+    default:
+        db_hostname: ''
+        db_database: datacube
+        index_driver: default
+        db_connection_timeout: 60
 
 .. note:: Note
-  This default config is only used after exhausting the default search path. If you have
-  provided your own search path via any of the above methods and none of the paths exist, then an error is raised.
+
+    This default config is only used after exhausting the default search path. If you have
+    provided your own search path via any of the above methods and none of the paths exist, then an error is raised.
 
 3. The Active Environment
 -------------------------
@@ -503,9 +504,9 @@ side by side:
 
 ::
 
-   dc_main    = Datacube(env="main")
-   dc_aux     = Datacube(env="aux")
-   dc_private = Datacube(env="private")
+    dc_main    = Datacube(env="main")
+    dc_aux     = Datacube(env="aux")
+    dc_private = Datacube(env="private")
 
 3b. Specifying in the CLI
 +++++++++++++++++++++++++
@@ -565,11 +566,11 @@ E.g. given the following active configuration file:
 
 .. code-block::yaml
 
-     default:
-         alias: main
-     main:
-         index_driver: postgres
-         db_url: postgresql://myuser:mypassword@server.domain/main
+   default:
+       alias: main
+   main:
+       index_driver: postgres
+       db_url: postgresql://myuser:mypassword@server.domain/main
 
 and the following defined environment variables:
 

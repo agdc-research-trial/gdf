@@ -127,7 +127,7 @@ Major Changes between 1.8.x and 1.9.x
 
    This is a work in progress and will not be available in 1.9.0. It will appear in a later 1.9.x release.
 
-7. The long-deprecated "ingestion" workflow and "excecutor" API have both been removed.
+7. The long-deprecated "ingestion" workflow and "executor" API have both been removed.
 
 8. Multiple locations per dataset is now deprecated.
 

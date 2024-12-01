@@ -10,7 +10,7 @@ USGS's Landsat Collection 2, Planet and a wide range of other organisations.
 The ODC can index from STAC, although this process is not fully integrated, it is
 done in production. An example of this is captured in these `Sentinel-2 Indexing notes`_. And
 in addition to indexing from STAC, `Datacube Explorer`_ can present ODC metadata as STAC
-documents through a STAC API.
+documents, through a STAC API.
 
 The key design constraint that the ODC currently has is it's reliance on a direct
 PostgreSQL connection, so one should consider how others in their team will access
@@ -22,20 +22,25 @@ be indexed into the ODC, so long as it can be described by ODC metadata.
 This section of the documentation describes the structure of the ODC and the key
 components that make up an implementation, as well as the ecosystem around it.
 
+.. figure:: ../diagrams/odc1.9-arch.png
+   :name: high-level-overview
+
+   Datacube-core vs odc-stac
+
 .. _`Cloud Optimised GeoTIFFs`: https://www.cogeo.org/
 .. _`SpatioTemporal Asset Catalog`: https://stacspec.org/
 .. _`Sentinel-2 Indexing notes`: https://github.com/opendatacube/datacube-dataset-config/blob/master/sentinel-2-l2a-cogs.md
 .. _`Datacube Explorer`: https://github.com/opendatacube/datacube-explorer
 
 
-Database Diagram
-----------------
+Metadata Conceptual Diagram
+---------------------------
 
-.. figure:: ../diagrams/db-relationship-diagram.svg
-    :target: /_images/db-relationship-diagram.svg
+This is a conceptual diagram of the contents of an ODC database.
+The database schema that implements these concepts in a particular database will vary depending
+on the choice of index driver.
 
-    Current database relationship diagram
+.. figure:: ../diagrams/odc-md-conceptual.png
+    :name: md-conceptual
 
-.. note::
-
-    To update the diagram please refer to instruction in CONTRIBUTE.md
+    Conceptual model of ODC metadata.

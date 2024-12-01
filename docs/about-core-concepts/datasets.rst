@@ -9,29 +9,17 @@ Datasets are a fundamental part of the Open Data Cube. A dataset is *“The smal
   - an Albers Equal Area tile portion of a Landsat Scene​
 
 
-Types of Datasets
-=================
-The Open Data Cube supports two primary types of dataset, ``indexed`` datasets, and ``ingested`` datasets.
+Dataset metadata format
+=======================
 
-Indexed Datasets
-~~~~~~~~~~~~~~~~
+For a detailed description of the format of a valid dataset document, refer to the
+`formal specification`_ in the eo3 github repository.
 
-An indexed dataset is available via a file location or from an external uri, with associated metadata
-available in a format understood by the Data Cube. **The pixel data does not need to be stored in the DataCube.**
-
-Example:
-
-- USGS Landsat Scenes stored in AWS S3, with prepared ``agdc-metadata.yaml``
-- GA Landsat Scenes
+.. _`formal specification`: https://github.com/opendatacube/eo3/blob/develop/SPECIFICATION.md
 
 Ingested Datasets
-~~~~~~~~~~~~~~~~~
+=================
 
-Data has been created by/and is managed by the Data Cube. The data has typically been
-been copied, compressed, tiled and possibly re-projected into a shape suitable
-for analysis, and stored in NetCDF4 files.
-
-Example:
-
-- Tiled GA Landsat Data, ingested into Australian Albers Equal Area
-  Projection (EPSG:3577) and stored in 100km tiles in NetCDF4
+Previous releases distinguished between ``indexed`` and ``ingested`` datasets.  In datacube 1.9,
+support for the ``ingestion`` workflow has been dropped, and all datasets can be considered
+``indexed``.

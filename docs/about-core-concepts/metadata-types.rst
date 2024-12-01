@@ -10,5 +10,9 @@ Metadata Types
 
     Dataset key must contain id, sources, creation_dt, label, and search_fields keys.
 
-    For metadata types of spatial datasets, the dataset key must also contain grid_spatial, measurements, and format keys.
-    Support for non-spatial datasets is likely to be dropped in version 2.0.
+    The dataset key must also contain grid_spatial, measurements, and format keys.
+
+    For a detailed description of the format of a valid metadata type document, refer to the
+    `formal specification`_ in the eo3 Github repository.
+
+.. _`formal specification`: https://github.com/opendatacube/eo3/blob/develop/SPECIFICATION-odc-type.md
