@@ -12,20 +12,19 @@ The Open Data Cube uses configuration files and/or environment variables to dete
 Overview
 ========
 
-The normal flow of configuration processing can be bypassed by `explicitly passing`_ in a complete configuration.
-Such explicit configuration blocks reading of configuration from environment variables.
+`Explicit configuration`_ can be passed in, otherwise, configuration is read from a `configuration file`_.
 
-Otherwise, configuration is read from a `configuration file`_ and/or `environment variables`_.
+Data in a configuration file can be supplemented with configuration by `environment variable`_.
 
 One configuration can define multiple environments, so users must `choose one`_.
 
 The configuration engine in 1.9 is not 100% compatible with the previous configuration engine.  Advanced
 users and developers upgrading 1.8 systems should read the `migration notes`_.
 
-.. _`explicitly passing`: #Explicit-configurations
+.. _`Explicit configuration`: #Explicit-configurations
 .. _`configuration file`: #File-configurations
 .. _`choose one`: #The-Active-Environment
-.. _`environment variables`: #Generic-Environment-Variable-Overrides
+.. _`environment variable`: #Generic-Environment-Variable-Overrides
 .. _`migration notes`: #Migrating-from-datacube-1.8
 
 1. Explicit configuration
@@ -33,7 +32,13 @@ users and developers upgrading 1.8 systems should read the `migration notes`_.
 
 Configuration can be passed in explicitly, without ever reading from a configuration file on disk.
 
-When explicit configuration is passed in, it takes precedence over configuration by environment variable.
+`Environment variable over-rides`_ do **NOT** apply to configuration environments defined by explicit configuration.
+
+However **new** `dynamic environments`_ that do not appear in the explicit configuration **CAN** still be defined by
+environment variable.
+
+.. _`Environment variable over-rides`: #Generic-Environment-Variable-Overrides
+.. _`dynamic environments`: #4a.-Dynamic-Environments
 
 1a. Via Python (str or dict)
 ++++++++++++++++++++++++++++
@@ -246,7 +251,9 @@ E.g. to override the :confval:`db_password` field in the ``main`` environment,
 set the ``$ODC_MAIN_DB_PASSWORD`` environment variable.
 
 Environment variables overrides are **NOT** applied to environments defined in
-configuration that was passed in explicitly as a string or dictionary.
+configuration that was passed in `explicitly as a string or dictionary`_.
+
+.. _`explicitly as a string or dictionary`: #Explicit-configurations
 
 4a. Dynamic Environments
 ++++++++++++++++++++++++
@@ -393,7 +400,7 @@ a new preferred environment variable, as listed in the table below.
 +------------------------------+-----------------------------------+---------------------------------------------+
 | DATACUBE_DB_URL              | ODC_<env_name>_DB_URL             | These legacy environment variables apply    |
 |                              |                                   | to ALL environments - which is probably not |
-+------------------------------+-----------------------------------+ what you want.                              |
++------------------------------+-----------------------------------+ what you want in a multi-db scenario.       |
 | DB_DATABASE                  | ODC_<env_name>_DB_DATABASE        |                                             |
 +------------------------------+-----------------------------------+                                             |
 | DB_HOSTNAME                  | ODC_<env_name>_DB_HOSTNAME        |                                             |
