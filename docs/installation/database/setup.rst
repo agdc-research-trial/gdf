@@ -1,15 +1,22 @@
 Database Setup
 **************
 
-.. attention::
-
-    You must have a properly configured Postgres installation for this to work. If you have a fresh install of Postgres
-    on Ubuntu then you may want to configure the ``postgres`` user password to `complete the postgres setup <https://help.ubuntu.com/community/PostgreSQL>`_
+These instructions assume a local PostgreSQL installation.  If you have access to an existing PostgreSQL installation,
+the first part of these instructions may need to be adapted to your environment. Refer to your organisation's
+friendly database administrator or your cloud provider's documentation for more information.
 
 Install PostgreSQL
 ==================
 
-Please refer to the `PostgreSQL <https://www.postgresql.org>`_ documentation on how to install and configure it.
+Please refer to the `PostgreSQL <https://www.postgresql.org>`_ documentation on how to install and configure postgresql.
+Note that the `PostGIS <https://postgis.net>`_ extension to PostgreSQL is required for the new ``postgis`` index driver.
+
+On Ubuntu and other Debian-based Linux distributions, the following is usually sufficient::
+
+   apt install postgresql-postgis
+
+After a fresh install of Postgres on Ubuntu then you may want to configure the ``postgres`` user password
+to `complete the postgres setup <https://help.ubuntu.com/community/PostgreSQL>`_
 
 Create Database
 ===============
@@ -31,11 +38,14 @@ or specify connection details manually::
 Create Configuration File
 =========================
 
-Datacube looks for a configuration file in ~/.datacube.conf or in the location specified by the ``DATACUBE_CONFIG_PATH`` environment variable. The file has this format::
+Datacube looks for a configuration file in ``~/.datacube.conf`` or in a location specified by a user. For information
+on how to specify an alternate location for the configuration file see :doc:`passing-configuration`.
 
-    [datacube]
+The configuration file may be in ``.ini``, ``.yaml`` or ``.json`` format.  Here is an example configuration
+file in ``.ini`` format::
+
+    [production]
     # One config file may contain multiple named sections providing multiple configuration environments.
-    # The section named "datacube" (or "default") is used if no environment is specified.
 
     # index_driver is optional and defaults to "default" (the default Postgres index driver)
     index_driver: default
@@ -55,10 +65,26 @@ Datacube looks for a configuration file in ~/.datacube.conf or in the location s
     # db_username:
     # db_password:
 
+    [default]
+    # The section named "default" (or "datacube") is used if no environment is specified.
+    #
+    # An environment may be declared as an alias to another environment.
+    # This section sets ``default`` as an alias to the ``production`` environment, ensuring that
+    # the ``production`` environment will be used if no environment is specified.
+    # No other configuration values may be used in an ``alias`` environment.
+    alias: production
+
     [test]
     # A "test" environment that accesses a separate test database.
     index_driver: default
     db_database: datacube_test
+
+    [migration]
+    # An environment using the new postgis index driver
+    index_driver: postgis
+    # For both the postgis and postgres index drivers, database connection details may be configured in a single
+    # db_url config entry, instead of the db_username, db_database, db_password, etc.
+    db_url: postgresql://username:password@server.domain:5444/mydb
 
     [null]
     # A "null" environment for working with no index.
@@ -70,32 +96,30 @@ Datacube looks for a configuration file in ~/.datacube.conf or in the location s
     #   Note that each new invocation will receive a new, empty index.
     index_driver: memory
 
-Uncomment and fill in lines as required.
 
 Alternately, you can configure the ODC connection to Postgres using environment variables::
 
-    DB_HOSTNAME
-    DB_USERNAME
-    DB_PASSWORD
-    DB_DATABASE
+    ODC_DEFAULT_DB_HOSTNAME
+    ODC_DEFAULT_DB_PORT
+    ODC_DEFAULT_DB_USERNAME
+    ODC_DEFAULT_DB_PASSWORD
+    ODC_DEFAULT_DB_DATABASE
 
 To configure a database as a single connection url instead of individual environment variables::
 
-    export DATACUBE_DB_URL=postgresql://[username]:[password]@[hostname]:[port]/[database]
+    export ODC_DEFAULT_DB_URL=postgresql://[username]:[password]@[hostname]:[port]/[database]
 
 Alternatively, for password-less access to a database on localhost::
 
-    export DATACUBE_DB_URL=postgresql:///[database]
+    export ODC_DEFAULT_DB_URL=postgresql:///[database]
 
-Further information on database configuration can be found `here <https://github.com/opendatacube/datacube-core/wiki/ODC-EP-010---Replace-Configuration-Layer>`__.
-Although the enhancement proposal details incoming changes in v1.9 and beyond, it should largely be compatible with the current behaviour, barring a few
-obscure corner cases.
+For further information on database configuration, see :doc:`configuration` and :doc:`passing-configuration`.
 
 The desired environment can be specified:
 
 1. in code, with the ``env`` argument to the ``datacube.Datacube`` constructor;
 2. with the ``-E`` option to the command line ui;
-3. with the ``$DATACUBE_ENVIRONMENT`` environment variable.
+3. with the ``$ODC_ENVIRONMENT`` environment variable.
 
 Initialise the Database Schema
 ==============================
@@ -104,6 +128,40 @@ The ``datacube system init`` tool can create and populate the Data Cube database
 
     datacube -v system init
 
+Or to initialise a database schema for an environment other than the default::
+
+   datacube -v -E myenv system init
+
 .. click:: datacube.scripts.system:database_init
 
    :prog: datacube system
+
+Create Spatial Indexes (Postgis Driver Only)
+============================================
+
+The new ``postgis`` index driver supports spatial indexes.  By default a spatial index is created for the CRS
+``epsg:4326`` (i.e. WGS-84 lat/long coordinates).  Spatial indexes for other Coordinate Reference Systems can be
+created and it is usually most efficient to create these spatial indexes up front.
+
+Examples:
+
+ - a database that will host mostly Australian EO data may benefit from an ``epsg:3577`` (Australian
+   Albers) spatial index.
+ - a database that intends to support web maps via `datacube-ows <https://github.com/opendatacube/datacube-ows>`_
+   may benefit from an ``epsg:3857`` (Web Mercator) spatial index.
+ - a database that will include data that crossed the anti-meridian will benefit from an ``epsg:3832``
+   (Pacific Mercator) spatial index.
+ - a database that will host Antarctic imagery will benefit from a ``epsg:3031`` (South Polar Stereographic)
+   spatial index.
+
+In deciding what spatial indexes to create for your database you should consider:
+
+ - the native CRSes of the data you intend to index.
+ - if you expect to have data in areas where ``epsg:4326`` is not suitable for searching (i.e. crossing the
+   anti-meridian, or in the north or south polar regions.)
+ - the native or preferred CRSes of any external systems you intend to interface or inter-operate with.
+ - specialist CRSes in common use amongst your user base, or in the region you intend to focus on.
+
+Adding and updating spatial indexes can be performed with the ``datacube spindex`` tool::
+
+.. click:: datacube.scripts.spindex

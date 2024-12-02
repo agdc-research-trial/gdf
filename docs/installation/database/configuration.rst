@@ -172,9 +172,6 @@ specified per-environment.
       [main]
        index_driver: default
        db_database: datacube
-   The ``null`` and ``memory`` index drivers take no further configuration. The
-   remaining configuration options only apply to the ``postgres`` and
-   ``postgis`` index drivers:
        db_hostname: server.domain.com
        db_username: cube
        db_password: this_is_a_big_secret
@@ -203,6 +200,9 @@ specified per-environment.
    - ``null``  Null index driver.  If you are not using a database index at
      all, this might be an appropriate choice.
 
+The ``null`` and ``memory`` index drivers take no further configuration. The
+remaining configuration options only apply to the ``postgres`` and
+``postgis`` index drivers:
 
 .. confval:: db_connection_timeout
 
