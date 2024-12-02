@@ -11,6 +11,7 @@ v1.8.next
 - Update docs (:pull:`1631`,:pull:`1651`)
 - Update docker image and CI (multiple PRs)
 - Pin out bad versions of dask (:pull:`1663`)
+- Ensure correct boundary scalar precision with numpy 2 (:pull:`1673`)
 
 v1.8.19 (2nd July 2024)
 =======================
