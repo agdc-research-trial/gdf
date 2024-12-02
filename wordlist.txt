@@ -377,6 +377,7 @@ PRIMEM
 prog
 Proj
 provence
+PRs
 psql
 pts
 pwd
