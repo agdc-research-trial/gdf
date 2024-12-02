@@ -1,6 +1,4 @@
 
-.. py:currentmodule:: datacube
-
 ODC Configuration (Details)
 ***************************
 
@@ -21,7 +19,8 @@ One configuration can define multiple environments, so users must `choose one`_.
 The configuration engine in 1.9 is not 100% compatible with the previous configuration engine.  Advanced
 users and developers upgrading 1.8 systems should read the `migration notes`_.
 
-.. _`Raw configuration`: #Raw-configurations
+.. _`Raw configuration`: #Raw-configuration
+.. _`raw configuration`: #Raw-configuration
 .. _`configuration file`: #File-configurations
 .. _`choose one`: #The-Active-Environment
 .. _`environment variable`: #Generic-Environment-Variable-Overrides
@@ -122,8 +121,8 @@ In Python, the ``config`` argument can take a path to a config file:
     dc = Datacube(config="/path/to/my/file.conf")
 
 The ``config`` argument can also take a priority list of config paths.
-The first path in the list that can be read (i.e. exists and has read permissions) is read.
-If no configuration file can be found, a :py:class:`ConfigException` is raised:
+The first path in the list that can be read (i.e. exists and has read permissions) is used.
+If none of the files in the list no configuration file can be found, a :py:class:`ConfigException` is raised:
 
 ::
 
@@ -249,7 +248,7 @@ The name of overriding environment variables are all upper-case and structured:
 E.g. to override the :confval:`db_password` field in the ``main`` environment,
 set the ``$ODC_MAIN_DB_PASSWORD`` environment variable.
 
-Environment variables overrides are **NOT** applied to environments defined in
+Environment variable overrides are **NOT** applied to environments defined in
 raw configuration that was passed in `explicitly as a string or dictionary`_.
 
 .. _`explicitly as a string or dictionary`: #Raw-configurations
@@ -276,32 +275,26 @@ and the following defined environment variables:
    ODC_AUX_INDEX_DRIVER=postgis
    ODC_AUX_DB_URL=postgres://auxuser:secret@backup.domain/aux
 
-You can request the "aux" environment and it's configuration will be
-dynamically read from the environment variables, even though it is not
-mentioned in the configuration file at all.
+You can request the ``aux`` environment and its configuration will be
+dynamically read from the environment variables, even though the "aux"
+environment is not mentioned in the configuration file at all.
 
 Notes:
 
-1. Environment variables are read when configuration is first read from that
-   environment (i.e. when first connecting to the database.)
+1. Environment variables are read when accessing to a named environment (usually when just before
+   connecting to a database from that environment).
 
-2. As all configuration options have default values, it is no longer possible
-   to get an error by requesting an environment that does not exist.  Instead,
-   an all-defaults environment with the requested name will be dynamically
-   created.  The only exception is when a specific environment is not
-   requested.  In this case, the ``default`` environment is only used if it is
-   either defined in the active configuration file or has previously been
-   explicitly requested from the same :py:class:`ODCConfig` object.
+2. An all-defaults environment is used when requesting an environment that does not exist.
 
-3. Although environment variable overrides are bypassed for configured
-   environments by passing in raw configuration, reading from environment
-   variables to dynamically create new environments is still supported.
+3. Environment variable overrides are not read for environment included in `raw configuration`_.
+
+4. Environment variables are read to create `dynamic environments`_, even when `raw configuration`_ is
+   passed in.
 
 4b. Environment Variable Overrides and Environment Aliases
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-To avoid troublesome and unpredictable corner cases, aliases can only be
-defined in raw configuration or in config files - they cannot be defined
+Aliases can only be defined in raw configuration or in config files - they cannot be defined
 through environment variables.
 
 i.e. defining ``ODC_ENV2_ALIAS=env1`` does NOT create an ``env2`` alias to the ``env1``
@@ -357,7 +350,7 @@ Most notably the old database connection environment variables:
    $DB_USERNAME
    $DB_PASSWORD
 
-are strongly deprecated as they will be applied to ALL environments, which is probably not what you intended.
+apply to ALL environments, and are deprecated.
 
 The new preferred configuration environment variable names all begin with ``ODC_``
 
@@ -365,8 +358,8 @@ Migrating from datacube-1.8
 ===========================
 
 The new configuration engine introduced in datacube-1.9 is not fully backwards compatible with that used
-previously.  This section notes the changes which administrators and maintainers should be aware of before
-upgrading.
+previously.  This section notes the changes which administrators, maintainers and developers should be aware
+of before upgrading.
 
 Merging multiple config files
 -----------------------------
@@ -374,7 +367,7 @@ Merging multiple config files
 Previously, multiple config files could be read simultaneously and merged with "higher priority" files being
 read later, and overriding the contents of "lower priority" files.
 
-This is no longer supported.  Only one configuration file is read.
+This is no longer supported.  Only one configuration file is now read.
 
 Where users previously created a local personal configuration file that supplemented a global system
 configuration file, they should now make a copy of the global system configuration file, edit it with
@@ -394,8 +387,8 @@ a new preferred environment variable, as listed in the table below.
 +------------------------------+-----------------------------------+---------------------------------------------+
 | Legacy Environment Variable  | New Environment Variable(s)       |  Notes                                      |
 +==============================+===================================+=============================================+
-| DATACUBE_CONFIG_PATH         | :envvar:`ODC_CONFIG_PATH`         | Behaviour is slightly different, mostly due |
-|                              |                                   | to only reading a single file.              |
+| DATACUBE_CONFIG_PATH         | :envvar:`ODC_CONFIG_PATH`         | Behaviour is different for lists of paths,  |
+|                              |                                   | due to only reading a single file.          |
 +------------------------------+-----------------------------------+---------------------------------------------+
 | DATACUBE_DB_URL              | ODC_<env_name>_DB_URL             | These legacy environment variables apply    |
 |                              |                                   | to ALL environments - which is probably not |
@@ -421,7 +414,7 @@ API changes
 
 Details of the new API are described in :doc:`api/configuration`.
 
-The old ``LocalConfig`` class has been replaced by ``ODCConfig`` and ``ODCEnvironment`` classes.
+The old ``datacube.config.LocalConfig`` class has been replaced by ``datacube.cfg.ODCConfig`` and ``datacube.cfg.ODCEnvironment`` classes.
 
 For most users the only method you need is ``ODCConfig.get_environment()``
 
