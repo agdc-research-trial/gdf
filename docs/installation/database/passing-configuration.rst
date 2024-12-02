@@ -12,7 +12,7 @@ The Open Data Cube uses configuration files and/or environment variables to dete
 Overview
 ========
 
-`Explicit configuration`_ can be passed in, otherwise, configuration is read from a `configuration file`_.
+`Raw configuration`_ can be explicitly passed in, otherwise, configuration is read from a `configuration file`_.
 
 Data in a configuration file can be supplemented with configuration by `environment variable`_.
 
@@ -21,20 +21,20 @@ One configuration can define multiple environments, so users must `choose one`_.
 The configuration engine in 1.9 is not 100% compatible with the previous configuration engine.  Advanced
 users and developers upgrading 1.8 systems should read the `migration notes`_.
 
-.. _`Explicit configuration`: #Explicit-configurations
+.. _`Raw configuration`: #Raw-configurations
 .. _`configuration file`: #File-configurations
 .. _`choose one`: #The-Active-Environment
 .. _`environment variable`: #Generic-Environment-Variable-Overrides
 .. _`migration notes`: #Migrating-from-datacube-1.8
 
-1. Explicit configuration
--------------------------
+1. Raw configuration
+--------------------
 
-Configuration can be passed in explicitly, without ever reading from a configuration file on disk.
+Raw configuration can be passed in explicitly, without ever reading from a configuration file on disk.
 
-`Environment variable over-rides`_ do **NOT** apply to configuration environments defined by explicit configuration.
+`Environment variable over-rides`_ do **NOT** apply to configuration environments defined in raw configuration.
 
-However **new** `dynamic environments`_ that do not appear in the explicit configuration **CAN** still be defined by
+However **new** `dynamic environments`_ that do not explicitly appear in raw configuration **CAN** still be defined by
 environment variable.
 
 .. _`Environment variable over-rides`: #Generic-Environment-Variable-Overrides
@@ -86,7 +86,7 @@ a BASH backquote string:
 1c. As a string, via an Environment Variable
 ++++++++++++++++++++++++++++++++++++++++++++
 
-If raw configuration has not been passed in explicitly via methods 1a. or 1b.
+If raw configuration has not been passed in via methods 1a. or 1b.
 above, then the contents of a configuration file can be written in full to the
 :envvar:`ODC_CONFIG` environment variable:
 
@@ -101,17 +101,16 @@ above, then the contents of a configuration file can be written in full to the
 
 .. highlight:: python
 
-If explicit configuration has not been passed in, ODC attempts to find a configuration file.
+If raw configuration was not passed in, ODC attempts to find a configuration file.
 
-Only one configuration file is read.
-
-This is different to previous versions of the Open Data Cube,
-where multiple configuration files could be merged.
+`Only one`_ configuration file is read.
 
 If your previous practice was to extend a shared system configuration file with a local
 user configuration file, then you will now need to take a copy of the system configuration file,
 add your extensions to your copy, and ensure that the Open Data Cube reads from your
 modified file.
+
+.. _`Only one`: #Merging-multiple-config-files
 
 2a. In Python
 +++++++++++++
@@ -228,7 +227,7 @@ Refer to the ``--help`` text for more information.
 If not specified by any of the methods 3a. to 3d. above, the ``default``
 environment is used.  If no ``default`` environment is known, an error is
 raised.  It is strongly recommended that a ``default`` environment be defined
-in all configuration files - either explicitly, or as an alias to an explicitly
+in all configuration files - ideally as an alias to an explicitly
 defined environment.
 
 If no environment named ``default`` is known, but one named ``datacube`` **IS**
@@ -251,9 +250,9 @@ E.g. to override the :confval:`db_password` field in the ``main`` environment,
 set the ``$ODC_MAIN_DB_PASSWORD`` environment variable.
 
 Environment variables overrides are **NOT** applied to environments defined in
-configuration that was passed in `explicitly as a string or dictionary`_.
+raw configuration that was passed in `explicitly as a string or dictionary`_.
 
-.. _`explicitly as a string or dictionary`: #Explicit-configurations
+.. _`explicitly as a string or dictionary`: #Raw-configurations
 
 4a. Dynamic Environments
 ++++++++++++++++++++++++
@@ -295,7 +294,7 @@ Notes:
    explicitly requested from the same :py:class:`ODCConfig` object.
 
 3. Although environment variable overrides are bypassed for configured
-   environments by passing in explicit configuration, reading from environment
+   environments by passing in raw configuration, reading from environment
    variables to dynamically create new environments is still supported.
 
 4b. Environment Variable Overrides and Environment Aliases
