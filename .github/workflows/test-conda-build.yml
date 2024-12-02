@@ -1,12 +1,22 @@
 name: Conda Smoke Test
-on:
-  pull_request:
-    paths:
-      - '**'
 
+on:
   push:
-    paths:
-      - '**'
+    branches:
+      - main
+      - develop
+      - develop-1.9
+  pull_request:
+    branches:
+      - develop
+      - develop-1.9
+
+concurrency:
+  # Here the group is defined by the head_ref of the PR
+  group: ${{ github.head_ref }}
+  # Here we specify that we'll cancel any "in progress" workflow of the same group. Thus if we push, ammend a commit and push
+  # again the previous workflow will be cancelled, thus saving us github action build minutes and avoid any conflicts
+  cancel-in-progress: true
 
 jobs:
   check-conda:
