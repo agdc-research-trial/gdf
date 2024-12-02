@@ -11,14 +11,12 @@ on:
       - develop
       - develop-1.9
 
-
 concurrency:
   # Here the group is defined by the head_ref of the PR
   group: ${{ github.workflow }}-${{ github.head_ref }}
   # Here we specify that we'll cancel any "in progress" workflow of the same group. Thus if we push, ammend a commit and push
   # again the previous workflow will be cancelled, thus saving us github action build minutes and avoid any conflicts
   cancel-in-progress: true
-
 
 jobs:
   lint:
@@ -41,7 +39,7 @@ jobs:
         uses: astral-sh/setup-uv@v2
         with:
           version: 0.5.5
-          enable-cache: 'true'
+          enable-cache: "true"
           cache-suffix: ${{ matrix.python-version }}
       - name: Run ${{ matrix.lint-command }}
         run: |
@@ -49,7 +47,11 @@ jobs:
 
   main:
     runs-on: ubuntu-latest
-    needs: ['lint']
+    needs: ["lint"]
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
     services:
       # Label used to access the service container
       postgres:
@@ -68,125 +70,124 @@ jobs:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Install uv
-      uses: astral-sh/setup-uv@v2
-      with:
-        version: 0.5.5
-        enable-cache: 'true'
-        cache-suffix: 3.12
-        python-version: 3.12
+      - name: Install uv
+        uses: astral-sh/setup-uv@v2
+        with:
+          version: 0.5.5
+          enable-cache: "true"
+          cache-suffix: ${{ matrix.python-version }}
+          python-version: ${{ matrix.python-version }}
 
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.12' 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Config
-      id: cfg
-      run: |
-        push_test_pypi=no
-        push_pypi=no
+      - name: Config
+        id: cfg
+        run: |
+          push_test_pypi=no
+          push_pypi=no
 
-        if [[ "${GITHUB_REF}" =~ refs/tags/.* ]]; then
-          echo "push_test_pypi=yes" >> $GITHUB_OUTPUT
-          echo "push_pypi=yes" >> $GITHUB_OUTPUT
-        fi
+          if [[ "${GITHUB_REF}" =~ refs/tags/.* ]]; then
+            echo "push_test_pypi=yes" >> $GITHUB_OUTPUT
+            echo "push_pypi=yes" >> $GITHUB_OUTPUT
+          fi
 
-    - name: Setup test Database
-      run: |
-        createdb -h localhost -U postgres pgintegration
-        createdb -h localhost -U postgres pgisintegration
-      env:
-        PGHOST: localhost
-        PGUSER: postgres
-        PGPASSWORD: postgres
-        
+      - name: Setup test Database
+        run: |
+          createdb -h localhost -U postgres pgintegration
+          createdb -h localhost -U postgres pgisintegration
+        env:
+          PGHOST: localhost
+          PGUSER: postgres
+          PGPASSWORD: postgres
 
-    - name: Setup test environment
-      run: |
-        uv sync --all-extras
-        source .venv/bin/activate
-        uv pip install -e ./tests/drivers/fail_drivers --no-deps
-        uv pip install -e ./examples/io_plugin --no-deps
+      - name: Setup test environment
+        run: |
+          uv sync --all-extras
+          source .venv/bin/activate
+          uv pip install -e ./tests/drivers/fail_drivers --no-deps
+          uv pip install -e ./examples/io_plugin --no-deps
 
-    - name: Run Unit and Doc Tests
-      run: |
-        source .venv/bin/activate
-        pytest -r a \
-          --cov datacube \
-          --cov-report=xml \
-          --doctest-ignore-import-errors \
-          --durations=5 \
-          datacube \
-          tests
+      - name: Run Unit and Doc Tests
+        run: |
+          source .venv/bin/activate
+          pytest -r a \
+            --cov datacube \
+            --cov-report=xml \
+            --doctest-ignore-import-errors \
+            --durations=5 \
+            datacube \
+            tests
 
-    - name: Run Integration Tests
-      run: |
-        source .venv/bin/activate
-        pytest -r a \
-          --cov datacube \
-          --cov-report=xml \
-          --doctest-ignore-import-errors \
-          --durations=5 \
-          integration_tests
-      env:
-        PGHOST: localhost
-        PGUSER: postgres
-        PGPASSWORD: postgres
-        DB_USERNAME: postgres
+      - name: Run Integration Tests
+        run: |
+          source .venv/bin/activate
+          pytest -r a \
+            --cov datacube \
+            --cov-report=xml \
+            --doctest-ignore-import-errors \
+            --durations=5 \
+            integration_tests
+        env:
+          PGHOST: localhost
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          DB_USERNAME: postgres
 
-    - name: Build Packages
-      run: |
-        uv run --with build python-build
-        ls -lh ./dist/
-        uv run --with twine twine check ./dist/*
+      - name: Build Packages
+        run: |
+          uv run --with build python-build
+          ls -lh ./dist/
+          uv run --with twine twine check ./dist/*
 
-    - name: Publish to Test PyPi
-      if: |
-        steps.cfg.outputs.push_test_pypi == 'yes'
-      run: |
-        if [ -n "${TWINE_PASSWORD}" ]; then
-            uv run --with twine twine upload \
-              --verbose \
-              --non-interactive \
-              --disable-progress-bar \
-              --username=__token__ \
-              --password=${TWINE_PASSWORD} \
-              --repository-url=${TWINE_REPOSITORY_URL} \
-              --skip-existing dist/* || true
-        else
-           echo "Skipping upload as 'TestPyPiToken' is not set"
-        fi
-      env:
-        TWINE_PASSWORD: ${{ secrets.TestPyPiToken }}
-        TWINE_REPOSITORY_URL: 'https://test.pypi.org/legacy/'
+      - name: Publish to Test PyPi
+        if: |
+          steps.cfg.outputs.push_test_pypi == 'yes'
+        run: |
+          if [ -n "${TWINE_PASSWORD}" ]; then
+              uv run --with twine twine upload \
+                --verbose \
+                --non-interactive \
+                --disable-progress-bar \
+                --username=__token__ \
+                --password=${TWINE_PASSWORD} \
+                --repository-url=${TWINE_REPOSITORY_URL} \
+                --skip-existing dist/* || true
+          else
+             echo "Skipping upload as 'TestPyPiToken' is not set"
+          fi
+        env:
+          TWINE_PASSWORD: ${{ secrets.TestPyPiToken }}
+          TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
 
-    - name: Publish to PyPi
-      if: |
-        github.event_name == 'push'
-        && steps.cfg.outputs.push_pypi == 'yes'
-      run: |
-        if [ -n "${TWINE_PASSWORD}" ]; then
-            uv run --with twine twine upload \
-              --verbose \
-              --non-interactive \
-              --disable-progress-bar \
-              --username=__token__ \
-              --password=${TWINE_PASSWORD} \
-              --skip-existing dist/*
-        else
-           echo "Skipping upload as 'PyPiToken' is not set"
-        fi
+      - name: Publish to PyPi
+        if: |
+          github.event_name == 'push'
+          && steps.cfg.outputs.push_pypi == 'yes'
+        run: |
+          if [ -n "${TWINE_PASSWORD}" ]; then
+              uv run --with twine twine upload \
+                --verbose \
+                --non-interactive \
+                --disable-progress-bar \
+                --username=__token__ \
+                --password=${TWINE_PASSWORD} \
+                --skip-existing dist/*
+          else
+             echo "Skipping upload as 'PyPiToken' is not set"
+          fi
 
-      env:
-        TWINE_PASSWORD: ${{ secrets.PyPiToken }}
+        env:
+          TWINE_PASSWORD: ${{ secrets.PyPiToken }}
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
-      with:
-        file: ./coverage.xml
-        fail_ci_if_error: false
-        token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
