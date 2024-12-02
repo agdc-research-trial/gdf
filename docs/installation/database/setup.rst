@@ -162,6 +162,19 @@ In deciding what spatial indexes to create for your database you should consider
  - the native or preferred CRSes of any external systems you intend to interface or inter-operate with.
  - specialist CRSes in common use amongst your user base, or in the region you intend to focus on.
 
-Adding and updating spatial indexes can be performed with the ``datacube spindex`` tool::
+Adding and updating spatial indexes can be performed with the ``datacube spindex`` tool.  Spatial indexes
+are identified by their postgres SRID.  For EPSG-registered CRSes, the SRID is EPSG number. Some ESRI-defined
+non-EPSG SRIDs are also supported - refer to the PostGIS documentation for details.   Spatial indexes for
+generalised non-EPSG CRSes (e.g. arbitrary WKT definitions) are not supported.
 
-.. click:: datacube.scripts.spindex
+To add a spatial index for an srid user ``datacube spindex add srid``, e.g. for epsg:3577::
+
+   datacube spindex add 3577
+
+Note that adding a new spatial index to an existing database does NOT add existing datasets to the spatial index!
+
+After adding a new spatial index to a non-empty database it is necessary to **update** the spatial index afterk
+creation::
+
+   datacube spindex update 3577
+
