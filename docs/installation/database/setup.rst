@@ -177,4 +177,3 @@ After adding a new spatial index to a non-empty database it is necessary to **up
 creation::
 
    datacube spindex update 3577
-
