@@ -24,7 +24,7 @@ users and developers upgrading 1.8 systems should read the `migration notes`_.
 .. _`configuration file`: #file-configurations
 .. _`choose one`: #the-active-environment
 .. _`environment variable`: #generic-environment-variable-overrides
-.. _`migration notes`: #migrating-from-datacube-1.8
+.. _`migration notes`: #migrating-from-datacube-1-8
 
 1. File configuration
 ---------------------
@@ -250,7 +250,7 @@ set the ``$ODC_MAIN_DB_PASSWORD`` environment variable.
 Environment variable overrides are **NOT** applied to environments defined in
 raw configuration that was passed in `explicitly as a string or dictionary`_.
 
-.. _`explicitly as a string or dictionary`: #raw-configurations
+.. _`explicitly as a string or dictionary`: #raw-configuration
 
 4a. Dynamic Environments
 ++++++++++++++++++++++++
@@ -411,7 +411,7 @@ a new preferred environment variable, as listed in the table below.
 API changes
 -----------
 
-Details of the new API are described in :doc:`api/configuration`.
+Details of the new API are described in :doc:`cfg`.
 
 The old ``datacube.config.LocalConfig`` class has been replaced by ``datacube.cfg.ODCConfig`` and ``datacube.cfg.ODCEnvironment`` classes.
 
