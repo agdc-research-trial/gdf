@@ -19,14 +19,102 @@ One configuration can define multiple environments, so users must `choose one`_.
 The configuration engine in 1.9 is not 100% compatible with the previous configuration engine.  Advanced
 users and developers upgrading 1.8 systems should read the `migration notes`_.
 
-.. _`Raw configuration`: #Raw-configuration
-.. _`raw configuration`: #Raw-configuration
-.. _`configuration file`: #File-configurations
-.. _`choose one`: #The-Active-Environment
-.. _`environment variable`: #Generic-Environment-Variable-Overrides
+.. _`Raw configuration`: #2.-Raw-configuration
+.. _`raw configuration`: #2.-Raw-configuration
+.. _`configuration file`: #1.-File-configurations
+.. _`choose one`: #3.-The-Active-Environment
+.. _`environment variable`: #4.-Generic-Environment-Variable-Overrides
 .. _`migration notes`: #Migrating-from-datacube-1.8
 
-1. Raw configuration
+1. File configuration
+---------------------
+
+.. highlight:: python
+
+If `raw configuration`_ is not passed in, ODC attempts to find a configuration file in the file system.
+
+`Only one`_ configuration file is read.
+
+If your previous practice was to extend a shared system configuration file with a local
+user configuration file, then you will now need to take a copy of the system configuration file,
+add your extensions to your copy, and ensure that the Open Data Cube reads from your
+modified file.
+
+.. _`Only one`: #Merging-multiple-config-files
+
+1a. Default Search Paths
+++++++++++++++++++++++++
+
+If config file paths have not passed in through any of the methods below, 1b. through
+1d., then the Open Data Cube checks the following paths in order, with the
+first readable file found being read:
+
+1. :file:`./datacube.conf`    (in the current working directory)
+2. :file:`~/.datacube.conf`   (in the user's home directory)
+3. :file:`/etc/default/datacube.conf`
+4. :file:`/etc/datacube.conf``
+
+If none of the files in the default search path exist, then a basic default configuration is used, equivalent to:
+
+.. code-block:: yaml
+
+   default:
+      db_hostname: ''
+      db_database: datacube
+      index_driver: default
+      db_connection_timeout: 60
+
+.. note:: Note
+  This default config is only used after exhausting the default search path. If you have
+  provided your own search path via any of the below methods and none of the paths exist, then an error is raised.
+
+1b. In Python
++++++++++++++
+
+In Python, the ``config`` argument can take a path to a config file:
+
+::
+
+    dc = Datacube(config="/path/to/my/file.conf")
+
+The ``config`` argument can also take a priority list of config paths.
+The first path in the list that can be read (i.e. exists and has read permissions) is used.
+If none of the files in the list no configuration file can be found, a :py:class:`ConfigException` is raised:
+
+::
+
+     dc = Datacube(config=[
+         "/first/path/checked",
+         "/second/path/checked",
+         "/last/path/checked",
+     ])
+
+The config argument can also take a :py:class:`cfg.ODCConfig` object.  Refer to
+the API documentation for more information.
+
+1c. Via the datacube CLI
+++++++++++++++++++++++++
+
+Configuration file paths can be passed using either the :option:`datacube -C`
+or :option:`datacube --config`` option.
+
+The option can be specified multiple times, with paths being searched in order, and an error being
+raised if none can be read.
+
+1d. Via an Environment Variable
++++++++++++++++++++++++++++++++
+
+.. envvar:: ODC_CONFIG_PATH
+
+   If config paths have not been passed in through methods 2a. or 2b. above,
+   then they can be read from the :envvar:`ODC_CONFIG_PATH`` environment
+   variable, in a UNIX Path-style colon separated list:
+
+   ::
+
+          ODC_CONFIG_PATH=/first/path/checked:/second/path/checked:/last/path/checked
+
+2. Raw configuration
 --------------------
 
 Raw configuration can be passed in explicitly, without ever reading from a configuration file on disk.
@@ -36,10 +124,10 @@ Raw configuration can be passed in explicitly, without ever reading from a confi
 However **new** `dynamic environments`_ that do not explicitly appear in raw configuration **CAN** still be defined by
 environment variable.
 
-.. _`Environment variable over-rides`: #Generic-Environment-Variable-Overrides
+.. _`Environment variable over-rides`: #4.-Generic-Environment-Variable-Overrides
 .. _`dynamic environments`: #4a.-Dynamic-Environments
 
-1a. Via Python (str or dict)
+2a. Via Python (str or dict)
 ++++++++++++++++++++++++++++
 
 A valid configuration dictionary can be passed in directly to the
@@ -65,7 +153,7 @@ The ``raw_config`` argument can also be passed config as a string, in either INI
      db_url: postgresql:///mydb
    """)
 
-1b. As a string, via the datacube CLI
+2b. As a string, via the datacube CLI
 +++++++++++++++++++++++++++++++++++++
 
 The contents of a configuration file can be passed into the ``datacube`` CLI via the ``-R`` or
@@ -82,7 +170,7 @@ a BASH backquote string:
 
    datacube --raw-config "`config_file_generator --option blah`"
 
-1c. As a string, via an Environment Variable
+2c. As a string, via an Environment Variable
 ++++++++++++++++++++++++++++++++++++++++++++
 
 If raw configuration has not been passed in via methods 1a. or 1b.
@@ -95,98 +183,24 @@ above, then the contents of a configuration file can be written in full to the
    $ datacube check    # will use the this_db database
 
 
-2. File configuration
----------------------
-
-.. highlight:: python
-
-If raw configuration was not passed in, ODC attempts to find a configuration file.
-
-`Only one`_ configuration file is read.
-
-If your previous practice was to extend a shared system configuration file with a local
-user configuration file, then you will now need to take a copy of the system configuration file,
-add your extensions to your copy, and ensure that the Open Data Cube reads from your
-modified file.
-
-.. _`Only one`: #Merging-multiple-config-files
-
-2a. In Python
-+++++++++++++
-
-In Python, the ``config`` argument can take a path to a config file:
-
-::
-
-    dc = Datacube(config="/path/to/my/file.conf")
-
-The ``config`` argument can also take a priority list of config paths.
-The first path in the list that can be read (i.e. exists and has read permissions) is used.
-If none of the files in the list no configuration file can be found, a :py:class:`ConfigException` is raised:
-
-::
-
-     dc = Datacube(config=[
-         "/first/path/checked",
-         "/second/path/checked",
-         "/last/path/checked",
-     ])
-
-The config argument can also take a :py:class:`cfg.ODCConfig` object.  Refer to
-the API documentation for more information.
-
-2b. Via the datacube CLI
-++++++++++++++++++++++++
-
-Configuration file paths can be passed using either the :option:`datacube -C`
-or :option:`datacube --config`` option.
-
-The option can be specified multiple times, with paths being searched in order, and an error being
-raised if none can be read.
-
-2c. Via an Environment Variable
-+++++++++++++++++++++++++++++++
-
-.. envvar:: ODC_CONFIG_PATH
-
-   If config paths have not been passed in through methods 2a. or 2b. above,
-   then they can be read from the :envvar:`ODC_CONFIG_PATH`` environment
-   variable, in a UNIX Path-style colon separated list:
-
-   ::
-
-          ODC_CONFIG_PATH=/first/path/checked:/second/path/checked:/last/path/checked
-
-2d. Default Search Paths
-++++++++++++++++++++++++
-
-If config file paths have not passed in through any of the above 2a. through
-2c., then the Open Data Cube checks the following paths in order, with the
-first readable file found being read:
-
-1. :file:`./datacube.conf`    (in the current working directory)
-2. :file:`~/.datacube.conf`   (in the user's home directory)
-3. :file:`/etc/default/datacube.conf`
-4. :file:`/etc/datacube.conf``
-
-If none of the above exist then a basic default configuration is used, equivalent to:
-
-.. code-block:: yaml
-
-   default:
-      db_hostname: ''
-      db_database: datacube
-      index_driver: default
-      db_connection_timeout: 60
-
-.. note:: Note
-  This default config is only used after exhausting the default search path. If you have
-  provided your own search path via any of the above methods and none of the paths exist, then an error is raised.
-
 3. The Active Environment
 -------------------------
 
-3a. Specifying in Python
+3a. Default Environment
++++++++++++++++++++++++
+
+If not specified by any of the methods 3b. to 3d. below, the ``default``
+environment is used.  If no ``default`` environment is known, an error is
+raised.  It is strongly recommended that a ``default`` environment be defined
+in all configuration files - ideally as an alias to an explicitly
+defined environment.
+
+If no environment named ``default`` is known, but one named ``datacube`` **IS**
+known, the ``datacube`` environment is used and a deprecation warning issued.
+``datacube`` will be dropped as a legacy default environment name in a future
+release.
+
+3b. Specifying in Python
 ++++++++++++++++++++++++
 
 The active environment can be selected in Python with the ``env`` argument to
@@ -202,7 +216,7 @@ side by side:
    dc_aux     = Datacube(env="aux")
    dc_private = Datacube(env="private")
 
-3b. Specifying in the CLI
+3c. Specifying in the CLI
 +++++++++++++++++++++++++
 
 The active environment can be selected in Python with the ``-E`` or ``--env`` option to the ``datacube``
@@ -211,7 +225,7 @@ CLI tool.
 CLI commands that require more than one environment will have a second option for the second argument.
 Refer to the ``--help`` text for more information.
 
-3c. Via an Environment Variable
+3d. Via an Environment Variable
 +++++++++++++++++++++++++++++++
 
 .. envvar:: ODC_ENVIRONMENT
@@ -219,20 +233,6 @@ Refer to the ``--help`` text for more information.
    If not explicitly specified via methods 3a. and 3b. above, the active
    environment can be specified with the ``$ODC_ENVIRONMENT`` environment
    variable.
-
-3d. Default Environment
-+++++++++++++++++++++++
-
-If not specified by any of the methods 3a. to 3d. above, the ``default``
-environment is used.  If no ``default`` environment is known, an error is
-raised.  It is strongly recommended that a ``default`` environment be defined
-in all configuration files - ideally as an alias to an explicitly
-defined environment.
-
-If no environment named ``default`` is known, but one named ``datacube`` **IS**
-known, the ``datacube`` environment is used and a deprecation warning issued.
-``datacube`` will be dropped as a legacy default environment name in a future
-release.
 
 4. Generic Environment Variable Overrides
 -----------------------------------------
@@ -251,7 +251,7 @@ set the ``$ODC_MAIN_DB_PASSWORD`` environment variable.
 Environment variable overrides are **NOT** applied to environments defined in
 raw configuration that was passed in `explicitly as a string or dictionary`_.
 
-.. _`explicitly as a string or dictionary`: #Raw-configurations
+.. _`explicitly as a string or dictionary`: #2.-Raw-configurations
 
 4a. Dynamic Environments
 ++++++++++++++++++++++++
