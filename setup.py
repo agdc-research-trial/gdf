@@ -35,6 +35,7 @@ doc_require = [
     'sphinx-click',
     'recommonmark',
     'autodocsumm',
+    'ipython',
     'beautifulsoup4',
     'nbsphinx',
     'ipython',
