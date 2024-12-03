@@ -93,7 +93,10 @@ jobs:
         cat <<EOF | docker run --rm -i -v $(pwd):/code ${{ env.DOCKER_IMAGE }} bash -
           pip install -e /code/tests/drivers/fail_drivers --no-deps
           pip install -e /code/examples/io_plugin --no-deps
+          which python
+          pip freeze
           pytest -r a \
+            -vv
             --cov datacube \
             --cov-report=xml \
             --doctest-ignore-import-errors \
