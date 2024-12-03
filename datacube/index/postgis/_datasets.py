@@ -143,10 +143,7 @@ class DatasetResource(AbstractDatasetResource, IndexResourceAddIn):
         :param dataset: dataset to add
 
         :param with_lineage:
-           - ``True (default)`` record lineage relations in the db
-           Since we no longer accept embedded lineage, any lineage relations should
-           already exist in the db, so there's no longer a need for differentiating between
-           adding and recording. This parameter has been kept for compatibility reasons.s
+           - no effect in this index driver
 
         :param archive_less_mature: if integer, search for less
                mature versions of the dataset with the int value as a millisecond
