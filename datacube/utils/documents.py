@@ -549,6 +549,8 @@ def without_lineage_sources(doc: Dict[str, Any],
     if 'sources' in doc_view.fields:
         if doc_view.sources is not None:
             doc_view.sources = {}
+    elif 'lineage' in doc:
+        doc["lineage"] = {}
 
     return doc
 
