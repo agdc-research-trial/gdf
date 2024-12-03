@@ -6,4 +6,3 @@ Datacube Class
 
 .. autoclass:: Datacube
    :members:
-
