@@ -114,6 +114,8 @@ raised if none can be read.
 
           ODC_CONFIG_PATH=/first/path/checked:/second/path/checked:/last/path/checked
 
+.. _raw-configuration:
+
 2. Raw configuration
 --------------------
 
