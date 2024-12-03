@@ -40,7 +40,7 @@ The following pages provide a full API reference for the ``datacube`` python lib
 .. toctree::
    :caption: Configuration API
 
-   configuration
+   cfg
 
 
 .. toctree::

@@ -19,7 +19,6 @@ One configuration can define multiple environments, so users must `choose one`_.
 The configuration engine in 1.9 is not 100% compatible with the previous configuration engine.  Advanced
 users and developers upgrading 1.8 systems should read the `migration notes`_.
 
-.. _`Raw configuration`: #raw-config
 .. _`configuration file`: #file-configuration
 .. _`choose one`: #the-active-environment
 .. _`environment variable`: #generic-environment-variable-overrides
@@ -127,6 +126,7 @@ environment variable.
 
 .. _`Environment variable over-rides`: #generic-environment-variable-overrides
 .. _`dynamic environments`: #a-dynamic-environments
+.. _`Raw configuration`: #raw-config
 
 2a. Via Python (str or dict)
 ++++++++++++++++++++++++++++
