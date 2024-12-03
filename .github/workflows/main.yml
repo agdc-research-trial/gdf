@@ -96,7 +96,7 @@ jobs:
           which python
           pip freeze
           pytest -r a \
-            -vv
+            -vv \
             --cov datacube \
             --cov-report=xml \
             --doctest-ignore-import-errors \
