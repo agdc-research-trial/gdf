@@ -14,6 +14,11 @@ For more information see the following sections:
 * This section contains information on the purpose of the Open Data Cube,
   as well as its design.
 
+:doc:`tutorials/index`
+
+* This section contains tutorials to help you get started with the 
+  Open Data Cube.
+
 :doc:`installation/index`
 
 * This section contains information on how to install the Open Data Cube.
@@ -35,6 +40,7 @@ For more information see the following sections:
     :maxdepth: 5
 
     about-core-concepts/index
+    tutorials/index
     installation/index
     data-access-analysis/index
     api/index
