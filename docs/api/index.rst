@@ -1,6 +1,6 @@
-*************
-API Reference
-*************
+***
+API
+***
 
 The following pages provide a full API reference for the ``datacube`` python library.
 
