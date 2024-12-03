@@ -5,8 +5,6 @@
 import os
 import sys
 
-from bs4 import BeautifulSoup as bs  # noqa: N813
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -112,8 +110,8 @@ html_theme = 'pydata_sphinx_theme'
 html_theme_options = {
     "navigation_depth": 2, # defaults to 4
     "show_toc_level": 2,
-    "header_links_before_dropdown": 3,
-    "navbar_align": "left",
+    # "header_links_before_dropdown": 3,
+    # "navbar_align": "left",
     "show_prev_next": False,
     "collapse_navigation": True,
     "use_edit_page_button": True,
