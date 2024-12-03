@@ -20,7 +20,6 @@ The configuration engine in 1.9 is not 100% compatible with the previous configu
 users and developers upgrading 1.8 systems should read the `migration notes`_.
 
 .. _`Raw configuration`: #raw-config
-.. _`raw configuration`: #raw-config
 .. _`configuration file`: #file-configuration
 .. _`choose one`: #the-active-environment
 .. _`environment variable`: #generic-environment-variable-overrides
