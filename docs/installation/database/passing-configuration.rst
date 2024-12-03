@@ -112,8 +112,6 @@ raised if none can be read.
 
           ODC_CONFIG_PATH=/first/path/checked:/second/path/checked:/last/path/checked
 
-.. _raw-config:
-
 2. Raw configuration
 --------------------
 
@@ -126,7 +124,7 @@ environment variable.
 
 .. _`Environment variable over-rides`: #generic-environment-variable-overrides
 .. _`dynamic environments`: #a-dynamic-environments
-.. _`Raw configuration`: #raw-config
+.. _`Raw configuration`: #raw-configuration
 
 2a. Via Python (str or dict)
 ++++++++++++++++++++++++++++
