@@ -12,6 +12,7 @@ tests_require = [
     'pytest-httpserver',
     'moto<5.0',  # 5.0 will require changes to some tests.
     'psycopg2',
+    'netcdf4'
 ]
 
 types_require = [
