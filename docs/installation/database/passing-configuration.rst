@@ -19,12 +19,12 @@ One configuration can define multiple environments, so users must `choose one`_.
 The configuration engine in 1.9 is not 100% compatible with the previous configuration engine.  Advanced
 users and developers upgrading 1.8 systems should read the `migration notes`_.
 
-.. _`Raw configuration`: #2.-Raw-configuration
-.. _`raw configuration`: #2.-Raw-configuration
-.. _`configuration file`: #1.-File-configurations
-.. _`choose one`: #3.-The-Active-Environment
-.. _`environment variable`: #4.-Generic-Environment-Variable-Overrides
-.. _`migration notes`: #Migrating-from-datacube-1.8
+.. _`Raw configuration`: #raw-configuration
+.. _`raw configuration`: #raw-configuration
+.. _`configuration file`: #file-configurations
+.. _`choose one`: #the-active-environment
+.. _`environment variable`: #generic-environment-variable-overrides
+.. _`migration notes`: #migrating-from-datacube-1.8
 
 1. File configuration
 ---------------------
@@ -124,8 +124,8 @@ Raw configuration can be passed in explicitly, without ever reading from a confi
 However **new** `dynamic environments`_ that do not explicitly appear in raw configuration **CAN** still be defined by
 environment variable.
 
-.. _`Environment variable over-rides`: #4.-Generic-Environment-Variable-Overrides
-.. _`dynamic environments`: #4a.-Dynamic-Environments
+.. _`Environment variable over-rides`: #generic-environment-variable-overrides
+.. _`dynamic environments`: #a-dynamic-environments
 
 2a. Via Python (str or dict)
 ++++++++++++++++++++++++++++
@@ -181,7 +181,6 @@ above, then the contents of a configuration file can be written in full to the
 
    $ ODC_CONFIG="default: {db_database: this_db}"
    $ datacube check    # will use the this_db database
-
 
 3. The Active Environment
 -------------------------
@@ -251,7 +250,7 @@ set the ``$ODC_MAIN_DB_PASSWORD`` environment variable.
 Environment variable overrides are **NOT** applied to environments defined in
 raw configuration that was passed in `explicitly as a string or dictionary`_.
 
-.. _`explicitly as a string or dictionary`: #2.-Raw-configurations
+.. _`explicitly as a string or dictionary`: #raw-configurations
 
 4a. Dynamic Environments
 ++++++++++++++++++++++++
