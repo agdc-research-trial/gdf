@@ -19,9 +19,9 @@ One configuration can define multiple environments, so users must `choose one`_.
 The configuration engine in 1.9 is not 100% compatible with the previous configuration engine.  Advanced
 users and developers upgrading 1.8 systems should read the `migration notes`_.
 
-.. _`Raw configuration`: #raw-configuration
-.. _`raw configuration`: #raw-configuration
-.. _`configuration file`: #file-configurations
+.. _`Raw configuration`: #raw-config
+.. _`raw configuration`: #raw-config
+.. _`configuration file`: #file-configuration
 .. _`choose one`: #the-active-environment
 .. _`environment variable`: #generic-environment-variable-overrides
 .. _`migration notes`: #migrating-from-datacube-1-8
@@ -114,7 +114,7 @@ raised if none can be read.
 
           ODC_CONFIG_PATH=/first/path/checked:/second/path/checked:/last/path/checked
 
-.. _raw-configuration:
+.. _raw-config:
 
 2. Raw configuration
 --------------------
@@ -252,7 +252,7 @@ set the ``$ODC_MAIN_DB_PASSWORD`` environment variable.
 Environment variable overrides are **NOT** applied to environments defined in
 raw configuration that was passed in `explicitly as a string or dictionary`_.
 
-.. _`explicitly as a string or dictionary`: #raw-configuration
+.. _`explicitly as a string or dictionary`: #raw-config
 
 4a. Dynamic Environments
 ++++++++++++++++++++++++
