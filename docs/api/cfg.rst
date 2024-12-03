@@ -2,11 +2,10 @@
 Configuration API
 =================
 
-Overview
---------
+Executive Summary
+-----------------
 
 99% of configuration use cases can be met with
-
 
 .. currentmodule:: datacube.cfg
 

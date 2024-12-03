@@ -7,8 +7,8 @@ are described in :doc:`configuration`.
 
 The Open Data Cube uses configuration files and/or environment variables to determine how to connect to databases.
 
-Overview
-========
+Summary
+=======
 
 `Raw configuration`_ can be explicitly passed in, otherwise, configuration is read from a `configuration file`_.
 

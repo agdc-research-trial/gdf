@@ -68,7 +68,6 @@ class ODCConfig:
             raw_dict: ConfigDict | None = None,
             text: str | None = None):
         """
-
         When called with no args, reads the first config file found in the config path list is used.
         The config path list is taken from:
 

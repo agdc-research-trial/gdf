@@ -9,8 +9,8 @@ The Open Data Cube uses configuration files and/or environment variables to dete
 Further functionality may be controlled by configuration in future releases.  (e.g. AWS/S3 access configuration,
 rasterio configuration, etc.)
 
-Overview
-========
+ODC Configuration Overview
+==========================
 
 When you first start a session with the Open Data Cube, you instantiate a
 :py:class:`Datacube` object:
