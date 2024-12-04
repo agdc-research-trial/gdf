@@ -20,6 +20,7 @@ v1.9.next
 * Rename `DatasetType` to `Product` in all the tests (:pull:`1671`)
 * Documentation updates for 1.9 release (:pull:`1664`, :pull:`1699`)
 * Suppress annoying config warning when configuring by environment variable (:pull:`1680`)
+* Fix metadata issues with new Lineage API. (:pull:`1677`)
 
 v1.9.0-rc11 (28th October 2024)
 ===============================
