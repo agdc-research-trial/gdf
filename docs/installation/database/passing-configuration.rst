@@ -43,9 +43,9 @@ modified file.
 1a. Default Search Paths
 ++++++++++++++++++++++++
 
-If config file paths have not passed in through any of the methods below, 1b. through
-1d., then the Open Data Cube checks the following paths in order, with the
-first readable file found being read:
+If no config file paths have been specified through any of the methods below (1b. through
+1d.), the Open Data Cube will search for the following paths in order and use the
+first readable file it finds:
 
 1. :file:`./datacube.conf`    (in the current working directory)
 2. :file:`~/.datacube.conf`   (in the user's home directory)
