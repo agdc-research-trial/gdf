@@ -76,7 +76,7 @@ In Python, the ``config`` argument can take a path to a config file:
     dc = Datacube(config="/path/to/my/file.conf")
 
 The ``config`` argument can also take a priority list of config paths.
-The first path in the list that can be read (i.e. exists and has read permissions) is used.
+The first readable path in the list is used.
 If none of the files in the list no configuration file can be found, a :py:class:`ConfigException` is raised:
 
 ::
