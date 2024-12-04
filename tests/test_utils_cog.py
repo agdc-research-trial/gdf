@@ -2,6 +2,8 @@
 #
 # Copyright (c) 2015-2024 ODC Contributors
 # SPDX-License-Identifier: Apache-2.0
+import warnings
+
 import pytest
 import math
 from pathlib import Path
@@ -55,6 +57,9 @@ def gen_test_data(prefix, dask=False, shape=None, dtype="int16", nodata=-999):
 def test_cog_file(tmpdir, opts):
     pp = Path(str(tmpdir))
     xx, ds = gen_test_data(pp)
+
+    # Suppress expected deprecation warnings
+    warnings.simplefilter("ignore")
 
     # write to file
     ff = write_cog(  # Coverage test of deprecated function.
@@ -123,11 +128,16 @@ def test_cog_file(tmpdir, opts):
     aa = rio_slurp_xarray(pp / "cog_float.tif")
     assert aa.attrs["nodata"] == "nan" or math.isnan(aa.attrs["nodata"])
 
+    warnings.resetwarnings()
+
 
 def test_cog_file_dask(tmpdir):
     pp = Path(str(tmpdir))
     xx, ds = gen_test_data(pp, dask=True)
     assert dask.is_dask_collection(xx)
+
+    # Suppress expected deprecation warnings
+    warnings.simplefilter("ignore")
 
     path = pp / "cog.tif"
     ff = write_cog(xx, path, overview_levels=[2, 4])  # Test of deprecated method
@@ -135,6 +145,8 @@ def test_cog_file_dask(tmpdir):
     assert path.exists() is False
     assert ff.compute() == path
     assert path.exists()
+
+    warnings.resetwarnings()
 
     yy = rio_slurp_xarray(pp / "cog.tif")
     np.testing.assert_array_equal(yy.values, xx.values)
@@ -146,6 +158,9 @@ def test_cog_file_dask(tmpdir):
 def test_cog_mem(tmpdir, shape):
     pp = Path(str(tmpdir))
     xx, ds = gen_test_data(pp, shape=shape)
+
+    # Suppress expected deprecation warnings
+    warnings.simplefilter("ignore")
 
     # write to memory 1
     bb = write_cog(xx, ":mem:")  # Test of deprecated function
@@ -183,10 +198,15 @@ def test_cog_mem(tmpdir, shape):
     assert yy.odc.geobox == xx.odc.geobox
     assert yy.nodata == xx.nodata
 
+    warnings.resetwarnings()
+
 
 def test_cog_mem_dask(tmpdir):
     pp = Path(str(tmpdir))
     xx, ds = gen_test_data(pp, dask=True)
+
+    # Suppress expected deprecation warnings
+    warnings.simplefilter("ignore")
 
     # write to memory 1
     bb = write_cog(xx, ":mem:")  # Test of deprecated method
@@ -212,6 +232,8 @@ def test_cog_mem_dask(tmpdir):
     with open(str(path), "wb") as f:
         f.write(bb)
 
+    warnings.resetwarnings()
+
     yy = rio_slurp_xarray(path)
     np.testing.assert_array_equal(yy.values, xx.values)
     assert yy.odc.geobox == xx.odc.geobox
@@ -227,6 +249,9 @@ def test_cog_rgba(tmpdir, use_windowed_writes):
     assert rgba.odc.geobox == xx.odc.geobox
     assert rgba.shape[:2] == rgba.odc.geobox.shape
 
+    # Suppress expected deprecation warnings
+    warnings.simplefilter("ignore")
+
     ff = write_cog(rgba, pp / "cog.tif", use_windowed_writes=use_windowed_writes)  # Test of deprecated function
     yy = rio_slurp_xarray(ff)
 
@@ -241,3 +266,5 @@ def test_cog_rgba(tmpdir, use_windowed_writes):
             ":mem:",
             use_windowed_writes=use_windowed_writes,
         )
+
+    warnings.resetwarnings()

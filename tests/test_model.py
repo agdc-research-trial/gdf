@@ -2,6 +2,8 @@
 #
 # Copyright (c) 2015-2024 ODC Contributors
 # SPDX-License-Identifier: Apache-2.0
+import warnings
+
 import pytest
 import numpy
 from copy import deepcopy
@@ -17,6 +19,9 @@ from datacube.api.core import output_geobox
 
 
 def test_gridspec():
+    # Suppress expected deprecation warnings
+    warnings.simplefilter("ignore")
+
     gs = GridSpec(  # Coverage test of deprecated class
         crs=CRS('EPSG:4326'), tile_size=(1, 1),
         resolution=(-0.1, 0.1), origin=(10, 10)
@@ -41,10 +46,15 @@ def test_gridspec():
     assert (gs == gs)
     assert (gs == {}) is False
 
+    warnings.resetwarnings()
+
 
 def test_gridspec_upperleft():
     """ Test to ensure grid indexes can be counted correctly from bottom left or top left
     """
+    # Suppress expected deprecation warnings
+    warnings.simplefilter("ignore")
+
     tile_bbox = BoundingBox(left=1934400.0, top=2414800.0, right=2084400.000, bottom=2264800.000, crs=CRS('EPSG:5070'))
     bbox = BoundingBox(left=1934615, top=2379460, right=1937615, bottom=2376460, crs=CRS('EPSG:5070'))
     # Upper left - validated against WELD product tile calculator
@@ -60,6 +70,8 @@ def test_gridspec_upperleft():
     cells = {index: geobox for index, geobox in list(gs.tiles(bbox))}
     assert set(cells.keys()) == {(30, 15)}  # WELD grid spec has 21 vertical cells -- 21 - 6 = 15
     assert cells[(30, 15)].extent.boundingbox == tile_bbox
+
+    warnings.resetwarnings()
 
 
 def test_dataset_basics():

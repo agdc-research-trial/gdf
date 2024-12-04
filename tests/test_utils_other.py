@@ -10,6 +10,7 @@ Test utility functions from :module:`datacube.utils`
 import os
 import pathlib
 import string
+import warnings
 from pathlib import Path
 
 import numpy as np
@@ -127,6 +128,9 @@ def test_uri_resolve(base):
 def test_pick_uri():
     f, s, h = ('file://a', 's3://b', 'http://c')
 
+    # Suppress expected deprecation warnings
+    warnings.simplefilter("ignore")
+
     assert pick_uri([f, s, h]) is f  # Test of deprecated function
     assert pick_uri([s, h, f]) is f  # Test of deprecated function
     assert pick_uri([s, h]) is s  # Test of deprecated function
@@ -143,6 +147,8 @@ def test_pick_uri():
 
     with pytest.raises(ValueError):
         pick_uri([s, h], 'file:')  # Test of deprecated function
+
+    warnings.resetwarnings()
 
 
 @given(integers(min_value=10, max_value=30))
