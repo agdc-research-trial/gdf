@@ -9,15 +9,13 @@ The default search path and default config also live here.
 """
 
 import os
-import logging
 import warnings
 from enum import Enum
 from os import PathLike
 from os.path import expanduser
-from typing import Protocol, Callable
 
 from datacube.cfg.exceptions import ConfigException
-from datacube.cfg.utils import ConfigDict, smells_like_ini
+from datacube.cfg.utils import ConfigDict, smells_like_ini, SemaphoreCallback
 
 _DEFAULT_CONFIG_SEARCH_PATH = [
     "datacube.conf",      # i.e. in the current working directory.
@@ -35,12 +33,9 @@ default:
    db_connection_timeout: 60
 """
 
-_LOG = logging.getLogger(__name__)
 
-
-IsDefaultCallback = Callable[[], None]
-
-def find_config(paths_in: None | str | PathLike | list[str | PathLike], defCallback: IsDefaultCallback | None = None) -> str:
+def find_config(paths_in: None | str | PathLike | list[str | PathLike],
+                default_cb: SemaphoreCallback | None = None) -> str:
     """
     Given a file system path, or a list of file system paths, return the contents of the first file
     in the list that can be read as a string.
@@ -88,9 +83,8 @@ def find_config(paths_in: None | str | PathLike | list[str | PathLike], defCallb
             continue
 
     if using_default_paths:
-        if defCallback is not None:
-            defCallback()
-        _LOG.info("No configuration file found - using default configuration and environment variables")
+        if default_cb is not None:
+            default_cb()
         return _DEFAULT_CONF
 
     raise ConfigException("No configuration file found in the provided locations")

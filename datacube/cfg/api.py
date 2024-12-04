@@ -61,6 +61,7 @@ class ODCConfig:
     raw_config: ConfigDict = {}
     known_environments: dict[str, "ODCEnvironment"] = {}
     canonical_names: dict[str, list[str]] = {}
+    is_default = False
 
     def __init__(
             self,
@@ -108,7 +109,7 @@ class ODCConfig:
                 text = os.environ["ODC_CONFIG"]
             else:
                 # Read config text from config file
-                text = find_config(paths)
+                text = find_config(paths, default_cb=self._set_default)
 
         self.raw_text = text
         if raw_dict is not None:
@@ -181,6 +182,9 @@ class ODCConfig:
             return self.canonical_names[canonical_name]
         else:
             return [canonical_name]
+
+    def _set_default(self) -> None:
+        self.is_default = True
 
     def __getitem__(self, item: str | None) -> "ODCEnvironment":
         """
@@ -259,6 +263,7 @@ class ODCEnvironment:
             warnings.warn("The 'default_environment' setting in the 'user' section is no longer supported - "
                           "please refer to the documentation for more information")
 
+        self._env_overrides_applied = False
         # Aliases are handled here, the alias OptionHandler is a place-holder.
         if "alias" in self._raw:
             alias = self._raw['alias']
@@ -287,6 +292,8 @@ class ODCEnvironment:
                 # Note that handlers may add more handlers to the end of the list while we are iterating over it.
                 for handler in self._option_handlers:
                     self._handle_option(handler)
+                if self._cfg.is_default and not self._env_overrides_applied:
+                    warnings.warn("No configuration file found - using default configuration and environment variables")
 
         # Config already processed
         # 1. From Normalised
@@ -303,7 +310,9 @@ class ODCEnvironment:
 
     def _handle_option(self, handler: ODCOptionHandler) -> None:
         val = handler.get_val_from_environment()
-        if not val:
+        if val:
+            self._env_overrides_applied = True
+        else:
             val = self._raw.get(handler.name)
         val = handler.validate_and_normalise(val)
         self._normalised[handler.name] = val
