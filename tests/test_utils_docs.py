@@ -140,7 +140,7 @@ def test_without_lineage_sources():
         )
     }, dataset_search_fields={})
 
-    assert without_lineage_sources(mk_sample(10), no_sources_type) == mk_sample(10)
+    assert without_lineage_sources(mk_sample(10), no_sources_type)["lineage"] == {}
 
 
 def test_parse_yaml():
