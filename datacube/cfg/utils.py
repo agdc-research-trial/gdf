@@ -14,7 +14,6 @@ ConfigDict: TypeAlias = dict[str, dict[str, Any]]
 SemaphoreCallback = Callable[[], None]
 
 
-
 def check_valid_env_name(name: str) -> None:
     """
     Enforce a valid ODC environment name.
