@@ -1,25 +1,24 @@
 name: Doc QA
-on:
-  # Triggers the workflow on pull request events for the main branch
-  pull_request_target:
-    types:
-      - opened
 
-permissions:
-  pull-requests: write
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - develop-1.9
+  pull_request:
+    branches:
+      - develop
+      - develop-1.9
+
+concurrency:
+  # Here the group is defined by the head_ref of the PR
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  # Here we specify that we'll cancel any "in progress" workflow of the same group. Thus if we push, ammend a commit and push
+  # again the previous workflow will be cancelled, thus saving us github action build minutes and avoid any conflicts
+  cancel-in-progress: true
 
 jobs:
-  pyspell:
-    runs-on: ubuntu-latest
-    steps:
-      # Spellcheck
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: igsekor/pyspelling-any@v1.0.4
-        name: Spellcheck
-
   doctor-rst:
     name: Lint (DOCtor-RST)
     runs-on: ubuntu-latest
@@ -44,10 +43,3 @@ jobs:
           uses: docker://oskarstark/doctor-rst:1.23.0
           with:
               args: --short --error-format=github --cache-file=/github/workspace/.cache/doctor-rst.cache
-
-  documentation-preview:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: readthedocs/actions/preview@v1
-        with:
-          project-slug: "datacube-core"
