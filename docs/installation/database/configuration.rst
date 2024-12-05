@@ -32,8 +32,11 @@ scenario, you instantiate a separate :py:class:`Datacube` object per environment
    dc_prod = Datacube(env="prod")
    dc_dev  = Datacube(env="dev")
 
-Environments can be read from a configuration file (e.g. an INI or YAML format file at :file:`~/.datacube.conf`) that
-looks something like this:
+Environments can be read from a configuration file (e.g. an INI or YAML format file at :file:`~/.datacube.conf` -
+refer to :doc:`passing-configuration` for a full description of how the location of the configuration file is
+determined.)
+
+A simple example configuration file:
 
 .. code-block:: yaml
 
@@ -69,16 +72,24 @@ looks something like this:
       # Use OS ident authentication over a local named pipe.
       db_url: postgresql:///private
 
-You can also inject new environments dynamically with environment variables, e.g.:
+You can also override configuration file contents or even inject whole new environments dynamically with environment
+variables, e.g.:
 
 .. code-block:: python
 
    import os
    from datacube import Datacube
+
+   # Environment dev exists in the configuration file, but use this db_url instead of the one in the config file
+   os.environ["ODC_DEV_DB_URL"] = "postgresql:///user:B377erP@$$w0rd@internal.server.domain:5432/development_db"
+
+   # Environment private does NOT exist in the configuration file, but we can create it dynamically
    os.environ["ODC_PRIVATE_INDEX_DRIVER"] = "postgis"
    os.environ["ODC_PRIVATE_DB_URL"] = "postgresql:///private"
 
    dc_private = Datacube(env="private")
+   dc_private = Datacube(env="dev")
+
 
 Configuration Files
 ===================
@@ -86,7 +97,7 @@ Configuration Files
 Format
 ------
 
-Configuration files may be provided in either INI or YAML format.  YAML is preferred
+Configuration files may be provided in either INI, JSON or YAML format.  YAML is preferred
 for consistency with ODC metadata files.  INI files can only support one level of nesting,
 which is sufficient for current functionality - INI format may be deprecated for
 configuration files in future releases if deeper nesting of configuration becomes

@@ -38,8 +38,9 @@ or specify connection details manually::
 Create Configuration File
 =========================
 
-Datacube looks for a configuration file in ``~/.datacube.conf`` or in a location specified by a user. For information
-on how to specify an alternate location for the configuration file see :doc:`passing-configuration`.
+Datacube looks for a configuration file in several locations, including ``./datacube.conf`` and ``~/.datacube.conf``,
+or in a location specified by a user. For a detailed description of default locations and how to specify an alternate
+location for the configuration file see :doc:`passing-configuration`.
 
 The configuration file may be in ``.ini``, ``.yaml`` or ``.json`` format.  Here is an example configuration
 file in ``.ini`` format::

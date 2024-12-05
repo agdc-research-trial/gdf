@@ -10,9 +10,11 @@ The Open Data Cube uses configuration files and/or environment variables to dete
 Summary
 =======
 
-`Raw configuration`_ can be explicitly passed in, otherwise, configuration is read from a `configuration file`_.
+The default behaviour is to read in configuration from a `configuration file`_.
 
-Data in a configuration file can be supplemented with configuration by `environment variable`_.
+Alternatively, `raw configuration`_ can be explicitly passed in.
+
+Data in a configuration file can be supplemented or overridden by configuration from `environment variables`_.
 
 One configuration can define multiple environments, so users must `choose one`_.
 
@@ -21,7 +23,7 @@ users and developers upgrading 1.8 systems should read the `migration notes`_.
 
 .. _`configuration file`: #file-configuration
 .. _`choose one`: #the-active-environment
-.. _`environment variable`: #generic-environment-variable-overrides
+.. _`environment variables`: #generic-environment-variable-overrides
 .. _`migration notes`: #migrating-from-datacube-1-8
 
 1. File configuration
@@ -117,12 +119,15 @@ raised if none can be read.
 
 Raw configuration can be passed in explicitly, without ever reading from a configuration file on disk.
 
-`Environment variable over-rides`_ do **NOT** apply to configuration environments defined in raw configuration.
+Attempting to pass in both raw configuration and a configuration file path simultaneously will raise a
+:py:class:ConfigException.
+
+`Environment variable overrides`_ do **NOT** apply to configuration environments defined in raw configuration.
 
 However **new** `dynamic environments`_ that do not explicitly appear in raw configuration **CAN** still be defined by
 environment variable.
 
-.. _`Environment variable over-rides`: #generic-environment-variable-overrides
+.. _`Environment variable overrides`: #generic-environment-variable-overrides
 .. _`dynamic environments`: #a-dynamic-environments
 .. _`Raw configuration`: #raw-configuration
 
@@ -184,6 +189,10 @@ above, then the contents of a configuration file can be written in full to the
 3. The Active Environment
 -------------------------
 
+Each :py:class:Datacube object is associated with a particular environment. Multiple environments can be
+accessed by instantiating multiple ``Datacube`` objects.  The environment associated with a particular
+``Datacube`` object is determined when the object is first instantiated and cannot subsequently be changed.
+
 3a. Default Environment
 +++++++++++++++++++++++
 
@@ -197,6 +206,8 @@ If no environment named ``default`` is known, but one named ``datacube`` **IS**
 known, the ``datacube`` environment is used and a deprecation warning issued.
 ``datacube`` will be dropped as a legacy default environment name in a future
 release.
+
+An all-defaults environment is used when requesting an environment that does not exist.
 
 3b. Specifying in Python
 ++++++++++++++++++++++++
@@ -235,7 +246,7 @@ Refer to the ``--help`` text for more information.
 4. Generic Environment Variable Overrides
 -----------------------------------------
 
-Configuration values in config files can be over-ridden by setting the appropriate environment variable.
+Configuration values in config files can be overridden by setting the appropriate environment variable.
 
 The name of overriding environment variables are all upper-case and structured:
 
@@ -258,7 +269,7 @@ It is possible for environments to be defined dynamically purely in environment 
 
 E.g. given the following active configuration file:
 
-.. code-block::yaml
+.. code-block:: yaml
 
      default:
          alias: main
@@ -268,7 +279,7 @@ E.g. given the following active configuration file:
 
 and the following defined environment variables:
 
-.. code-block::bash
+.. code-block:: bash
 
    ODC_AUX_INDEX_DRIVER=postgis
    ODC_AUX_DB_URL=postgres://auxuser:secret@backup.domain/aux
@@ -277,17 +288,12 @@ You can request the ``aux`` environment and its configuration will be
 dynamically read from the environment variables, even though the "aux"
 environment is not mentioned in the configuration file at all.
 
-Notes:
-
-1. Environment variables are read when accessing to a named environment (usually when just before
-   connecting to a database from that environment).
-
-2. An all-defaults environment is used when requesting an environment that does not exist.
-
-3. Environment variable overrides are not read for environment included in `raw configuration`_.
-
-4. Environment variables are read to create `dynamic environments`_, even when `raw configuration`_ is
-   passed in.
+..note:: Notes
+   #. Environment variables are read when first accessing to a named environment (usually just before
+      connecting to a database from that environment).  Dynamic changes to environment variables after
+      first access have no effect.
+   #. Environment variables cannot override values included in `raw configuration`_, but can still
+      be used to create `dynamic environments`_.
 
 4b. Environment Variable Overrides and Environment Aliases
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -305,7 +311,7 @@ Aliases (created in raw config or a config file) **ARE** honoured when interpret
 
 E.g.  Given config file:
 
-.. code-block::yaml
+.. code-block:: yaml
 
      default:
           alias: main
@@ -315,19 +321,19 @@ E.g.  Given config file:
           index_driver: postgis
           db_url: postgresql://uid:pwd@server.domain:5432/main
 
-The "main" environment url can be over-ridden with **ANY** of the following environment variables:
+The "main" environment url can be overridden with **ANY** of the following environment variables:
 
-.. code-block::bash
+.. code-block:: bash
 
    $ODC_DEFAULT_DB_URL
    $ODC_COMMON_DB_URL
    $ODC_MAIN_DB_URL
 
 The environment variable using the canonical environment name (``$ODC_MAIN_DB_URL`` in this case) always
-takes precedence if it set. If more than one alias environment name is used (e.g. if both ``$ODC_DEFAULT_DB_URL``
-**AND** ``$ODC_COMMON_DB_URL`` exist) then only one will be read and the implementation makes no guarantees
-about which.  Therefore canonical environment names are strongly recommended for environment variable names where
-possible.
+takes precedence if it is set. If more than one alias environment name is used (e.g. if both ``$ODC_DEFAULT_DB_URL``
+**AND** ``$ODC_COMMON_DB_URL`` exist and ``$ODC_MAIN_DB_URL`` does not) then only one will be read and the
+implementation makes no guarantees about which.  Therefore canonical environment names are strongly recommended
+for environment variable names where possible.
 
 4c. Deprecated Legacy Environment Variables
 +++++++++++++++++++++++++++++++++++++++++++
@@ -340,7 +346,7 @@ the text of the deprecation warning.
 
 Most notably the old database connection environment variables:
 
-.. code-block::bash
+.. code-block:: bash
 
    $DB_DATABASE
    $DB_HOSTNAME

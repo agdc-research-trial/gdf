@@ -27,6 +27,12 @@ Full API
 
 .. currentmodule:: datacube.cfg
 
+.. autoclass:: ConfigException
+
+   :members:
+
+.. currentmodule:: datacube.cfg
+
 .. autoclass:: ODCEnvironment
 
    :members:
