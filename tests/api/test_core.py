@@ -15,7 +15,7 @@ from datacube.api.query import GroupBy
 from datacube.api.core import _calculate_chunk_sizes, output_geobox
 from datacube import Datacube
 from datacube.testutils.geom import AlbersGS
-from datacube.testutils import mk_sample_dataset
+from datacube.testutils import mk_sample_dataset, suppress_deprecations
 
 
 def test_grouping_datasets():
@@ -126,7 +126,8 @@ def test_index_validation():
 
 def test_output_geobox():
     from odc.geo.geobox import GeoBox as ODCGeoGeoBox, CRS as ODCGeoCRS
-    from datacube.utils.geometry import GeoBox as LegacyGeoGeoBox, CRS as LegacyCRS
+    with suppress_deprecations():
+        from datacube.utils.geometry import GeoBox as LegacyGeoGeoBox, CRS as LegacyCRS
     from odc.geo.xr import xr_zeros
 
     odc_gbox = ODCGeoGeoBox.from_bbox(

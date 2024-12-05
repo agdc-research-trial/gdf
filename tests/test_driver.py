@@ -2,8 +2,6 @@
 #
 # Copyright (c) 2015-2024 ODC Contributors
 # SPDX-License-Identifier: Apache-2.0
-import warnings
-
 import pytest
 import yaml
 
@@ -14,7 +12,7 @@ from datacube.drivers import index_drivers, index_driver_by_name
 from datacube.drivers.indexes import IndexDriverCache
 from datacube.storage import BandInfo
 from datacube.storage._rio import RasterDatasetDataSource
-from datacube.testutils import mk_sample_dataset
+from datacube.testutils import mk_sample_dataset, suppress_deprecations
 from datacube.model import MetadataType
 
 
@@ -94,18 +92,14 @@ dataset:
             offset: [a,b,c,custom]
     ''')
 
-    # Suppress expected deprecation warnings
-    warnings.simplefilter('ignore')
-
     for name in index_drivers():
         driver = index_driver_by_name(name)
-        metadata = driver.metadata_type_from_doc(metadata_doc)  # deprecated method
-        assert isinstance(metadata, MetadataType)
-        assert metadata.id is None
-        assert metadata.name == 'minimal'
-        assert 'some_custom_field' in metadata.dataset_fields
-
-    warnings.resetwarnings()
+        with suppress_deprecations():
+            metadata = driver.metadata_type_from_doc(metadata_doc)  # deprecated method
+            assert isinstance(metadata, MetadataType)
+            assert metadata.id is None
+            assert metadata.name == 'minimal'
+            assert 'some_custom_field' in metadata.dataset_fields
 
 
 def test_reader_cache_throws_on_missing_fallback():

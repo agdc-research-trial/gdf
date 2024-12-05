@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """ Tests for new RIO reader driver
 """
-from datetime import datetime
+from datetime import datetime, UTC
 from concurrent.futures import ThreadPoolExecutor, Future
 import numpy as np
 import rasterio
@@ -76,7 +76,7 @@ def test_rd_internals_bidx(data_folder):
                  base,
                  path="multi_doc.nc",
                  format=NetCDF,
-                 timestamp=datetime.utcfromtimestamp(1),
+                 timestamp=datetime.fromtimestamp(1, UTC),
                  layer='a')
     assert bi.uri.endswith('multi_doc.nc')
 

@@ -5,6 +5,7 @@
 import numpy as np
 import toolz
 
+from . import suppress_deprecations
 from ..model import Dataset
 from ..storage import reproject_and_fuse, BandInfo
 from ..storage._rio import RasterioDataSource, RasterDatasetDataSource
@@ -88,14 +89,15 @@ def native_geobox(ds, measurements=None, basis=None):
 
     :return: GeoBox describing native storage coordinates.
     """
-    gs = ds.product.grid_spec
-    if gs is not None:
-        # Dataset is from ingested product, figure out GeoBox of the tile this dataset covers
-        bb = [gbox for _, gbox in gs.tiles(ds.bounds)]
-        if len(bb) != 1:
-            # Ingested product but dataset overlaps several/none tiles -- no good
-            raise ValueError('Broken GridSpec detected')
-        return bb[0]
+    with suppress_deprecations():
+        gs = ds.product.grid_spec
+        if gs is not None:
+            # Dataset is from ingested product, figure out GeoBox of the tile this dataset covers
+            bb = [gbox for _, gbox in gs.tiles(ds.bounds)]
+            if len(bb) != 1:
+                # Ingested product but dataset overlaps several/none tiles -- no good
+                raise ValueError('Broken GridSpec detected')
+            return bb[0]
 
     if measurements is None and basis is None:
         measurements = list(ds.product.measurements)
