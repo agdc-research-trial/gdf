@@ -120,7 +120,7 @@ raised if none can be read.
 Raw configuration can be passed in explicitly, without ever reading from a configuration file on disk.
 
 Attempting to pass in both raw configuration and a configuration file path simultaneously will raise a
-:py:class:ConfigException.
+:py:class:`ConfigException`.
 
 `Environment variable overrides`_ do **NOT** apply to configuration environments defined in raw configuration.
 
@@ -189,7 +189,7 @@ above, then the contents of a configuration file can be written in full to the
 3. The Active Environment
 -------------------------
 
-Each :py:class:Datacube object is associated with a particular environment. Multiple environments can be
+Each :py:class:`Datacube` object is associated with a particular environment. Multiple environments can be
 accessed by instantiating multiple ``Datacube`` objects.  The environment associated with a particular
 ``Datacube`` object is determined when the object is first instantiated and cannot subsequently be changed.
 
