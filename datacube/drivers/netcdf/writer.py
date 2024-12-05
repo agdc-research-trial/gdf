@@ -8,7 +8,7 @@ Create netCDF4 Storage Units and write data to them
 
 import logging
 import numbers
-from datetime import datetime
+from datetime import datetime, UTC
 from collections import namedtuple
 import numpy
 
@@ -68,7 +68,7 @@ def create_netcdf(netcdf_path, **kwargs):
     nco.setncattr('Conventions', 'CF-1.6, ACDD-1.3')
     nco.history = ("NetCDF-CF file created by "
                    "datacube version '{}' at {:%Y%m%d}."
-                   .format(__version__, datetime.utcnow()))
+                   .format(__version__, datetime.now(UTC)))
     return nco
 
 

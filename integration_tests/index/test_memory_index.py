@@ -8,7 +8,7 @@ from uuid import uuid4
 import pytest
 
 from datacube.cfg import ODCEnvironment
-from datacube.testutils import gen_dataset_test_dag
+from datacube.testutils import gen_dataset_test_dag, suppress_deprecations
 
 from datacube.utils import InvalidDocException, read_documents, SimpleDocNav
 
@@ -227,41 +227,42 @@ def test_mem_ds_locations(mem_eo3_data: tuple):
     dc, ls8_id, wo_id = mem_eo3_data
     before_test = datetime.datetime.now()
     ls8ds = dc.index.datasets.get(ls8_id)
-    dc.index.datasets.add_location(ls8_id, "file:///test_loc_1")  # Test of deprecated method
-    assert ls8ds.uri == dc.index.datasets.get_location(ls8_id)
-    assert "file:///test_loc_1" in dc.index.datasets.get_locations(ls8_id)  # Test of deprecated method
-    assert list(dc.index.datasets.get_archived_locations(ls8_id)) == []  # Test of deprecated method
-    dc.index.datasets.archive_location(ls8_id, "file:///test_loc_1")  # Test of deprecated method
-    assert "file:///test_loc_1" not in dc.index.datasets.get_locations(ls8_id)  # Test of deprecated method
-    assert "file:///test_loc_1" in dc.index.datasets.get_archived_locations(ls8_id)  # Test of deprecated method
-    found = False
-    for loc, dt in dc.index.datasets.get_archived_location_times(ls8_id):  # Test of deprecated method
-        if loc == "file:///test_loc_1":
-            found = True
-            assert dt >= before_test
-            break
-    assert found
-    assert dc.index.datasets.restore_location(ls8_id, "file:///test_loc_1")  # Test of deprecated method
-    assert "file:///test_loc_1" in dc.index.datasets.get_locations(ls8_id)  # Test of deprecated method
-    assert list(dc.index.datasets.get_archived_locations(ls8_id)) == []  # Test of deprecated method
-    assert list(dc.index.datasets.get_datasets_for_location("file:///test_loc_1", "exact"))[0].id == ls8_id
-    assert dc.index.datasets.remove_location(ls8_id, "file:///test_loc_1")  # Test of deprecated method
-    assert "file:///test_loc_1" not in dc.index.datasets.get_locations(ls8_id)  # Test of deprecated method
-    assert "file:///test_loc_1" not in dc.index.datasets.get_archived_locations(ls8_id)  # Test of deprecated method
-    assert dc.index.datasets.add_location(ls8_id, "file:///test_loc_2")  # Test of deprecated method
+    with suppress_deprecations():
+        dc.index.datasets.add_location(ls8_id, "file:///test_loc_1")  # Test of deprecated method
+        assert ls8ds.uri == dc.index.datasets.get_location(ls8_id)
+        assert "file:///test_loc_1" in dc.index.datasets.get_locations(ls8_id)  # Test of deprecated method
+        assert list(dc.index.datasets.get_archived_locations(ls8_id)) == []  # Test of deprecated method
+        dc.index.datasets.archive_location(ls8_id, "file:///test_loc_1")  # Test of deprecated method
+        assert "file:///test_loc_1" not in dc.index.datasets.get_locations(ls8_id)  # Test of deprecated method
+        assert "file:///test_loc_1" in dc.index.datasets.get_archived_locations(ls8_id)  # Test of deprecated method
+        found = False
+        for loc, dt in dc.index.datasets.get_archived_location_times(ls8_id):  # Test of deprecated method
+            if loc == "file:///test_loc_1":
+                found = True
+                assert dt >= before_test
+                break
+        assert found
+        assert dc.index.datasets.restore_location(ls8_id, "file:///test_loc_1")  # Test of deprecated method
+        assert "file:///test_loc_1" in dc.index.datasets.get_locations(ls8_id)  # Test of deprecated method
+        assert list(dc.index.datasets.get_archived_locations(ls8_id)) == []  # Test of deprecated method
+        assert list(dc.index.datasets.get_datasets_for_location("file:///test_loc_1", "exact"))[0].id == ls8_id
+        assert dc.index.datasets.remove_location(ls8_id, "file:///test_loc_1")  # Test of deprecated method
+        assert "file:///test_loc_1" not in dc.index.datasets.get_locations(ls8_id)  # Test of deprecated method
+        assert "file:///test_loc_1" not in dc.index.datasets.get_archived_locations(ls8_id)  # Test of deprecated method
+        assert dc.index.datasets.add_location(ls8_id, "file:///test_loc_2")  # Test of deprecated method
 
-    assert "file:///test_loc_2" in dc.index.datasets.get_locations(ls8_id)  # Test of deprecated method
-    ds = dc.index.datasets.get(ls8_id)
-    assert ds.uri in ds.uris  # Test of deprecated property
+        assert "file:///test_loc_2" in dc.index.datasets.get_locations(ls8_id)  # Test of deprecated method
+        ds = dc.index.datasets.get(ls8_id)
+        assert ds.uri in ds.uris  # Test of deprecated property
 
-    assert dc.index.datasets.archive_location(ls8_id, "file:///test_loc_2")  # Test of deprecated method
-    assert dc.index.datasets.remove_location(ls8_id, "file:///test_loc_2")  # Test of deprecated method
-    assert "file:///test_loc_2" not in list(dc.index.datasets.get_locations(ls8_id))  # Test of deprecated method
-    assert "file:///test_loc_2" not in list(
-        dc.index.datasets.get_archived_locations(ls8_id)  # Test of deprecated method
-    )
-    assert not dc.index.datasets.archive_location(ls8_id, "file:////not_a_valid_loc")  # Test of deprecated method
-    assert not dc.index.datasets.remove_location(ls8_id, "file:////not_a_valid_loc")  # Test of deprecated method
+        assert dc.index.datasets.archive_location(ls8_id, "file:///test_loc_2")  # Test of deprecated method
+        assert dc.index.datasets.remove_location(ls8_id, "file:///test_loc_2")  # Test of deprecated method
+        assert "file:///test_loc_2" not in list(dc.index.datasets.get_locations(ls8_id))  # Test of deprecated method
+        assert "file:///test_loc_2" not in list(
+            dc.index.datasets.get_archived_locations(ls8_id)  # Test of deprecated method
+        )
+        assert not dc.index.datasets.archive_location(ls8_id, "file:////not_a_valid_loc")  # Test of deprecated method
+        assert not dc.index.datasets.remove_location(ls8_id, "file:////not_a_valid_loc")  # Test of deprecated method
     assert dc.index.datasets.remove_location(ls8_id, ls8ds.uri)
     ls8ds = dc.index.datasets.get(ls8_id)
     assert ls8ds.uri is None
