@@ -17,8 +17,8 @@ from deprecat import deprecat
 
 from datacube.drivers.postgres._fields import SimpleDocField
 from datacube.drivers.postgres._schema import DATASET
-from datacube.index.abstract import (AbstractDatasetResource, DatasetSpatialMixin, DSID,
-                                     DatasetTuple, BatchStatus)
+from datacube.index.abstract import (AbstractDatasetResource, DSID,
+                                     DatasetTuple, BatchStatus, DatasetSpatialMixin)
 from datacube.index.postgres._transaction import IndexResourceAddIn
 from datacube.model import Dataset, Product
 from datacube.model.fields import Field, Expression

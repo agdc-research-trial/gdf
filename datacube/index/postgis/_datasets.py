@@ -22,7 +22,7 @@ from datacube.drivers.postgis._api import non_native_fields, extract_dataset_fie
 from datacube.utils.uris import split_uri
 from datacube.drivers.postgis._spatial import generate_dataset_spatial_values, extract_geometry_from_eo3_projection
 from datacube.migration import ODC2DeprecationWarning
-from datacube.index.abstract import AbstractDatasetResource, DatasetSpatialMixin, DSID, BatchStatus, DatasetTuple
+from datacube.index.abstract import AbstractDatasetResource, DSID, BatchStatus, DatasetTuple, DatasetSpatialMixin
 from datacube.utils.documents import JsonDict
 from datacube.model._base import QueryField
 from datacube.index.postgis._transaction import IndexResourceAddIn
