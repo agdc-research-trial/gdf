@@ -170,7 +170,7 @@ class DatasetResource(AbstractDatasetResource, IndexResourceAddIn):
                 transaction.update_search_index(dsids=[dataset.id])
                 # 1c. Store locations
                 if dataset.uri is not None:
-                    if len(dataset.uris) > 1:
+                    if dataset.has_multiple_uris():
                         raise ValueError('Postgis driver does not support multiple locations for a dataset.')
                     self._ensure_new_locations(dataset, transaction=transaction)
             if archive_less_mature is not None:
@@ -302,7 +302,7 @@ class DatasetResource(AbstractDatasetResource, IndexResourceAddIn):
                                                                                          dataset.product.name,
                                                                                          dataset.id))
 
-        if len(dataset.uris) > 1:
+        if dataset.has_multiple_uris():
             raise ValueError('Postgis driver does not support multiple locations for a dataset.')
 
         # TODO: figure out (un)safe changes from metadata type?

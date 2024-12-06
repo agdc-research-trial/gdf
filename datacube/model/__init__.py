@@ -152,6 +152,16 @@ class Dataset:
             return self.uri
         return pick_uri(self._uris, schema)
 
+    def has_multiple_uris(self) -> bool:
+        """
+        This is a 1.9-2.0 transitional method and will be removed in 2.0.
+
+        Returns true if the dataset has multiple locations.
+
+        Allows checking for multiple locations without tripping a deprecation warning.
+        """
+        return len(self._uris) > 1
+
     @property
     @deprecat(
         reason="The 'type' attribute has been deprecated. Please use the 'product' attribute instead.",

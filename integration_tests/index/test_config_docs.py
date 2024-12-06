@@ -19,7 +19,7 @@ from datacube.model import MetadataType, Product
 from datacube.model import Range, Not, Dataset
 from datacube.utils import changes
 from datacube.utils.documents import documents_equal
-from datacube.testutils import sanitise_doc
+from datacube.testutils import sanitise_doc, suppress_deprecations
 
 _DATASET_METADATA = {
     'id': 'f7018d80-8807-11e5-aeaa-1040f381a756',
@@ -230,29 +230,30 @@ def test_update_dataset(index, ls5_telem_doc, example_ls5_nbar_metadata_doc):
     # adding more metadata and changing location
     doc = copy.deepcopy(updated.metadata_doc)
     doc['test2'] = {'some': 'other thing'}
-    update = Dataset(  # Test deprecated functionality
-        ls5_telem_type, doc,
-        uris=['file:///test/doc3.yaml', 'file:///test/doc3a.yaml']
-    )
-    index.datasets.update(update)
-    updated = index.datasets.get(dataset.id)
-    assert updated.metadata_doc['test1'] == {'some': 'thing'}
-    assert updated.metadata_doc['test2'] == {'some': 'other thing'}
-    assert updated.local_uri == 'file:///test/doc3.yaml'
-    assert len(updated.uris) == 3  # Test deprecated property
-
-    # changing existing metadata fields isn't allowed by default
-    doc = copy.deepcopy(updated.metadata_doc)
-    doc['product_type'] = 'foobar'
-    update = Dataset(ls5_telem_type, doc, uri='file:///test/doc4.yaml')
-    with pytest.raises(ValueError):
+    with suppress_deprecations():
+        update = Dataset(  # Test deprecated functionality
+            ls5_telem_type, doc,
+            uris=['file:///test/doc3.yaml', 'file:///test/doc3a.yaml']
+        )
         index.datasets.update(update)
-    updated = index.datasets.get(dataset.id)
-    assert updated.metadata_doc['test1'] == {'some': 'thing'}
-    assert updated.metadata_doc['test2'] == {'some': 'other thing'}
-    assert updated.metadata_doc['product_type'] == 'nbar'
-    assert updated.local_uri == 'file:///test/doc3.yaml'
-    assert len(updated._uris) == 3
+        updated = index.datasets.get(dataset.id)
+        assert updated.metadata_doc['test1'] == {'some': 'thing'}
+        assert updated.metadata_doc['test2'] == {'some': 'other thing'}
+        assert updated.local_uri == 'file:///test/doc3.yaml'
+        assert len(updated.uris) == 3  # Test deprecated property
+
+        # changing existing metadata fields isn't allowed by default
+        doc = copy.deepcopy(updated.metadata_doc)
+        doc['product_type'] = 'foobar'
+        update = Dataset(ls5_telem_type, doc, uri='file:///test/doc4.yaml')
+        with pytest.raises(ValueError):
+            index.datasets.update(update)
+        updated = index.datasets.get(dataset.id)
+        assert updated.metadata_doc['test1'] == {'some': 'thing'}
+        assert updated.metadata_doc['test2'] == {'some': 'other thing'}
+        assert updated.metadata_doc['product_type'] == 'nbar'
+        assert updated.local_uri == 'file:///test/doc3.yaml'
+        assert len(updated._uris) == 3
 
     # allowed changes go through
     doc = copy.deepcopy(updated.metadata_doc)

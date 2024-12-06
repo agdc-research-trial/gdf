@@ -1092,17 +1092,25 @@ class DatasetTuple(NamedTuple):
     uri_: str | list[str]
 
     @property
-    def is_legacy(self):
+    def uri_is_string(self):
         if isinstance(self.uri_, str):
+            return True
+        return False
+
+    @property
+    def is_legacy(self):
+        if self.uri_is_string:
             return False
-        return True
+        return len(self.uri_) > 1
 
     @property
     def uri(self) -> str:
-        if self.is_legacy:
+        if self.uri_is_string:
+            return cast(str, self.uri_)
+        elif self.is_legacy:
             return self.uris[0]
         else:
-            return cast(str, self.uri_)
+            return cast(list[str], self.uri_)[0]
 
     @property
     @deprecat(
@@ -1110,10 +1118,10 @@ class DatasetTuple(NamedTuple):
         version='1.9.0',
         category=ODC2DeprecationWarning)
     def uris(self) -> Sequence[str]:
-        if self.is_legacy:
-            return cast(list[str], self.uri_)
-        else:
+        if self.uri_is_string:
             return [cast(str, self.uri_)]
+        else:
+            return cast(list[str], self.uri_)
 
 
 class AbstractDatasetResource(ABC):

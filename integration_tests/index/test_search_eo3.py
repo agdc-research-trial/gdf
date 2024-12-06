@@ -22,6 +22,7 @@ from datacube.model import Product
 from datacube.model import Range
 
 from datacube import Datacube
+from datacube.testutils import suppress_deprecations
 from .search_utils import _cli_csv_search, _csv_search_raw, _load_product_query
 from datacube.utils.dates import tz_as_utc
 
@@ -289,7 +290,8 @@ def test_search_by_product_eo3(index: Index,
     [dataset] = products[base_eo3_product_doc["name"]]
     assert dataset.id == wo_eo3_dataset.id
     assert dataset.is_eo3
-    assert dataset.type == dataset.product  # DEPRECATED MEMBER
+    with suppress_deprecations():
+        assert dataset.type == dataset.product  # DEPRECATED MEMBER
 
 
 def test_search_limit_eo3(index, ls8_eo3_dataset, ls8_eo3_dataset2, wo_eo3_dataset):
@@ -564,8 +566,9 @@ def test_search_returning_uri(index, eo3_ls8_dataset_doc,
     dataset = ls8_eo3_dataset
     uri = eo3_ls8_dataset_doc[1]
 
-    # If returning a field like uri, there will be one result per dataset.
-    index.datasets.remove_location(dataset.id, uri)  # deprecated method
+    with suppress_deprecations():
+        # If returning a field like uri, there will be one result per dataset.
+        index.datasets.remove_location(dataset.id, uri)  # deprecated method
     results = list(index.datasets.search_returning(
         ('id', 'uri'),
         platform='landsat-8',
@@ -584,25 +587,26 @@ def test_search_returning_uris_legacy(index,
     uri3 = eo3_ls8_dataset2_doc[1]
 
     # If returning a field like uri, there will be one result per location.
-    # No locations
-    index.datasets.archive_location(dataset.id, uri)
-    index.datasets.remove_location(dataset.id, uri)
-    results = list(index.datasets.search_returning(
-        ('id', 'uri'),
-        platform='landsat-8',
-        instrument='OLI_TIRS',
-    ))
-    assert len(results) == 0
+    with suppress_deprecations():
+        # No locations
+        index.datasets.archive_location(dataset.id, uri)
+        index.datasets.remove_location(dataset.id, uri)
+        results = list(index.datasets.search_returning(
+            ('id', 'uri'),
+            platform='landsat-8',
+            instrument='OLI_TIRS',
+        ))
+        assert len(results) == 0
 
-    # Add a second location and we should get two results
-    index.datasets.add_location(dataset.id, uri)
-    uri2 = 'file:///tmp/test2'
-    index.datasets.add_location(dataset.id, uri2)
-    results = set(index.datasets.search_returning(
-        ('id', 'uri'),
-        platform='landsat-8',
-        instrument='OLI_TIRS',
-    ))
+        # Add a second location and we should get two results
+        index.datasets.add_location(dataset.id, uri)
+        uri2 = 'file:///tmp/test2'
+        index.datasets.add_location(dataset.id, uri2)
+        results = set(index.datasets.search_returning(
+            ('id', 'uri'),
+            platform='landsat-8',
+            instrument='OLI_TIRS',
+        ))
     assert len(results) == 2
     assert results == {
         (dataset.id, uri),

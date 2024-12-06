@@ -263,7 +263,7 @@ def test_mem_ds_locations(mem_eo3_data: tuple):
         )
         assert not dc.index.datasets.archive_location(ls8_id, "file:////not_a_valid_loc")  # Test of deprecated method
         assert not dc.index.datasets.remove_location(ls8_id, "file:////not_a_valid_loc")  # Test of deprecated method
-    assert dc.index.datasets.remove_location(ls8_id, ls8ds.uri)
+        assert dc.index.datasets.remove_location(ls8_id, ls8ds.uri)
     ls8ds = dc.index.datasets.get(ls8_id)
     assert ls8ds.uri is None
     assert dc.index.datasets.get_location(ls8_id) is None
@@ -275,22 +275,23 @@ def test_mem_ds_updates(mem_eo3_data: tuple):
     raw = dc.index.datasets.get(ls8_id)
     # Update location only
     raw._uris.append("file:///update_test_1")
-    updated = dc.index.datasets.update(raw)
-    raw = dc.index.datasets.get(ls8_id)
-    assert raw._uris == updated.uris
-    # Test bad change
-    raw._uris.append("file:///update_test_2")
-    raw.metadata_doc["properties"]["silly_sausages"] = ["weisswurst", "frankfurter"]
-    with pytest.raises(ValueError):
+    with suppress_deprecations():
         updated = dc.index.datasets.update(raw)
-    assert "file:///update_test_2" in raw._uris
-    # Make bad change ok
-    from datacube.utils import changes
-    updated = dc.index.datasets.update(raw, updates_allowed={
-        ("properties", "silly_sausages"): changes.allow_any
-    })
-    assert "silly_sausages" in updated.metadata_doc["properties"]
-    raw = dc.index.datasets.get(ls8_id)
+        raw = dc.index.datasets.get(ls8_id)
+        assert raw._uris == updated.uris
+        # Test bad change
+        raw._uris.append("file:///update_test_2")
+        raw.metadata_doc["properties"]["silly_sausages"] = ["weisswurst", "frankfurter"]
+        with pytest.raises(ValueError):
+            updated = dc.index.datasets.update(raw)
+        assert "file:///update_test_2" in raw._uris
+        # Make bad change ok
+        from datacube.utils import changes
+        updated = dc.index.datasets.update(raw, updates_allowed={
+            ("properties", "silly_sausages"): changes.allow_any
+        })
+        assert "silly_sausages" in updated.metadata_doc["properties"]
+        raw = dc.index.datasets.get(ls8_id)
     assert "silly_sausages" in raw.metadata_doc["properties"]
     assert "file:///update_test_1" in raw._uris
     assert "file:///update_test_2" in raw._uris
@@ -405,12 +406,13 @@ def test_spatiotemporal_extent(mem_eo3_data: tuple):
     with pytest.raises(KeyError) as e:
         dc.index.datasets.temporal_extent(ids=[uuid4()])
 
-    with pytest.raises(KeyError) as e:
+    with (suppress_deprecations(), pytest.raises(KeyError) as e):
         dc.index.datasets.get_product_time_bounds("orthentik_producked")  # Test of deprecated method
 
     # Test get_product_time_bounds
     for ds in (ls8, wo):
-        tmin, tmax = dc.index.datasets.get_product_time_bounds(ds.product.name)  # Test of deprecated method
+        with suppress_deprecations():
+            tmin, tmax = dc.index.datasets.get_product_time_bounds(ds.product.name)  # Test of deprecated method
         assert (tmin is None and tmax is None) or tmin < tmax
         tmin2, tmax2 = dc.index.products.temporal_extent(product=ds.product)
         assert tmin2 == tmin and tmax2 == tmax
@@ -462,16 +464,18 @@ def test_mem_ds_search_and_count(mem_eo3_data: tuple):
     assert dc.index.datasets.count(platform='landsat-8') == 2
     lds = list(dc.index.datasets.search(platform='landsat-8', limit=1))
     assert len(lds) == 1
-    lds = list(dc.index.datasets.search(source_filter={"product_family": 'ard'}))
-    assert len(lds) == 1
-    assert dc.index.datasets.count(source_filter={"product_family": 'ard'}) == 1
-    lds = list(dc.index.datasets.search(platform='landsat-8', source_filter={"product_family": 'ard'}))
-    assert len(lds) == 1
-    lds = list(dc.index.datasets.search(product_family='wo', source_filter={"product_family": 'ard'}))
-    assert len(lds) == 1
-    lds = list(dc.index.datasets.search(product_family='ard', source_filter={"product_family": 'ard'}))
-    assert len(lds) == 0
-    assert dc.index.datasets.count(product_family='ard', source_filter={"product_family": 'ard'}) == 0
+    with suppress_deprecations():
+        # Testing source_filter arg, which is deprecated
+        lds = list(dc.index.datasets.search(source_filter={"product_family": 'ard'}))
+        assert len(lds) == 1
+        assert dc.index.datasets.count(source_filter={"product_family": 'ard'}) == 1
+        lds = list(dc.index.datasets.search(platform='landsat-8', source_filter={"product_family": 'ard'}))
+        assert len(lds) == 1
+        lds = list(dc.index.datasets.search(product_family='wo', source_filter={"product_family": 'ard'}))
+        assert len(lds) == 1
+        lds = list(dc.index.datasets.search(product_family='ard', source_filter={"product_family": 'ard'}))
+        assert len(lds) == 0
+        assert dc.index.datasets.count(product_family='ard', source_filter={"product_family": 'ard'}) == 0
     lds = list(dc.index.datasets.search(product="ga_ls_wo_3", platform='landsat-8'))
     assert len(lds) == 1
     with pytest.raises(ValueError):
@@ -715,13 +719,14 @@ def test_default_clone_bulk_ops_multiloc(
         ls8_eo3_dataset, ls8_eo3_dataset2,
         ls8_eo3_dataset3, ls8_eo3_dataset4,
         wo_eo3_dataset, africa_eo3_dataset):
-    index.datasets.add_location(ls8_eo3_dataset.id, "file:///a/o/fish")
-    mem_index_fresh.index.clone(index)
-    assert mem_index_fresh.index.datasets.has(africa_eo3_dataset.id)
-    assert mem_index_fresh.index.datasets.has(wo_eo3_dataset.id)
-    assert mem_index_fresh.index.datasets.has(ls8_eo3_dataset.id)
-    assert mem_index_fresh.index.datasets.has(ls8_eo3_dataset4.id)
-    assert len(mem_index_fresh.index.datasets.get(ls8_eo3_dataset.id)._uris) == 2
+    with suppress_deprecations():
+        index.datasets.add_location(ls8_eo3_dataset.id, "file:///a/o/fish")
+        mem_index_fresh.index.clone(index)
+        assert mem_index_fresh.index.datasets.has(africa_eo3_dataset.id)
+        assert mem_index_fresh.index.datasets.has(wo_eo3_dataset.id)
+        assert mem_index_fresh.index.datasets.has(ls8_eo3_dataset.id)
+        assert mem_index_fresh.index.datasets.has(ls8_eo3_dataset4.id)
+        assert len(mem_index_fresh.index.datasets.get(ls8_eo3_dataset.id)._uris) == 2
 
 
 def test_default_clone_bulk_ops_reverse(mem_eo3_data: tuple, index):
