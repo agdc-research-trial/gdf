@@ -10,12 +10,10 @@ Integration tests: these depend on a local Postgres instance.
 import copy
 import datetime
 import sys
-from os import supports_effective_ids
 from pathlib import Path
 from uuid import UUID
 
 import pytest
-from dateutil import tz
 
 from datacube.index.exceptions import MissingRecordError
 from datacube.index import Index
@@ -588,7 +586,8 @@ def test_index_dataset_with_location(index: Index, default_metadata_type: Metada
 
     # test order using get_locations function
     with suppress_deprecations():
-        assert index.datasets.get_locations(second_ds_doc['id']) == ['file:///a', 'file:///b']  # Test of deprecated method
+        # Test of deprecated method
+        assert index.datasets.get_locations(second_ds_doc['id']) == ['file:///a', 'file:///b']
 
         # test order using datasets.get(), it has custom query as it turns out
         assert index.datasets.get(second_ds_doc['id'])._uris == ['file:///a', 'file:///b']
