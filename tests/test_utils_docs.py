@@ -140,7 +140,11 @@ def test_without_lineage_sources():
         )
     }, dataset_search_fields={})
 
-    assert without_lineage_sources(mk_sample(10), no_sources_type)["lineage"] == {}
+    test_doc = mk_sample(10)
+    assert without_lineage_sources(test_doc, no_sources_type)["lineage"] == {}
+    test_doc["lineage"] = {"a": "a", "b": "b"}
+    assert without_lineage_sources(test_doc, no_sources_type)["lineage"] == {}
+
 
 
 def test_parse_yaml():
