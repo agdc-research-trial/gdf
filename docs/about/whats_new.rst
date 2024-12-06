@@ -23,6 +23,7 @@ v1.9.next
 * Fix metadata issues with new Lineage API. (:pull:`1679`)
 * Suppress annoying config warning when configuring by environment variable (:pull:`1680`)
 * Suppress internal deprecation warnings when running tests against deprecated code (:pull:`1681`)
+* Split index.abstract module into a package (:pull:`1682`)
 
 v1.9.0-rc11 (28th October 2024)
 ===============================
