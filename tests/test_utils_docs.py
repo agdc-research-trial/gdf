@@ -146,7 +146,6 @@ def test_without_lineage_sources():
     assert without_lineage_sources(test_doc, no_sources_type)["lineage"] == {}
 
 
-
 def test_parse_yaml():
     assert parse_yaml('a: 10') == {'a': 10}
 
