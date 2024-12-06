@@ -8,7 +8,7 @@ Create netCDF4 Storage Units and write data to them
 
 import logging
 import numbers
-from datetime import datetime, UTC
+from datetime import datetime, timezone
 from collections import namedtuple
 import numpy
 
@@ -20,6 +20,8 @@ from odc.geo.geom import box
 from odc.geo.math import data_resolution_and_offset
 
 from datacube import __version__
+
+UTC = timezone.utc
 
 Variable = namedtuple('Variable', ('dtype', 'nodata', 'dims', 'units'))
 _LOG = logging.getLogger(__name__)

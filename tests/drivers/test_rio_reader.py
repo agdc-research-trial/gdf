@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """ Tests for new RIO reader driver
 """
-from datetime import datetime, UTC
+from datetime import datetime, timezone
 from concurrent.futures import ThreadPoolExecutor, Future
 import numpy as np
 import rasterio
@@ -23,6 +23,8 @@ from datacube.testutils.geom import SAMPLE_WKT_WITHOUT_AUTHORITY, epsg3857
 from datacube.testutils.iodriver import (
     NetCDF, GeoTIFF, mk_band, mk_rio_driver, open_reader
 )
+
+UTC = timezone.utc
 
 
 def test_rio_rd_entry():
