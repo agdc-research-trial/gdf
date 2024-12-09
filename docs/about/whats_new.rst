@@ -7,12 +7,18 @@ What's New
 
 v1.8.next
 =========
+
+v1.8.20 (9th December 2024)
+===========================
+- Update docker image and CI (:pull:`1624`, :pull:`1625`, :pull:`1626`, :pull:`1639`, :pull:`1641`, :pull:`1642`)
+- Update Slack links to Discord (:pull:`1620`)
+- Automatic updates of upstream library/image versions (:pull:`1629`, :pull:`1644`, :pull:`1653`, :pull:`1660`)
 - Don't error when adding a dataset whose product doesn't have an id value (:pull:`1630`)
 - Update docs (:pull:`1631`,:pull:`1651`)
-- Update docker image and CI (multiple PRs)
 - Pin out bad versions of dask (:pull:`1663`)
 - Ensure correct boundary scalar precision with numpy 2 (:pull:`1673`)
 - Add more string representations of nan (:pull:`1678`)
+- Update whats_new.rst for 1.8.20 release (:pull:`1685`)
 
 v1.8.19 (2nd July 2024)
 =======================
