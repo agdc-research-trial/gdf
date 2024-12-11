@@ -151,8 +151,6 @@ Major Changes between 1.8.x and 1.9.x
 .. _`odc-geo`: https://github.com/opendatacube/odc-geo
 .. _`odc-stac`: https://github.com/opendatacube/odc-stac
 
-(see :doc:`database/setup#create-spatial-indexes-postgis-driver-only`).
-
 The New Postgis Index Driver
 ----------------------------
 
