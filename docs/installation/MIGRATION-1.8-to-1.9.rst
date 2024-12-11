@@ -58,12 +58,12 @@ Major Changes between 1.8.x and 1.9.x
    continue to work as previously with minimal changes.
 
    The behaviour of the new configuration engine (and the reasoning behind the changes) is fully documented in
-   :doc:`passing-configuration`. The reasoning behind the changes is described in
+   :doc:`database/passing-configuration`. The reasoning behind the changes is described in
    `ODC Enhancement Proposal 10 <https://github.com/opendatacube/datacube-core/wiki/ODC-EP-010---Replace-Configuration-Layer>`_
 
    a. Previously multiple config files could be read and merged to generate the final effective configuration file.
       From 1.9.0 only a single config file is ever read at a time
-      (see :doc:`passing-configuration#Merging-multiple-config-files`).
+      (see :doc:`database/passing-configuration#Merging-multiple-config-files`).
 
       Managed instances which have previously allowed
       user customisation by the user creating a minimal config file which was loaded merged on top of a default system
@@ -74,7 +74,7 @@ Major Changes between 1.8.x and 1.9.x
       files are not merged.
 
    c. Previously only the INI file format was supported for configuration files. The JSON and YAML formats are now also
-      supported (see :doc:`configuration#format`).
+      supported (see :doc:`database/configuration#format`).
 
    d. Previously configuration by Environment Variables was implemented in an inconsistent ad hoc way that resulted
       in complex interactions that were impossible to predict without intimate knowledge of the source code that
@@ -82,7 +82,7 @@ Major Changes between 1.8.x and 1.9.x
 
       There is now a consistent and systematic approach taken to the interaction between the
       active configuration file and environment variables
-      (see :doc:`passing-configuration#generic-environment-variable-overrides`).  Partial backwards compatibility is attempted, but
+      (see :doc:`database/passing-configuration#generic-environment-variable-overrides`).  Partial backwards compatibility is attempted, but
       full backwards compatibility is not possible due to the ad hoc nature of the previous implementation.
 
       The new (preferred) environment variable names are of the form ``$ODC_<env_name>_<item_name>``.
@@ -149,7 +149,7 @@ Major Changes between 1.8.x and 1.9.x
 .. _`odc-geo`: https://github.com/opendatacube/odc-geo
 .. _`odc-stac`: https://github.com/opendatacube/odc-stac
 
-(see :doc:`setup#create-spatial-indexes-postgis-driver-only`).
+(see :doc:`database/setup#create-spatial-indexes-postgis-driver-only`).
 
 The New Postgis Index Driver
 ----------------------------
@@ -191,7 +191,7 @@ for EPSG:3577::
 
     datacube -E new spindex create 3577
 
-For more information, see :doc:`setup#create-spatial-indexes-postgis-driver-only`.
+For more information, see :doc:`database/setup#create-spatial-indexes-postgis-driver-only`.
 
 Migrating (Cloning) Data From a Postgres Index
 ++++++++++++++++++++++++++++++++++++++++++++++
