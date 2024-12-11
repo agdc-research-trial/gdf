@@ -65,7 +65,7 @@ Major Changes between 1.8.x and 1.9.x
 
    a. Previously multiple config files could be read and merged to generate the final effective configuration file.
       From 1.9.0 only a single config file is ever read at a time
-      (see :ref:`database/passing-configuration:merging-multiple-config-files`).
+      (see :ref:`merging-multiple-config-files`).
 
       Managed instances which have previously allowed
       user customisation by the user creating a minimal config file which was loaded merged on top of a default system
@@ -76,7 +76,7 @@ Major Changes between 1.8.x and 1.9.x
       files are not merged.
 
    c. Previously only the INI file format was supported for configuration files. The JSON and YAML formats are now also
-      supported (see :ref:`database/configuration:format`).
+      supported (see :ref:`format`).
 
    d. Previously configuration by Environment Variables was implemented in an inconsistent ad hoc way that resulted
       in complex interactions that were impossible to predict without intimate knowledge of the source code that
@@ -84,7 +84,7 @@ Major Changes between 1.8.x and 1.9.x
 
       There is now a consistent and systematic approach taken to the interaction between the
       active configuration file and environment variables
-      (see :ref:`database/passing-configuration:generic-environment-variable-overrides`).  Partial backwards compatibility is attempted, but
+      (see :ref:`generic-environment-variable-overrides`).  Partial backwards compatibility is attempted, but
       full backwards compatibility is not possible due to the ad hoc nature of the previous implementation.
 
       The new (preferred) environment variable names are of the form ``$ODC_<env_name>_<item_name>``.
@@ -193,7 +193,7 @@ for EPSG:3577::
 
     datacube -E new spindex create 3577
 
-For more information, see :ref:`database/setup:create-spatial-indexes-postgis-driver-only`.
+For more information, see :ref:`create-spatial-indexes-postgis-driver-only`.
 
 Migrating (Cloning) Data From a Postgres Index
 ++++++++++++++++++++++++++++++++++++++++++++++
