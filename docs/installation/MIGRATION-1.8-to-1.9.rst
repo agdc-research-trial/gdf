@@ -15,8 +15,9 @@ approaches becoming the standard, but some minor backwards incompatible changes 
 This document describes the changes between 1.8.x and 1.9.x, with a particular focus on backwards incompatible
 changes and new features.
 
-After  the release of 1.9.0, focus will shift to updating secondary ODC libraries to work with ODC-1.9.  (Explorer
-and OWS in particular will require major changes.)   We will continue to support and release 1.8.x versions after
+1.9 compatible releases of `eo-datasets`_, `explorer`_ and `OWS`_ will be released at the same time as datacube-1.9.0.
+After  the release of 1.9.0, focus will shift to updating secondary ODC libraries to work with ODC-1.9.  (e.g.
+`Statistician`_ and `Alchemist`_).   We will continue to support and release 1.8.x versions after
 the release of 1.9.0, until the 1.9.x releases have stabilised and all secondary libraries are up to date.
 
 Smaller ODC installations will probably prefer to stick with the 1.8.x releases for the time being, but if you can
@@ -24,26 +25,32 @@ spare the resources we encourage you to set up a 1.9.x installation to test your
 against the new release, and open issues on github for any problems that you come up against, especially any that are
 not documented here.
 
+.. _`eo-datasets`: https://github.com/opendatacube/eo-datasets
+.. _`explorer`: https://github.com/opendatacube/datacube-explorer
+.. _`OWS`: https://github.com/opendatacube/datacube-ows
+.. _`Statistician`: https://github.com/opendatacube/odc-stats
+.. _`Alchemist`: https://github.com/opendatacube/datacube-alchemist
+
 Major Changes between 1.8.x and 1.9.x
 -------------------------------------
 
-1. Integration with ``odc-geo``.
+1. Integration with `odc-geo`_.
 
-   The old ``datacube.utils.geometry`` library has been replaced by ``odc-geo``.
+   The old ``datacube.utils.geometry`` library has been replaced by `odc-geo`_.
 
-   If you have already used ``odc-geo`` you will appreciate the additional power and flexibility that this brings to
+   If you have already used `odc-geo`_ you will appreciate the additional power and flexibility that this brings to
    core.  If you have not, please take the time to have a read through the
    `odc-geo documentation <https://odc-geo.readthedocs.io/en/latest/>`_  and especially the
    `migration notes <https://odc-geo.readthedocs.io/en/latest/migration.html>`_.  In particular, you should familiarise
-   yourself with ``.odc`` accessor which ``odc-geo`` dynamically adds to all xarray ``DataArray`` and ``Dataset``
+   yourself with ``.odc`` accessor which `odc-geo`_ dynamically adds to all xarray ``DataArray`` and ``Dataset``
    objects.
 
-   Note that ``dc.load()`` now preferentially accepts ``odc-geo`` data types for passing ``GeoBox`` via the ``like``
+   Note that ``dc.load()`` now preferentially accepts `odc-geo`_ data types for passing ``GeoBox`` via the ``like``
    parameter, as well as ``resolution`` and ``align`` values, although backwards compatible behaviour with the old
    types is available with a deprecation warning.
 
    The classes and methods in ``datacube.utils.geometry`` are still available, but raise a deprecation warning when
-   used.  Please migrate all code to use the equivalent methods and classes in ``odc-geo``.
+   used.  Please migrate all code to use the equivalent methods and classes in `odc-geo`_.
 
 2. A new configuration engine has replaced the configuration engine used previously.
 
@@ -51,27 +58,34 @@ Major Changes between 1.8.x and 1.9.x
    continue to work as previously with minimal changes.
 
    The behaviour of the new configuration engine (and the reasoning behind the changes) is fully documented in
+   :doc:`passing-configuration`. The reasoning behind the changes is described in
    `ODC Enhancement Proposal 10 <https://github.com/opendatacube/datacube-core/wiki/ODC-EP-010---Replace-Configuration-Layer>`_
 
    a. Previously multiple config files could be read and merged to generate the final effective configuration file.
-      From 1.9.0 only a single config file is ever read at a time.  Managed instances which have previously allowed
+      From 1.9.0 only a single config file is ever read at a time
+      (see :doc:`passing-configuration#Merging-multiple-config-files`).
+
+      Managed instances which have previously allowed
       user customisation by the user creating a minimal config file which was loaded merged on top of a default system
       configuration will have to migrate to a system whereby users take a copy of the default system configuration file
       and edit that copy for their needs.
 
-   b. The "user" section no longer has a special meaning, as the old special meaning is irrelevant now that config
+   b. The "user" section no longer has a special meaning, as the old special meaning is redundant now that config
       files are not merged.
 
    c. Previously only the INI file format was supported for configuration files. The JSON and YAML formats are now also
-      supported.
+      supported (see :doc:`configuration#format`).
 
-   d. Previously configuration by Environment Variables was implemented in an inconsistent and ad hoc way that resulted
+   d. Previously configuration by Environment Variables was implemented in an inconsistent ad hoc way that resulted
       in complex interactions that were impossible to predict without intimate knowledge of the source code that
-      implemented it.  There is now a consistent and systematic approach taken to the interaction between the
-      active configuration file and environment variables.  Partial backwards compatibility is attempted, but
+      implemented it.
+
+      There is now a consistent and systematic approach taken to the interaction between the
+      active configuration file and environment variables
+      (see :doc:`passing-configuration#generic-environment-variable-overrides`).  Partial backwards compatibility is attempted, but
       full backwards compatibility is not possible due to the ad hoc nature of the previous implementation.
 
-      The new (preferred) environment variable names are of the form ``$ODC_<env_name>_<item_name>``
+      The new (preferred) environment variable names are of the form ``$ODC_<env_name>_<item_name>``.
 
    e. Tighter restrictions are applied to environment names.  This is required to ensure consistent interaction
       between config files and environment variables.  Environment names can now only contain alphanumeric characters.
@@ -94,7 +108,7 @@ Major Changes between 1.8.x and 1.9.x
    metadata, such tools may not be possible in all cases.  (The legacy postgres driver will continue to support
    non-EO3 metadata types until it is dropped in 2.0)
 
-   The postgis driver will support the creation of PostGIS spatial indexes for arbitrary CRSes.  This will improve
+   The postgis driver supports the creation of PostGIS spatial indexes for arbitrary CRSes.  This will improve
    efficiency and accuracy of database searches, particularly when working with data covering regions where
    conversions to/from EPSG:4326 lat/long coordinates are highly non-linear (e.g. the Pacific around the
    anti-meridian and the north and south polar regions).
@@ -102,11 +116,9 @@ Major Changes between 1.8.x and 1.9.x
    The postgis driver uses Alembic for managing schema migrations, so future changes to the postgis database
    schema will be much easier to roll out than in the past.
 
-   See below for more information about migrating to the Postgis index driver.
+   See below for more `information about migrating to the Postgis index driver`<#the-new-postgis-index-driver>`_.
 
-   Note that many other libraries in the ODC ecosystem may not work well with the Postgis driver at first. As noted
-   above, Explorer and Datacube-OWS in particular will need extensive changes before they can be used with the new
-   index driver.
+   Note that many other libraries in the ODC ecosystem may not work well with the Postgis driver at first.
 
 5. New Lineage API (Postgis driver only)
 
@@ -123,13 +135,21 @@ Major Changes between 1.8.x and 1.9.x
    The handling of lineage in the legacy postgres index driver has not changed - the postgres driver does NOT support
    the new lineage API.
 
-6. Support for multi-dimensional loading of hyperspectral datasets (Coming Soon)
+6. Support for multi-dimensional loading of hyperspectral datasets
 
-   This is a work in progress and will not be available in 1.9.0. It will appear in a later 1.9.x release.
+   Use of this feature currently requires installing `odc-stac`_.
+
+   If `odc-stac`_ is installed, you may specify `driver='rio'` to access the new hyperspectral loading and
+   dask-chunking features of ``stac_load``.
 
 7. The long-deprecated "ingestion" workflow and "executor" API have both been removed.
 
-8. Multiple locations per dataset is now deprecated.
+8. Multiple locations per dataset is now deprecated, and is not supported by the ``postgis`` index driver.
+
+.. _`odc-geo`: https://github.com/opendatacube/odc-geo
+.. _`odc-stac`: https://github.com/opendatacube/odc-stac
+
+(see :doc:`setup#create-spatial-indexes-postgis-driver-only`).
 
 The New Postgis Index Driver
 ----------------------------
@@ -171,6 +191,8 @@ for EPSG:3577::
 
     datacube -E new spindex create 3577
 
+For more information, see :doc:`setup#create-spatial-indexes-postgis-driver-only`.
+
 Migrating (Cloning) Data From a Postgres Index
 ++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -207,5 +229,3 @@ geopolygon.  In the postgis driver, the polygon is passed directly to Postgis fo
 * Only datasets whose extents overlap the geopolygon will be loaded.
 * Geopolygons whose CRS does NOT have a native spatial index available will be projected to EPSG:4326 for search
   purposes.
-* Datasets whose projected extents are not contained within a given CRSes "valid area" will NOT be included in that
-  CRSes spatial index.

@@ -173,7 +173,7 @@ To add a spatial index for an srid user ``datacube spindex add srid``, e.g. for 
 
 Note that adding a new spatial index to an existing database does NOT add existing datasets to the spatial index!
 
-After adding a new spatial index to a non-empty database it is necessary to **update** the spatial index afterk
+After adding a new spatial index to a non-empty database it is necessary to **update** the spatial index after
 creation::
 
    datacube spindex update 3577

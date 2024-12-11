@@ -4,7 +4,7 @@ The Open Data Cube
 
 The Open Data Cube is an open-source software ecosystem
 for managing and processing gridded Earth observation data.
-It has been designed to manage decades of analysis ready 
+It has been designed to manage decades of analysis ready
 Earth observation satellite data and related data from multiple sources.
 
 For more information see the following sections:
@@ -16,11 +16,11 @@ For more information see the following sections:
 
 :doc:`installation/index`
 
-* This section contains information on how to install the Open Data Cube.
+* This section contains information on how to install, maintain and upgrade the Open Data Cube.
 
 :doc:`data-access-analysis/index`
 
-* This section contains information on how to access and analyse data that 
+* This section contains information on how to access and analyse data that
   is managed by an Open Data Cube.
 
 :doc:`api/index`
