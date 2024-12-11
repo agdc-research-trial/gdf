@@ -8,6 +8,8 @@ What's New
 v1.9.next
 =========
 
+- Update and cross-reference 1.8 to 1.9 migration notes (:pull:`1686`)
+
 v1.9.0-rc12 (9th December 2024)
 ===============================
 
