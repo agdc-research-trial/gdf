@@ -439,7 +439,7 @@ class SimpleDocNav(object):
             self._sources = {k: SimpleDocNav(v) if isinstance(v, collections.abc.Mapping) else v
                              for k, v in get_doc_offset(self._sources_path, self._doc, {}).items()}
             # if we have sources but they are at (lineage) rather than (lineage, source_datasets)
-            if not self._sources and self._doc.get('lineage'):
+            if get_doc_offset(self._sources_path, self._doc) is None and self._doc.get('lineage'):
                 self._sources = self._doc['lineage']
         return self._sources
 
