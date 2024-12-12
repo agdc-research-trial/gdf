@@ -139,10 +139,10 @@ Major Changes between 1.8.x and 1.9.x
 
 6. Support for multi-dimensional loading of hyperspectral datasets
 
-   Use of this feature currently requires installing `odc-stac`_.
+   Use of this feature currently requires installing `odc-loader`_.
 
-   If `odc-stac`_ is installed, you may specify `driver='rio'` to access the new hyperspectral loading and
-   dask-chunking features of ``stac_load``.
+   If `odc-loader`_ is installed, you may specify `driver='rio'` or `driver='zarr'` when loading to access the new hyperspectral loading and
+   dask-chunking features.
 
 7. The long-deprecated "ingestion" workflow and "executor" API have both been removed.
 
