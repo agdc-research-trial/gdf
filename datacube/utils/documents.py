@@ -20,8 +20,6 @@ from typing import Dict, Any, Mapping
 from copy import deepcopy
 from uuid import UUID
 
-from deprecat import deprecat
-
 import numpy
 import toolz  # type: ignore[import]
 import yaml
@@ -440,6 +438,9 @@ class SimpleDocNav(object):
             # sources aren't expected to be embedded documents anymore
             self._sources = {k: SimpleDocNav(v) if isinstance(v, collections.abc.Mapping) else v
                              for k, v in get_doc_offset(self._sources_path, self._doc, {}).items()}
+            # if we have sources but they are at (lineage) rather than (lineage, source_datasets)
+            if not self._sources and self._doc.get('lineage'):
+                self._sources = self._doc['lineage']
         return self._sources
 
     @property
@@ -531,7 +532,6 @@ class DocReader:
         return {**self.system_fields, **self.search_fields}
 
 
-@deprecat(deprecated_args={'inplace': {'version': '1.9.0', 'reason': 'not being used'}})
 def without_lineage_sources(doc: Dict[str, Any],
                             spec,
                             inplace: bool = False) -> Dict[str, Any]:

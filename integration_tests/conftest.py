@@ -398,10 +398,8 @@ def ds_no_region(index, extended_eo3_metadata_type, ls8_eo3_product, final_datas
 
 
 @pytest.fixture
-def ds_with_lineage(index, wo_eo3_product, eo3_wo_dataset_doc, ls8_eo3_dataset):
+def ds_with_lineage(index, wo_eo3_product, eo3_wo_dataset_doc):
     doc, path = eo3_wo_dataset_doc
-    # rewrite lineage to correct format
-    doc["lineage"] = {"source_datasets": {"ard": [ls8_eo3_dataset.id]}}
     return doc_to_ds_no_add(
         index,
         wo_eo3_product.name,
