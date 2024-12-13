@@ -1,9 +1,8 @@
-============
-Dataset Type
-============
+=======
+Product
+=======
 
-.. currentmodule:: datacube
+.. currentmodule:: datacube.model
 
-.. autoclass:: datacube.model.Product
-
+.. autoclass:: Product
    :members:
