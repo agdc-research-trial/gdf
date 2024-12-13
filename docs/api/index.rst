@@ -15,6 +15,7 @@ The following pages provide a full API reference for the ``datacube`` python lib
     core-classes/geometry
     core-classes/measurement
     core-classes/metadataType
+    core-classes/lineage-treA
     core-classes/range
     core-classes/query
 
