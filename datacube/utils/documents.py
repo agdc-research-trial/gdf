@@ -403,13 +403,13 @@ class SimpleDocNav(object):
 
     """
 
-    def __init__(self, doc):
+    def __init__(self, doc, sources_path=None):
         if not isinstance(doc, collections.abc.Mapping):
             raise ValueError("")
 
         self._doc = doc
         self._doc_without = None
-        self._sources_path = ('lineage', 'source_datasets')
+        self._sources_path = sources_path if sources_path else ('lineage', 'source_datasets')
         self._sources = None
         self._doc_uuid = None
 
@@ -438,9 +438,6 @@ class SimpleDocNav(object):
             # sources aren't expected to be embedded documents anymore
             self._sources = {k: SimpleDocNav(v) if isinstance(v, collections.abc.Mapping) else v
                              for k, v in get_doc_offset(self._sources_path, self._doc, {}).items()}
-            # if we have sources but they are at (lineage) rather than (lineage, source_datasets)
-            if get_doc_offset(self._sources_path, self._doc) is None and self._doc.get('lineage'):
-                self._sources = self._doc['lineage']
         return self._sources
 
     @property
