@@ -111,7 +111,7 @@ class Dataset:
         #: The datasets that this dataset is derived from (if requested on load).
         self.sources = sources
 
-        if self.sources is not None:
+        if self.sources is not None and self.metadata.sources is not None:
             assert set(self.metadata.sources.keys()) == set(self.sources.keys())
 
         self.source_tree = source_tree

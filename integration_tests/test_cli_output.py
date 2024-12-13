@@ -153,11 +153,11 @@ def test_cli_dataset_subcommand(index, clirunner,
     assert runner.exit_code == 0
 
 
-def test_readd_and_update_metadata_product_dataset_command(index, clirunner,
-                                                           ext_eo3_mdt_path,
-                                                           eo3_product_paths,
-                                                           eo3_dataset_paths,
-                                                           eo3_dataset_update_path):
+def test_read_and_update_metadata_product_dataset_command(index, clirunner,
+                                                          ext_eo3_mdt_path,
+                                                          eo3_product_paths,
+                                                          eo3_dataset_paths,
+                                                          eo3_dataset_update_path):
     add = clirunner(['metadata', 'add', ext_eo3_mdt_path])
     rerun_add = clirunner(['metadata', 'add', ext_eo3_mdt_path])
     assert "WARNING Metadata Type" in rerun_add.output

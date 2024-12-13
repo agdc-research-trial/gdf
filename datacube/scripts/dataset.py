@@ -106,7 +106,10 @@ def load_datasets_for_update(doc_stream, index):
         if existing is None:
             return None, None, "No such dataset in the database: {}".format(uuid)
 
-        ds = SimpleDocNav(prep_eo3(ds.doc, auto_skip=True))
+        ds = SimpleDocNav(
+            prep_eo3(ds.doc, auto_skip=True),
+            sources_path=('lineage',) if index.supports_external_lineage else ('lineage', 'source_datasets')
+        )
 
         # TODO: what about lineage?
         return Dataset(existing.product,
