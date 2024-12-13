@@ -3,8 +3,7 @@ Metadata Type
 =============
 
 
-.. currentmodule:: datacube
+.. currentmodule:: datacube.model
 
-.. autoclass:: datacube.model.MetadataType
-
+.. autoclass:: MetadataType
    :members:

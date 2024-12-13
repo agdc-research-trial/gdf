@@ -8,7 +8,7 @@ The ``LineageTree`` class is used by the Lineage API for describing lineage tree
    Only the ``postgis`` index driver supports the Lineage API.
 
 
-.. currentmodule:: datacube
+.. currentmodule:: datacube.model
 
 .. autoclass:: LineageDirection
    :members:

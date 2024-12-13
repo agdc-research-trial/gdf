@@ -15,7 +15,7 @@ The following pages provide a full API reference for the ``datacube`` python lib
     core-classes/geometry
     core-classes/measurement
     core-classes/metadataType
-    core-classes/lineage-treA
+    core-classes/lineage-tree
     core-classes/range
     core-classes/query
 
@@ -36,6 +36,7 @@ The following pages provide a full API reference for the ``datacube`` python lib
 
     indexed-data/dataset-writing
     indexed-data/product-writing
+    indexed-data/index-api
 
 
 .. toctree::
