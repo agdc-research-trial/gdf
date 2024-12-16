@@ -235,24 +235,24 @@ class AbstractIndex(ABC):
         Steps are:
 
         1) Clone all metadata types compatible with this index driver.
-           * Products and Datasets with incompatible metadata types are excluded from subsequent steps.
-           * Existing metadata types are skipped, but products and datasets associated with them are only
+           - Products and Datasets with incompatible metadata types are excluded from subsequent steps.
+           - Existing metadata types are skipped, but products and datasets associated with them are only
              excluded if the existing metadata type does not match the one from the origin index.
 
         2) Clone all products with "safe" metadata types.
-           * Products are included or excluded by metadata type as discussed above.
-           * Existing products are skipped, but datasets associated with them are only
+           - Products are included or excluded by metadata type as discussed above.
+           - Existing products are skipped, but datasets associated with them are only
              excluded if the existing product definition does not match the one from the origin index.
 
-        3)  Clone all datasets with "safe" products
-            * Datasets are included or excluded by product and metadata type, as discussed above.
-            * Archived datasets and locations are not cloned.
+        3) Clone all datasets with "safe" products
+           - Datasets are included or excluded by product and metadata type, as discussed above.
+           - Archived datasets and locations are not cloned.
 
         4) Clone all lineage relations that can be cloned.
-            * All lineage relations are skipped if either index driver does not support lineage,
-              or if skip_lineage is True.
-            * If this index does not support external lineage then lineage relations that reference datasets
-              that do not exist in this index after step 3 above are skipped.
+           - All lineage relations are skipped if either index driver does not support lineage,
+             or if skip_lineage is True.
+           - If this index does not support external lineage then lineage relations that reference datasets
+             that do not exist in this index after step 3 above are skipped.
 
         API Note: This API method is not finalised and may be subject to change.
 
