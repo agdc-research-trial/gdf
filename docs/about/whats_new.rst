@@ -10,6 +10,7 @@ v1.9.next
 
 - Update and cross-reference 1.8 to 1.9 migration notes (:pull:`1686`)
 - Fix SimpleDocNav lineage handling with PostGIS index (:pull:`1687`)
+- Update whats_new.rst for 1.9.0-r13 pre-release (:pull:`1689`)
 
 v1.9.0-rc12 (9th December 2024)
 ===============================
