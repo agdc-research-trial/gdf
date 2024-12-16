@@ -118,7 +118,7 @@ Major Changes between 1.8.x and 1.9.x
    The postgis driver uses Alembic for managing schema migrations, so future changes to the postgis database
    schema will be much easier to roll out than in the past.
 
-   See below for more information about migrating to the :ref:`the-new-postgis-index-driver`.
+   See below for more information about migrating to the :ref:`The New Postgis Index Driver`.
 
    Note that many other libraries in the ODC ecosystem may not work well with the Postgis driver at first.
 
