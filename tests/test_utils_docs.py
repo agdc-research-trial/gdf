@@ -127,6 +127,14 @@ def test_without_lineage_sources():
     assert mk_sample(10) != mk_sample({})
     assert without_lineage_sources(mk_sample(10), spec) == mk_sample({})
 
+    # check behaviour when `sources` is defined for the type but lineage has not been remapped
+    test_doc = dict(lineage={'a': ['a'], 'b': ['b']},
+                    aa='aa',
+                    bb=dict(bb='bb'))
+    assert without_lineage_sources(test_doc, spec) == dict(lineage={},
+                                                           aa='aa',
+                                                           bb=dict(bb='bb'))
+
     # check behaviour when `sources` is not defined for the type
     no_sources_type = MetadataType({
         'name': 'eo',
