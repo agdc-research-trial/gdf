@@ -43,13 +43,17 @@ based on:
 -  Current system settings
 -  Available IO plugins
 
-If no specific ``DataSource`` can be found, a default
-:py:class:`datacube.storage.storage.RasterDatasetDataSource` is returned, which uses ``rasterio`` to read
+If no specific :py:class:`datasource.storage.DataSource` can be found, a default
+:py:class:`datacube.storage._rio.RasterDatasetDataSource` is returned, which uses ``rasterio`` to read
 from the local file system or a network resource.
 
 The ``DataSource`` maintains the same interface as before, which works
 at the individual *dataset+time+band* level for loading data. This is
 something to be addressed in the future.
+
+See also `odc-loader`_ for a full-scale implementation.
+
+.. _`odc-loader`: https://github.com/opendatacube/odc-loader
 
 Example code to implement a reader driver
 -----------------------------------------
@@ -76,56 +80,6 @@ Example Pickle Based Driver
 Available in ``/examples/io_plugin``. Includes an example ``setup.py``
 as well as example **Read** and **Write** Drivers.
 
-.. _extending-datacube-3d-reads:
-
-3D Data Read Plug-ins
-=====================
-
-3D support is enabled by an optional 3D read ``window`` in the ``read()`` method.
-
-Example code to implement a 3D read
------------------------------------
-
-.. code:: python
-
-    def read(
-        self,
-        window: Optional[RasterWindow] = None,
-        out_shape: Optional[RasterShape] = None,
-    ) -> np.ndarray:
-    """
-    Reads a slice into the xr.DataArray.
-
-    :param RasterWindow window: The slice to read
-    :param RasterShape out_shape: The desired output shape
-    :return: Requested data in a :class:`numpy.ndarray`
-    """
-
-    if window is None:
-        ix: Tuple = (...,)
-    else:
-        ix = tuple(slice(*w) if isinstance(w, tuple) else w for w in window)
-
-    def fn() -> Any:
-        return self.da[ix].values
-
-    data = fn()
-
-    if out_shape and data.shape != out_shape:
-        raise ValueError(
-            f"Data shape does not match 'out_shape': {data.shape} != {out_shape}"
-        )
-
-    return data
-
-Example Xarray Based 3D Driver
-------------------------------
-
-This sample driver supports reading 3D data.
-
-Available in ``/examples/io_plugin``. Includes an example ``setup.py``
-as well as an example **Read** Driver.
-
 .. _write_plugin:
 
 Data Write Plug-ins
@@ -142,10 +96,12 @@ however this information isn't used by the ingester to decide which
 driver to use. Not specifying a driver counts as an error, there is no
 default.
 
-At this stage there is no decision on what sort of a public API to
-expose, but the ``write_dataset_to_storage()`` method implemented in
-each driver is the closest we've got. The **ingester** is using it to
-write data.
+Data write support is not currently a priority and may be removed
+or relocated into another package in future.
+
+See also `odc-geo`_'s COG-writing methods.
+
+.. _`odc-geo`: https://github.com/opendatacube/odc-geo
 
 Example code to implement a writer driver
 -----------------------------------------
@@ -215,24 +171,34 @@ to connect to an ``Index``. This PR extends this with an
 to use. If this parameter is missing, it falls back to using the default
 PostgreSQL Index.
 
-A set of abstract base classes are defined in ``datacube.index.abstract``. An index plugin
+A set of abstract base classes are defined in :py:mod:`datacube.index.abstract`. An index plugin
 is expected to supply implementations of all these abstract base classes. If any abstract
 methods is not relevant to or implementable by a particular Index Driver, that method should
 defined to raise a ``NotImplementedError``.
 
+Legacy Implementation
+---------------------
+
+The legacy ``postgres`` index driver uses a PostgreSQL database for all storage and
+retrieval, with search support by json indexes.
+
+PostGIS Implementation
+----------------------
+
+The new ``postgis`` index driver uses a PostgreSQL database for all storage and
+retrieval, with spatial search using postgis spatial indexes.
+
 Default Implementation
 ----------------------
 
-The default ``Index`` uses a PostgreSQL database for all storage and
-retrieval.
-
-If explicitly declaring the default index driver, you can use either ``default`` or ``postgres``
-as the ``index_driver`` in the configuration file.
+Not specifying and index driver (or specifying ``default`` as the index driver) results in
+the ``postgres`` index driver. In a future release, this will switch to the ``postgis`` index
+driver.
 
 Null Implementation
 -------------------
 
-`datacube-core` includes a minimal "null" index driver, that implements an index that is always
+``datacube-core`` includes a minimal "null" index driver, that implements an index that is always
 empty. The code for this driver is located at ``datacube.index.null`` and can be used by setting
 the ``index_driver`` to ``null`` in the configuration file.
 
@@ -245,7 +211,7 @@ The null index driver may be useful:
 Memory Implementation
 ---------------------
 
-`datacube-core` includes a non-persistent, local, in-memory index driver.  The index is maintained
+``datacube-core`` includes a non-persistent, local, in-memory index driver.  The index is maintained
 in local memory and is not backed by a database.
 The code for this driver is located at ``datacube.index.memory`` and can be used by setting
 the ``index_driver`` to ``memory`` in the configuration file.
@@ -256,17 +222,6 @@ The memory index driver may be useful:
 2. for testing scenarios where no index persistence is required; or
 3. as an example/template for developing other index drivers.
 
-
-PostGIS Implementation
-----------------------
-
-`datacube-core` also includes a PostGIS index driver that can be accessed by setting the ``index_driver``
-to ``postgis`` in the configuration file.
-
-The ``postgis`` driver is part of the `ODCv2 development roadmap`_.  It is currently considered experimental,
-meaning it may be subject to sudden backwards-incompatible changes. Use this index driver at your own risk.
-
-.. _ODCv2 development roadmap: https://github.com/opendatacube/datacube-core/wiki/ODC-v2-Roadmap
 
 Drivers Plugin Management Module
 ================================
@@ -306,7 +261,5 @@ References and History
 - :pull:`346`
 -  `Pluggable Back Ends Discussion [7 December
    2017] <https://github.com/orgs/opendatacube/teams/developers/discussions/2>`__
--  Teleconference with @omad @petewa @rtaib @Kirill888 on *12 December
-   2017*.
 -  `Notes from ODC Storage and Index Driver
    Meeting <https://docs.google.com/document/d/1l2xOaKyvQRV4h35NELKvyM3DYOUosXJhcj-lgHC8MN4/edit>`__
