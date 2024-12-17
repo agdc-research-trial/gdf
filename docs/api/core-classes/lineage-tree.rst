@@ -1,6 +1,6 @@
-==========
-LinageTree
-==========
+===========
+LineageTree
+===========
 
 The ``LineageTree`` class is used by the Lineage API for describing lineage trees of datasets.
 
