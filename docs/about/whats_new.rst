@@ -8,8 +8,9 @@ What's New
 v1.9.next
 =========
 
-- API autodocs cleanup (:pull:`1688`)
 - Further metadata fix for new lineage API (:pull:`1690`)
+- Update release process ready for post-1.9.0 release (:pull:`1691`)
+- API autodocs cleanup (:pull:`1688`)
 
 v1.9.0-rc13 (16th December 2024)
 ===============================
