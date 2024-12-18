@@ -47,8 +47,8 @@ Requirements
 System
 ~~~~~~
 
--  PostgreSQL 10+
--  Python 3.9+
+-  PostgreSQL 15+
+-  Python 3.10+
 
 Developer setup
 ===============
@@ -98,9 +98,8 @@ Run unit tests with:
 
    ``./check-code.sh integration_tests``
 
-   -  Assumes a password-less Postgres database running on localhost called
-
-   ``pgintegration``
+   -  Assumes the sexistence of two password-less Postgres databases running on localhost called
+      ``pgintegration`` and ``pgisintegration``.
 
    -  Otherwise copy ``integration_tests/integration.conf`` to
       ``~/.datacube_integration.conf`` and edit to customise.
