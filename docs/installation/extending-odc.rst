@@ -180,7 +180,7 @@ Legacy Implementation
 ---------------------
 
 The legacy ``postgres`` index driver uses a PostgreSQL database for all storage and
-retrieval, with search support by json indexes.
+retrieval, with search supported by json indexes.
 
 PostGIS Implementation
 ----------------------
