@@ -191,7 +191,7 @@ retrieval, with spatial search using postgis spatial indexes.
 Default Implementation
 ----------------------
 
-Not specifying and index driver (or specifying ``default`` as the index driver) results in
+Not specifying an index driver (or specifying ``default`` as the index driver) results in
 the ``postgres`` index driver. In a future release, this will switch to the ``postgis`` index
 driver.
 
