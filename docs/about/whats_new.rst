@@ -10,7 +10,7 @@ v1.9.next
 
 - API autodocs cleanup (:pull:`1688`)
 - Further metadata fix for new lineage API (:pull:`1690`)
-- Fixed all references to the postgis driver as "experimental" in tests and documentation (:pull:`1693`)
+- Removed all references to the postgis driver as "experimental" in tests and documentation (:pull:`1693`)
 
 v1.9.0-rc13 (16th December 2024)
 ===============================
