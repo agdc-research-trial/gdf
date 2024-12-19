@@ -42,7 +42,7 @@ def test_legacy_location_behaviour(index, ls8_eo3_dataset):
         assert index.datasets.get_location(ls8_eo3_dataset.id) is None
 
 
-@pytest.mark.parametrize('datacube_env_name', ('experimental',))
+@pytest.mark.parametrize('datacube_env_name', ('postgis',))
 def test_postgis_no_multiple_locations(index, ls8_eo3_dataset):
     with suppress_deprecations():
         locations = index.datasets.get_locations(ls8_eo3_dataset.id)  # Test of deprecated method

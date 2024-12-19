@@ -560,7 +560,7 @@ def test_search_returning_rows_eo3(index,
     }
 
 
-@pytest.mark.parametrize('datacube_env_name', ('experimental', ))
+@pytest.mark.parametrize('datacube_env_name', ('postgis', ))
 def test_search_returning_uri(index, eo3_ls8_dataset_doc,
                               ls8_eo3_dataset):
     dataset = ls8_eo3_dataset
@@ -899,12 +899,11 @@ def test_cli_info_eo3(index: Index,
     opts = [
         'dataset', 'info', str(ls8_eo3_dataset.id)
     ]
-    result = clirunner(opts, verbose_flag='')
+    with suppress_deprecations():
+        result = clirunner(opts, verbose_flag='')
 
     output = result.output
-    # Remove WARNING messages for experimental driver
-    output_lines = [line for line in output.splitlines() if "WARNING:" not in line]
-    output = "\n".join(output_lines)
+    output_lines = list(output.splitlines())
 
     # Should be a valid yaml
     yaml_docs = list(yaml.safe_load_all(output))

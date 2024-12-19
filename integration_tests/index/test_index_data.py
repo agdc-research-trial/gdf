@@ -433,7 +433,7 @@ def test_index_dataset_with_sources(index, default_metadata_type):
     index.datasets.add(child, with_lineage=False)
 
 
-@pytest.mark.parametrize('datacube_env_name', ('experimental',))
+@pytest.mark.parametrize('datacube_env_name', ('postgis',))
 def test_index_dataset_with_lineage(index, ds_with_lineage, ls8_eo3_dataset):
     assert ds_with_lineage.source_tree
     index.datasets.add(ds_with_lineage)

@@ -10,12 +10,12 @@ from datacube.index import Index
 from odc.geo import CRS
 
 
-@pytest.mark.parametrize('datacube_env_name', ('experimental',))
+@pytest.mark.parametrize('datacube_env_name', ('postgis',))
 def test_index_environment(index: Index):
-    assert index.environment.index_driver in ("experimental", "postgis")
+    assert index.environment.index_driver in ("postgis")
 
 
-@pytest.mark.parametrize('datacube_env_name', ('experimental',))
+@pytest.mark.parametrize('datacube_env_name', ('postgis',))
 def test_create_drop_spatial_index(index: Index):
     # Default spatial index for 4326
     assert list(index.spatial_indexes()) == [CRS("epsg:4326")]
@@ -34,7 +34,7 @@ def test_create_drop_spatial_index(index: Index):
     assert index.spatial_indexes(refresh=True) == [CRS("epsg:4326")]
 
 
-@pytest.mark.parametrize('datacube_env_name', ('experimental',))
+@pytest.mark.parametrize('datacube_env_name', ('postgis',))
 def test_spatial_index_maintain(index: Index, ls8_eo3_product, eo3_ls8_dataset_doc):
     index.create_spatial_index(CRS("EPSG:3577"))
     assert set(index.spatial_indexes(refresh=True)) == {CRS("EPSG:3577"), CRS("EPSG:4326")}
@@ -49,7 +49,7 @@ def test_spatial_index_maintain(index: Index, ls8_eo3_product, eo3_ls8_dataset_d
     # Can't really read yet, but seems to write at least
 
 
-@pytest.mark.parametrize('datacube_env_name', ('experimental',))
+@pytest.mark.parametrize('datacube_env_name', ('postgis',))
 def test_spatial_index_populate(index: Index,
                                 ls8_eo3_product,
                                 wo_eo3_product,
@@ -72,7 +72,7 @@ def test_spatial_index_populate(index: Index,
     assert index.update_spatial_index(product_names=[ls8_eo3_product.name], dataset_ids=[ls8_eo3_dataset.id]) == 8
 
 
-@pytest.mark.parametrize('datacube_env_name', ('experimental',))
+@pytest.mark.parametrize('datacube_env_name', ('postgis',))
 def test_spatial_index_crs_validity(index: Index,
                                     ls8_eo3_product, ls8_eo3_dataset,
                                     africa_s2_eo3_product, africa_eo3_dataset):
@@ -185,7 +185,7 @@ def test_spatial_index_crs_sanitise():
     assert sanitise_extent(am_3832, epsg4326).type == "MultiPolygon"
 
 
-@pytest.mark.parametrize('datacube_env_name', ('experimental',))
+@pytest.mark.parametrize('datacube_env_name', ('postgis',))
 def test_spatial_extent(index,
                         ls8_eo3_dataset, ls8_eo3_dataset2,
                         ls8_eo3_dataset3, ls8_eo3_dataset4,
@@ -239,7 +239,7 @@ def test_spatial_extent(index,
     assert ext_ls8 == ext1234
 
 
-@pytest.mark.parametrize('datacube_env_name', ('experimental',))
+@pytest.mark.parametrize('datacube_env_name', ('postgis',))
 def test_spatial_search(index,
                         ls8_eo3_dataset, ls8_eo3_dataset2,
                         ls8_eo3_dataset3, ls8_eo3_dataset4):
@@ -284,7 +284,7 @@ def test_spatial_search(index,
     assert index.datasets.count(product=ls8_eo3_dataset.product.name, geopolygon=exact3_3577) == 2
 
 
-@pytest.mark.parametrize('datacube_env_name', ('experimental',))
+@pytest.mark.parametrize('datacube_env_name', ('postgis',))
 def test_temporal_extents(index,
                           ls8_eo3_dataset, ls8_eo3_dataset2,
                           ls8_eo3_dataset3, ls8_eo3_dataset4):

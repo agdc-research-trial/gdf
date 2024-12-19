@@ -32,7 +32,7 @@ from datacube import Datacube
 from .search_utils import _load_product_query, _csv_search_raw, _cli_csv_search
 from datacube.utils.dates import tz_as_utc
 
-# These tests use non-EO3 metadata, so will not work with the experimental driver.
+# These tests use non-EO3 metadata, so will not work with the postgis driver.
 # Mark all with @pytest.mark.parametrize('datacube_env_name', ('datacube', ))
 
 
@@ -851,9 +851,7 @@ def test_cli_info(index: Index,
         result = clirunner(opts, verbose_flag='')
 
     output = result.output
-    # Remove WARNING messages for experimental driver
-    output_lines = [line for line in output.splitlines() if "WARNING:" not in line]
-    output = "\n".join(output_lines)
+    output_lines = list(output.splitlines())
 
     # Should be a valid yaml
     yaml_docs = list(yaml.safe_load_all(output))

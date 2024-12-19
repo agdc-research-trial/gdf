@@ -454,12 +454,12 @@ def mem_eo3_data(mem_index_eo3, datasets_with_unembedded_lineage_doc):
     return mem_index_eo3, ds_ls8.id, ds_wo.id
 
 
-@pytest.fixture(scope="module", params=["datacube", "experimental"])
+@pytest.fixture(scope="module", params=["datacube", "postgis"])
 def datacube_env_name(request):
     return request.param
 
 
-@pytest.fixture(params=[("datacube", "experimental"), ("experimental", "datacube")])
+@pytest.fixture(params=[("datacube", "postgis"), ("postgis", "datacube")])
 def datacube_env_name_pair(request) -> tuple[str, str]:
     return request.param
 
