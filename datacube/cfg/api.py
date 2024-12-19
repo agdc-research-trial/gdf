@@ -17,7 +17,7 @@ from .cfg import find_config, parse_text
 from .exceptions import ConfigException
 from .opt import ODCOptionHandler, AliasOptionHandler, IndexDriverOptionHandler, BoolOptionHandler, IntOptionHandler
 from .utils import ConfigDict, check_valid_env_name
-
+from ..migration import ODC2DeprecationWarning
 
 # TypeAliases for more concise type hints
 # (Unions required as typehint | operator doesn't work with string forward-references.
@@ -215,13 +215,15 @@ class ODCConfig:
             elif os.environ.get("DATACUBE_ENVIRONMENT"):
                 warnings.warn(
                     "Setting the default environment with $DATACUBE_ENVIRONMENT is deprecated. "
-                    "Please use $ODC_ENVIRONMENT instead.")
+                    "Please use $ODC_ENVIRONMENT instead.",
+                    ODC2DeprecationWarning)
                 item = os.environ["DATACUBE_ENVIRONMENT"]
             elif "default" in self.known_environments:
                 item = "default"
             elif "datacube" in self.known_environments:
                 warnings.warn("Defaulting to the 'datacube' environment - "
-                              "this fallback behaviour is deprecated and may change in a future release.")
+                              "this fallback behaviour is deprecated and may change in a future release.",
+                              ODC2DeprecationWarning)
                 item = "datacube"
             else:
                 # No explicitly defined (known) environments - assume default and hope there's config

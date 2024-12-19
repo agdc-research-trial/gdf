@@ -6,6 +6,8 @@ from unittest.mock import MagicMock
 
 import pytest
 
+from datacube.testutils import suppress_deprecations
+
 
 def test_smells_like_ini():
     from datacube.cfg.utils import smells_like_ini
@@ -92,7 +94,7 @@ def test_parse_text(simple_valid_ini, simple_valid_yaml):
 @pytest.fixture
 def single_env_config():
     return """# Simple single environment config
-experimental:
+new:
    index_driver: postgis
    db_url: postgresql://foo:bar@server.subdomain.domain/mytestdb
    db_iam_authentication: yes
@@ -114,16 +116,16 @@ legacy:
    db_port: 5433
    db_database: mytestdb
    db_connection_timeout: 20
-experimental:
+new:
    index_driver: postgis
    db_url: postgresql://foo:bar@server.subdomain.domain/mytestdb
    db_iam_authentication: yes
 postgis:
-   alias: experimental
+   alias: new
 memory:
    index_driver: memory
    db_url: '@nota?valid:url//foo&bar%%%'
-exp2:
+new2:
    index_driver: postgis
    db_url: postgresql://foo:bar@server.subdomain.domain/mytestdb
    db_database: not_read
@@ -147,17 +149,17 @@ def simple_dict():
             "db_database": "mytestdb",
             "db_connection_timeout": 20
         },
-        "experimental": {
+        "new": {
             "index_driver": "postgis",
             "db_url": "postgresql://foo:bar@server.subdomain.domain/mytestdb",
             "db_iam_authentication": "yes"
         },
-        "postgis": {"alias": "experimental"},
+        "postgis": {"alias": "new"},
         "memory": {
             "index_driver": "memory",
             "db_url": "@nota?valid:url//foo&bar%%%"
         },
-        "exp2": {
+        "new2": {
             "index_driver": "postgis",
             "db_url": "postgresql://foo:bar@server.subdomain.domain/mytestdb",
             "db_database": "not_read",
@@ -211,24 +213,24 @@ def test_single_env(single_env_config):
     from datacube.cfg import ODCConfig
     cfg = ODCConfig(text=single_env_config)
 
-    assert cfg['experimental'].index_driver == "postgis"
-    assert cfg['experimental'].db_url == "postgresql://foo:bar@server.subdomain.domain/mytestdb"
-    assert cfg['experimental'].db_username == "foo"
+    assert cfg['new'].index_driver == "postgis"
+    assert cfg['new'].db_url == "postgresql://foo:bar@server.subdomain.domain/mytestdb"
+    assert cfg['new'].db_username == "foo"
     with pytest.raises(AttributeError):
-        assert cfg['experimental'].not_an_option
-    assert cfg['experimental']['db_iam_authentication']
-    assert cfg['experimental'].db_iam_timeout == 600
-    assert cfg['experimental']['db_connection_timeout'] == 60
+        assert cfg['new'].not_an_option
+    assert cfg['new']['db_iam_authentication']
+    assert cfg['new'].db_iam_timeout == 600
+    assert cfg['new']['db_connection_timeout'] == 60
 
 
 def assert_simple_aliases(cfg):
     assert cfg['default']._name == 'legacy'
     assert cfg['postgres']._name == 'legacy'
     assert cfg['legacy']._name == 'legacy'
-    assert cfg['postgis']._name == 'experimental'
-    assert cfg['experimental']._name == 'experimental'
+    assert cfg['postgis']._name == 'new'
+    assert cfg['new']._name == 'new'
     assert cfg['memory']._name == 'memory'
-    assert cfg['exp2']._name == 'exp2'
+    assert cfg['new2']._name == 'new2'
     assert cfg['dynamic']._name == 'dynamic'
     assert cfg[None]._name == 'legacy'
 
@@ -257,13 +259,13 @@ def assert_simple_options(cfg):
     with pytest.raises(KeyError):
         assert cfg['default']["db_iam_timeout"]
 
-    assert cfg['exp2'].db_url == "postgresql://foo:bar@server.subdomain.domain/mytestdb"
-    assert cfg['exp2'].db_username == "foo"
+    assert cfg['new2'].db_url == "postgresql://foo:bar@server.subdomain.domain/mytestdb"
+    assert cfg['new2'].db_username == "foo"
     with pytest.raises(AttributeError):
-        assert cfg['exp2'].not_an_option
-    assert cfg['exp2']['db_iam_authentication']
-    assert cfg['exp2'].db_iam_timeout == 300
-    assert cfg['exp2']['db_connection_timeout'] == 60
+        assert cfg['new2'].not_an_option
+    assert cfg['new2']['db_iam_authentication']
+    assert cfg['new2'].db_iam_timeout == 300
+    assert cfg['new2']['db_connection_timeout'] == 60
 
 
 def test_options(simple_config):
@@ -281,12 +283,12 @@ def test_rawdict(simple_dict):
 
 def test_noenv_overrides_in_text(simple_config, monkeypatch):
     monkeypatch.setenv("ODC_LEGACY_DB_USERNAME", "bar")
-    monkeypatch.setenv("ODC_EXPERIMENTAL_DB_USERNAME", "bar")
+    monkeypatch.setenv("ODC_NEW_DB_USERNAME", "bar")
     from datacube.cfg import ODCConfig
     cfg = ODCConfig(text=simple_config)
 
     assert cfg["legacy"].db_username != 'bar'
-    assert cfg["experimental"].db_username != "bar"
+    assert cfg["new"].db_username != "bar"
 
 
 @pytest.fixture
@@ -336,7 +338,7 @@ def test_ini_from_paths(path_to_ini_config, path_to_yaml_config, path_to_differe
         "/non/existent/path.yml",
         path_to_yaml_config,
     ])
-    assert cfg[None]._name == 'experimental'
+    assert cfg[None]._name == 'new'
 
     with pytest.raises(ConfigException):
         cfg = ODCConfig(paths=[
@@ -370,27 +372,29 @@ def test_ini_from_paths(path_to_ini_config, path_to_yaml_config, path_to_differe
         cfg = ODCConfig()
         assert cfg[None]._name == 'legacy'
 
-    with monkeypatch.context() as mp:
-        mp.setenv("DATACUBE_CONFIG_PATH",
-                  f"/non/existent/path.yml:{path_to_yaml_config}:{path_to_different_config}")
-        cfg = ODCConfig()
-        assert cfg[None]._name == 'legacy'
+    with suppress_deprecations():
+        with monkeypatch.context() as mp:
+            mp.setenv("DATACUBE_CONFIG_PATH",
+                      f"/non/existent/path.yml:{path_to_yaml_config}:{path_to_different_config}")
+            cfg = ODCConfig()
+            assert cfg[None]._name == 'legacy'
 
 
 def test_envvar_overrides(path_to_yaml_config, monkeypatch):
     monkeypatch.setenv("ODC_LEGACY_DB_USERNAME", "bar")
-    monkeypatch.setenv("ODC_EXPERIMENTAL_DB_USERNAME", "bar")
-    monkeypatch.setenv("ODC_EXP2_DB_CONNECTION_TIMEOUT", "20")
+    monkeypatch.setenv("ODC_NEW_DB_USERNAME", "bar")
+    monkeypatch.setenv("ODC_NEW2_DB_CONNECTION_TIMEOUT", "20")
     monkeypatch.setenv("DATACUBE_IAM_AUTHENTICATION", "yes")
 
     from datacube.cfg import ODCConfig
-    cfg = ODCConfig(paths=path_to_yaml_config)
-    assert cfg["legacy"].db_username == 'bar'
-    assert cfg["legacy"].db_iam_authentication
-    assert cfg["experimental"].db_iam_authentication
-    assert cfg["exp2"].db_iam_authentication
-    assert cfg["exp2"].db_connection_timeout == 20
-    assert cfg["experimental"].db_username != 'bar'
+    with suppress_deprecations():
+        cfg = ODCConfig(paths=path_to_yaml_config)
+        assert cfg["legacy"].db_username == 'bar'
+        assert cfg["legacy"].db_iam_authentication
+        assert cfg["new"].db_iam_authentication
+        assert cfg["new2"].db_iam_authentication
+        assert cfg["new2"].db_connection_timeout == 20
+        assert cfg["new"].db_username != 'bar'
 
 
 def test_intopt_validation():
@@ -461,18 +465,18 @@ def test_pgurl_from_config(simple_dict):
         cfg["legacy"]
     ) == "postgresql://foo:bar@server.subdomain.domain:5433/mytestdb"
     assert psql_url_from_config(
-        cfg["experimental"]
+        cfg["new"]
     ) == "postgresql://foo:bar@server.subdomain.domain/mytestdb"
     with pytest.raises(AttributeError):
         psql_url_from_config(
             cfg["memory"]
         )
-    assert cfg["exp2"].db_url == "postgresql://foo:bar@server.subdomain.domain/mytestdb"
-    assert cfg["exp2"].db_username == "foo"
-    assert cfg["exp2"].db_password == "bar"
-    assert cfg["exp2"].db_hostname == "server.subdomain.domain"
-    assert not cfg["exp2"].db_port
-    assert cfg["exp2"].db_database == "mytestdb"
+    assert cfg["new2"].db_url == "postgresql://foo:bar@server.subdomain.domain/mytestdb"
+    assert cfg["new2"].db_username == "foo"
+    assert cfg["new2"].db_password == "bar"
+    assert cfg["new2"].db_hostname == "server.subdomain.domain"
+    assert not cfg["new2"].db_port
+    assert cfg["new2"].db_database == "mytestdb"
 
     cfg = ODCConfig(raw_dict={
         "foo": {
@@ -532,20 +536,21 @@ def test_raw_by_environment(simple_config, monkeypatch):
 
 def test_default_environment(simple_config, monkeypatch):
     from datacube.cfg import ODCConfig
-    cfg = ODCConfig(text=simple_config)
-    assert cfg[None]._name == 'legacy'
-    monkeypatch.setenv('ODC_ENVIRONMENT', 'exp2')
-    assert cfg[None]._name == 'exp2'
-    monkeypatch.setenv('ODC_ENVIRONMENT', '')
-    monkeypatch.setenv('DATACUBE_ENVIRONMENT', 'postgis')
-    assert cfg[None]._name == 'experimental'
-    cfg = ODCConfig(raw_dict={
-        'datacube': {"index_driver": "memory"}
-    })
-    monkeypatch.setenv('DATACUBE_ENVIRONMENT', '')
-    assert cfg[None]._name == 'datacube'
-    cfg = ODCConfig(raw_dict={
-        'weirdname': {"index_driver": "memory"},
-        'stupidenv': {"index_driver": "null"},
-    })
-    assert cfg[None]._name == "default"
+    with suppress_deprecations():
+        cfg = ODCConfig(text=simple_config)
+        assert cfg[None]._name == 'legacy'
+        monkeypatch.setenv('ODC_ENVIRONMENT', 'new2')
+        assert cfg[None]._name == 'new2'
+        monkeypatch.setenv('ODC_ENVIRONMENT', '')
+        monkeypatch.setenv('DATACUBE_ENVIRONMENT', 'postgis')
+        assert cfg[None]._name == 'new'
+        cfg = ODCConfig(raw_dict={
+            'datacube': {"index_driver": "memory"}
+        })
+        monkeypatch.setenv('DATACUBE_ENVIRONMENT', '')
+        assert cfg[None]._name == 'datacube'
+        cfg = ODCConfig(raw_dict={
+            'weirdname': {"index_driver": "memory"},
+            'stupidenv': {"index_driver": "null"},
+        })
+        assert cfg[None]._name == "default"

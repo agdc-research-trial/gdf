@@ -1,6 +1,6 @@
 # Simple but thorough test config
 default:
-   alias: experimental
+   alias: new
 postgres:
    alias: legacy
 legacy:
@@ -11,12 +11,12 @@ legacy:
    db_port: 5433
    db_database: mytestdb
    db_connection_timeout: 20
-experimental:
+new:
    index_driver: postgis
    db_url: postgresql://foo:bar@server.subdomain.domain/mytestdb
    db_iam_authentication: yes
 postgis:
-   alias: experimental
+   alias: new
 memory:
    index_driver: memory
    db_url: '@nota?valid:url//foo&bar%%%'
@@ -25,6 +25,6 @@ stupid:
 foo:
    index_driver: postgis
    db_url: postgresql://bar:foo@backup.subdomain.domain/otherdb
-exp2:
+pgis2:
    index_driver: postgis
    db_url: postgresql://foo:bar@server.subdomain.domain/mytestdb

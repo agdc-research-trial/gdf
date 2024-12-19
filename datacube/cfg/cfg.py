@@ -16,6 +16,7 @@ from os.path import expanduser
 
 from datacube.cfg.exceptions import ConfigException
 from datacube.cfg.utils import ConfigDict, smells_like_ini, SemaphoreCallback
+from datacube.migration import ODC2DeprecationWarning
 
 _DEFAULT_CONFIG_SEARCH_PATH = [
     "datacube.conf",      # i.e. in the current working directory.
@@ -62,7 +63,8 @@ def find_config(paths_in: None | str | PathLike | list[str | PathLike],
             warnings.warn(
                 "Datacube config path being determined by legacy $DATACUBE_CONFIG_PATH environment variable. "
                 "This environment variable is deprecated and the behaviour of it has changed somewhat since datacube "
-                "1.8.x.   Please refer to the documentation for details and switch to $ODC_CONFIG_PATH"
+                "1.8.x.   Please refer to the documentation for details and switch to $ODC_CONFIG_PATH",
+                ODC2DeprecationWarning
             )
             paths.extend(os.environ["DATACUBE_CONFIG_PATH"].split(':'))
         else:

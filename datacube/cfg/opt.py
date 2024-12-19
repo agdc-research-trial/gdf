@@ -11,6 +11,7 @@ from urllib.parse import quote_plus
 
 from .exceptions import ConfigException
 from .utils import check_valid_option
+from ..migration import ODC2DeprecationWarning
 
 if TYPE_CHECKING:
     from .api import ODCEnvironment
@@ -104,7 +105,8 @@ class ODCOptionHandler:
                 if val := os.environ.get(envvar_name):
                     warnings.warn(
                         f"Config being passed in by legacy environment variable ${envvar_name}. "
-                        f"Please use ${canonical_name} instead.")
+                        f"Please use ${canonical_name} instead.",
+                        ODC2DeprecationWarning)
                     return val
             global_name = f"odc_all_{self.name}".upper()
             if val := os.environ.get(global_name):
