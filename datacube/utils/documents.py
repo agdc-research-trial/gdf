@@ -546,6 +546,10 @@ def without_lineage_sources(doc: Dict[str, Any],
     if 'sources' in doc_view.fields:
         if doc_view.sources is not None:
             doc_view.sources = {}
+        # lineage has not been remapped
+        elif 'lineage' in doc:
+            doc["lineage"] = {}
+    # 'sources' path isn't defined
     elif 'lineage' in doc:
         doc["lineage"] = {}
 
