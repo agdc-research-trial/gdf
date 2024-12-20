@@ -164,12 +164,9 @@ Index Plug-ins
     `datacube.plugins.index <https://github.com/opendatacube/datacube-core/blob/9c0ea8923fa5d29dc2a813141ad64daea74c4902/setup.py#L112>`__
 
 A connection to an ``Index`` is required to find data in the Data Cube.
-Already implemented in the ``develop`` branch was the concept of
-``environments`` which are a named set of configuration parameters used
-to connect to an ``Index``. This PR extends this with an
-``index_driver`` parameter, which specifies the name of the Index Driver
-to use. If this parameter is missing, it falls back to using the default
-PostgreSQL Index.
+
+ODC Configuration environments have an ``index_driver`` parameter, which specifies the name of the Index Driver
+to use. See :doc:`database/configuration`.
 
 A set of abstract base classes are defined in :py:mod:`datacube.index.abstract`. An index plugin
 is expected to supply implementations of all these abstract base classes. If any abstract
