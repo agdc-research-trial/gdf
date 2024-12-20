@@ -47,10 +47,10 @@ jobs:
           docker:
             - 'docker/**'
 
-    - name: Pull Docker
-      if: steps.changes.outputs.docker == 'false'
-      run: |
-        docker pull "${{ env.DOCKER_IMAGE }}"
+    # - name: Pull Docker
+    #   if: steps.changes.outputs.docker == 'false'
+    #   run: |
+    #     docker pull "${{ env.DOCKER_IMAGE }}"
 
     - name: Set up Docker Buildx
       if: steps.changes.outputs.docker == 'true'
