@@ -8,10 +8,44 @@ What's New
 v1.9.next
 =========
 
+v1.9.0 (23rd December 2024)
+===========================
+
+1.9.0 is first major release of the Open Data Cube in several years.  The focus has been on retiring technical
+debt and unused features and preparing major architectural changes in subsequent releases.
+
+As there are some backwards incompatibilities in this release, we recommend that you read the migration notes
+at ``docs/installation/MIGRATION-1.8-to-1.9`` before upgrading.
+
+Major changes from recent 1.8.x releases include:
+
+- A new index driver that uses PostGIS spatial indexes to provide faster and more accurate geospatial search
+  and provide better support for storing data that covers regions where traditional lat/long seach is
+  inadequate (i.e. covering polar regions or crossing the anti-meridian).
+
+  The new postgis index driver implements a new API for working with dataset lineage, and only supports
+  a single location per dataset. It is otherwise largely backwards compatible with the legacy postgres index driver.
+
+  The legacy "postgres" index driver is still available, but will be removed in a future release.
+- A new configuration layer that provides more predictable and consistent behaviour and will be easier to
+  extend in future.
+
+  Given the nature and scope of the changes, the new configuration layer is not fully backwards compatible
+  with the old implementation, but the vast majority of use cases should only require minor adjustments
+  to existing configuration and code at most.
+- The old ``datacube.utils.geometry`` library is now deprecated.  ``odc-geo`` is used internally throughout,
+  and we recommend updating all your code to use odc-geo rather than the deprecated internal library.
+- The long-deprecated executor and ingestion workflows have been removed.
+
+
+Changes since 1.9.0-rc13
+------------------------
+
 - API autodocs cleanup (:pull:`1688`)
 - Further metadata fix for new lineage API (:pull:`1690`)
 - Update release process ready for post-1.9.0 release (:pull:`1691`)
 - Removed all references to the postgis driver as "experimental" in tests and documentation (:pull:`1693`)
+- Update whats_new.rst etc. for 1.9.0 release (:pull:`1694`)
 
 v1.9.0-rc13 (16th December 2024)
 ===============================
