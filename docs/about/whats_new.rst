@@ -12,7 +12,7 @@ v1.9.0 (23rd December 2024)
 ===========================
 
 1.9.0 is first major release of the Open Data Cube in several years.  The focus has been on retiring technical
-debt and unused features and preparing major architectural changes in subsequent releases.
+debt and unused features and preparing for major architectural changes in subsequent releases.
 
 As there are some backwards incompatibilities in this release, we recommend that you read the migration notes
 at ``docs/installation/MIGRATION-1.8-to-1.9`` before upgrading.
