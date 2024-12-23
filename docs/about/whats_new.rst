@@ -8,6 +8,8 @@ What's New
 v1.8.next
 =========
 
+- Update 1.8.x release process ready for post-1.9 release world (:pull:`1692`)
+
 v1.8.20 (9th December 2024)
 ===========================
 - Update docker image and CI (:pull:`1624`, :pull:`1625`, :pull:`1626`, :pull:`1639`, :pull:`1641`, :pull:`1642`)
