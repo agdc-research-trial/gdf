@@ -398,10 +398,8 @@ def ds_no_region(index, extended_eo3_metadata_type, ls8_eo3_product, final_datas
 
 
 @pytest.fixture
-def ds_with_lineage(index, wo_eo3_product, eo3_wo_dataset_doc, ls8_eo3_dataset):
+def ds_with_lineage(index, wo_eo3_product, eo3_wo_dataset_doc):
     doc, path = eo3_wo_dataset_doc
-    # rewrite lineage to correct format
-    doc["lineage"] = {"source_datasets": {"ard": [ls8_eo3_dataset.id]}}
     return doc_to_ds_no_add(
         index,
         wo_eo3_product.name,
@@ -456,12 +454,12 @@ def mem_eo3_data(mem_index_eo3, datasets_with_unembedded_lineage_doc):
     return mem_index_eo3, ds_ls8.id, ds_wo.id
 
 
-@pytest.fixture(scope="module", params=["datacube", "experimental"])
+@pytest.fixture(scope="module", params=["datacube", "postgis"])
 def datacube_env_name(request):
     return request.param
 
 
-@pytest.fixture(params=[("datacube", "experimental"), ("experimental", "datacube")])
+@pytest.fixture(params=[("datacube", "postgis"), ("postgis", "datacube")])
 def datacube_env_name_pair(request) -> tuple[str, str]:
     return request.param
 

@@ -48,8 +48,8 @@ pyproj>=3.5
 python-dateutil
 # For Python 3.12 support
 pyyaml>=6.0.1
-# For Python 3.12 support
-rasterio>=1.3.11
+# For latest gdal support
+rasterio>=1.4.0
 # For Python 3.12 support
 typing-extensions>=4.7
 recommonmark

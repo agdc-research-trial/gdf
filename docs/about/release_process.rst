@@ -1,8 +1,8 @@
 Release Process
 ***************
 
-#. Decide to do a release, and check with regular contributors on `Discord <https://discord.com/invite/4hhBQVas5U>`_ that
-   they don't have anything pending.
+#. Decide to do a release, and check with regular contributors on `Discord <https://discord.com/invite/4hhBQVas5U>`_
+   that they don't have anything pending.
 
 #. Ensure version pins in setup.py and conda-environment.yml are in sync and up to date.
 
@@ -15,10 +15,16 @@ Release Process
 #. Wait for the **conda-forge** bot to notice the new PyPI version and create a PR against
    `the conda-forge datacube feedstock <https://github.com/conda-forge/datacube-feedstock/pulls>`_
 
-#. Merge the `PR created by the conda-forge <https://github.com/conda-forge/datacube-feedstock/pulls>`_ bot to create a
+#. Fix any errors and merge the
+   `PR created by the conda-forge <https://github.com/conda-forge/datacube-feedstock/pulls>`_ bot to create a
    new `conda-forge release <https://anaconda.org/conda-forge/datacube>`_.
 
-#. Manually update the ``stable`` branch via a PR from ``develop``.
+#. Manually update the ``stable`` branch:
+
+   - git checkout <release tag>
+   - git push --force origin stable
+
+#. Post release announcements on Slack, Discord, and social media platforms.
 
 #. Kick back, relax, and enjoy a tasty beverage.
 

@@ -15,7 +15,8 @@ from os import PathLike
 from os.path import expanduser
 
 from datacube.cfg.exceptions import ConfigException
-from datacube.cfg.utils import ConfigDict, smells_like_ini
+from datacube.cfg.utils import ConfigDict, smells_like_ini, SemaphoreCallback
+from datacube.migration import ODC2DeprecationWarning
 
 _DEFAULT_CONFIG_SEARCH_PATH = [
     "datacube.conf",      # i.e. in the current working directory.
@@ -34,7 +35,8 @@ default:
 """
 
 
-def find_config(paths_in: None | str | PathLike | list[str | PathLike]) -> str:
+def find_config(paths_in: None | str | PathLike | list[str | PathLike],
+                default_cb: SemaphoreCallback | None = None) -> str:
     """
     Given a file system path, or a list of file system paths, return the contents of the first file
     in the list that can be read as a string.
@@ -61,7 +63,8 @@ def find_config(paths_in: None | str | PathLike | list[str | PathLike]) -> str:
             warnings.warn(
                 "Datacube config path being determined by legacy $DATACUBE_CONFIG_PATH environment variable. "
                 "This environment variable is deprecated and the behaviour of it has changed somewhat since datacube "
-                "1.8.x.   Please refer to the documentation for details and switch to $ODC_CONFIG_PATH"
+                "1.8.x.   Please refer to the documentation for details and switch to $ODC_CONFIG_PATH",
+                ODC2DeprecationWarning
             )
             paths.extend(os.environ["DATACUBE_CONFIG_PATH"].split(':'))
         else:
@@ -82,7 +85,8 @@ def find_config(paths_in: None | str | PathLike | list[str | PathLike]) -> str:
             continue
 
     if using_default_paths:
-        warnings.warn("No configuration file found - using default configuration")
+        if default_cb is not None:
+            default_cb()
         return _DEFAULT_CONF
 
     raise ConfigException("No configuration file found in the provided locations")

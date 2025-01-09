@@ -60,8 +60,8 @@ def gbox_boundary(gbox, pts_per_side=16):
 
     """
     H, W = gbox.shape[:2]
-    xx = np.linspace(0, W, pts_per_side, dtype='float32')
-    yy = np.linspace(0, H, pts_per_side, dtype='float32')
+    xx = np.linspace(0, W, pts_per_side, dtype='float64')
+    yy = np.linspace(0, H, pts_per_side, dtype='float64')
 
     return polygon_path(xx, yy).T[:-1]
 
@@ -72,11 +72,11 @@ def roi_boundary(roi, pts_per_side=2):
 
     roi needs to be in the normalised form, i.e. no open-ended start/stop, see roi_normalise
 
-    :returns: Nx2 float32 array of X,Y points on the perimeter of the envelope defined by `roi`
+    :returns: Nx2 float64 array of X,Y points on the perimeter of the envelope defined by `roi`
     """
     yy, xx = roi
-    xx = np.linspace(xx.start, xx.stop, pts_per_side, dtype='float32')
-    yy = np.linspace(yy.start, yy.stop, pts_per_side, dtype='float32')
+    xx = np.linspace(xx.start, xx.stop, pts_per_side, dtype='float64')
+    yy = np.linspace(yy.start, yy.stop, pts_per_side, dtype='float64')
 
     return polygon_path(xx, yy).T[:-1]
 

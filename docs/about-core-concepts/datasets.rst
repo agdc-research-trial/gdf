@@ -5,8 +5,8 @@ Datasets are a fundamental part of the Open Data Cube. A dataset is *“The smal
 .. admonition:: Examples of Datasets
   :class: important
 
-  - a Landsat Scene​
-  - an Albers Equal Area tile portion of a Landsat Scene​
+  - a Landsat Scene
+  - an Albers Equal Area tile portion of a Landsat Scene
 
 
 Dataset metadata format

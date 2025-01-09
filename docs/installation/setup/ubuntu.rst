@@ -21,12 +21,9 @@ GDAL, HDF5, and netCDF4::
     sudo apt-get install libgdal-dev libhdf5-serial-dev libnetcdf-dev
 
 Install the latest Postgres version `available <https://packages.ubuntu.com/search?keywords=postgresql>`_ for your
-Ubuntu distribution, eg::
+Ubuntu distribution, and the corresponsing version of PostGIS, eg::
 
-    sudo apt-get install postgresql-14
-
-    # Optionally, Postgis too (required for the postgis/experimental index driver)
-    sudo apt-get install postgresql-14-postgis-3
+    sudo apt-get install postgresql-16-postgis-3
 
 Ubuntu's official repositories usually ship older versions of Postgres. You can alternatively get the most recent version from
 `the official PostgreSQL repository <https://wiki.postgresql.org/wiki/Apt>`_.
@@ -46,6 +43,7 @@ If createdb or psql cannot connect to server, check which postgresql installatio
 If it is running the mambaforge installation, you may need to run the global installation::
 
     /usr/bin/psql -d pgintegration
+    /usr/bin/psql -d pgisintegration
 
 
 You can now specify the database user and password for ODC integration testing. To do this::
@@ -72,10 +70,10 @@ Verify it all works
 ===================
 
 Install additional test dependencies::
-    
+
     cd datacube-core
     pip install --upgrade -e '.[test]'
-    
+
 Run the integration tests::
 
     ./check-code.sh integration_tests

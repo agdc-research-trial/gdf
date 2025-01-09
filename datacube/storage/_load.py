@@ -9,6 +9,7 @@ Important functions are:
 
 """
 import logging
+import numbers
 from collections import OrderedDict
 import numpy as np
 from xarray.core.dataarray import DataArray as XrDataArray, DataArrayCoordinates
@@ -94,7 +95,12 @@ def reproject_and_fuse(datasources: List[DataSource],
 
                 if not roi_is_empty(roi):
                     fuse_func(destination[roi], buffer_[roi])
-                    buffer_[roi] = dst_nodata  # clean up for next read
+                    if dst_nodata is not None:
+                        buffer_[roi] = dst_nodata  # clean up for next read
+                    elif issubclass(destination.dtype.type, numbers.Real):
+                        buffer_[roi] = float("nan")
+                    else:
+                        buffer_[roi] = 0
 
             if progress_cbk:
                 progress_cbk(n_so_far, len(datasources))

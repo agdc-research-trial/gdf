@@ -12,12 +12,15 @@ from datacube.cfg.api import ODCEnvironment, ODCOptionHandler
 from datacube.cfg.opt import config_options_for_psql_driver
 from datacube.drivers.postgis import PostGisDb, PostgisDbAPI
 from datacube.index.postgis._transaction import PostgisTransaction
-from datacube.index.postgis._datasets import DatasetResource, DSID
+from datacube.index.postgis._datasets import DatasetResource
 from datacube.index.postgis._metadata_types import MetadataTypeResource
 from datacube.index.postgis._lineage import LineageResource
 from datacube.index.postgis._products import ProductResource
 from datacube.index.postgis._users import UserResource
-from datacube.index.abstract import AbstractIndex, AbstractIndexDriver, AbstractTransaction, default_metadata_type_docs
+from datacube.index.abstract import (
+    AbstractIndex, AbstractIndexDriver, AbstractTransaction,
+    default_metadata_type_docs, DSID
+)
 from datacube.model import MetadataType
 from datacube.migration import ODC2DeprecationWarning
 from odc.geo import CRS

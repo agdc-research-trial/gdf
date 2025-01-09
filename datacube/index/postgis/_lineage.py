@@ -6,7 +6,7 @@ from time import monotonic
 from typing import Mapping, Optional, Iterable
 from uuid import UUID
 
-from datacube.index.abstract import AbstractIndex, AbstractLineageResource, DSID, dsid_to_uuid, BatchStatus
+from datacube.index.abstract import AbstractIndex, AbstractLineageResource, DSID, BatchStatus, dsid_to_uuid
 from datacube.index.postgis._transaction import IndexResourceAddIn
 from datacube.drivers.postgis._connections import PostGisDb
 from datacube.model import LineageTree, LineageDirection, LineageRelation

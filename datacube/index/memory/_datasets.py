@@ -16,8 +16,10 @@ from uuid import UUID
 
 from datacube.migration import ODC2DeprecationWarning
 from datacube.index import fields
-from datacube.index.abstract import (AbstractDatasetResource, DSID, dsid_to_uuid, BatchStatus,
-                                     DatasetSpatialMixin, NoLineageResource, AbstractIndex)
+from datacube.index.abstract import (AbstractDatasetResource, DSID, BatchStatus,
+                                     NoLineageResource,
+                                     dsid_to_uuid, DatasetSpatialMixin,
+                                     AbstractIndex)
 from datacube.model._base import QueryField
 from datacube.index.fields import Field
 from datacube.index.memory._fields import build_custom_fields, get_dataset_fields

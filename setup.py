@@ -12,6 +12,7 @@ tests_require = [
     'pytest-httpserver',
     'moto<5.0',  # 5.0 will require changes to some tests.
     'psycopg2',
+    'netcdf4'
 ]
 
 types_require = [
@@ -36,6 +37,7 @@ doc_require = [
     'autodocsumm',
     'beautifulsoup4',
     'nbsphinx',
+    'ipython',
     'pydata-sphinx-theme==0.9.0',
 ]
 

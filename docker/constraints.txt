@@ -234,7 +234,6 @@ numpy==2.1.3
     #   pandas
     #   rasterio
     #   shapely
-    #   snuggs
     #   xarray
 odc-geo==0.4.8
     # via -r constraints.in
@@ -288,7 +287,7 @@ pylint==3.2.2
 pyparsing==3.0.9
     # via
     #   matplotlib
-    #   snuggs
+    #   rasterio
 pyproj==3.6.1
     # via
     #   -r constraints.in
@@ -326,7 +325,7 @@ pyyaml==6.0.1
     #   dask
     #   distributed
     #   owslib
-rasterio==1.3.11
+rasterio==1.4.3
     # via -r constraints.in
 readme-renderer==37.3
     # via twine
@@ -383,8 +382,6 @@ six==1.16.0
     #   python-dateutil
 snowballstemmer==2.2.0
     # via sphinx
-snuggs==1.4.7
-    # via rasterio
 sortedcontainers==2.4.0
     # via
     #   distributed

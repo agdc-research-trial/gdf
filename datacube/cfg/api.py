@@ -17,7 +17,7 @@ from .cfg import find_config, parse_text
 from .exceptions import ConfigException
 from .opt import ODCOptionHandler, AliasOptionHandler, IndexDriverOptionHandler, BoolOptionHandler, IntOptionHandler
 from .utils import ConfigDict, check_valid_env_name
-
+from ..migration import ODC2DeprecationWarning
 
 # TypeAliases for more concise type hints
 # (Unions required as typehint | operator doesn't work with string forward-references.
@@ -61,6 +61,7 @@ class ODCConfig:
     raw_config: ConfigDict = {}
     known_environments: dict[str, "ODCEnvironment"] = {}
     canonical_names: dict[str, list[str]] = {}
+    is_default = False
 
     def __init__(
             self,
@@ -68,7 +69,6 @@ class ODCConfig:
             raw_dict: ConfigDict | None = None,
             text: str | None = None):
         """
-
         When called with no args, reads the first config file found in the config path list is used.
         The config path list is taken from:
 
@@ -109,7 +109,7 @@ class ODCConfig:
                 text = os.environ["ODC_CONFIG"]
             else:
                 # Read config text from config file
-                text = find_config(paths)
+                text = find_config(paths, default_cb=self._set_default)
 
         self.raw_text = text
         if raw_dict is not None:
@@ -183,6 +183,9 @@ class ODCConfig:
         else:
             return [canonical_name]
 
+    def _set_default(self) -> None:
+        self.is_default = True
+
     def __getitem__(self, item: str | None) -> "ODCEnvironment":
         """
         Environments can be accessed by name (canonical or aliases) with the getitem dunder method.
@@ -212,13 +215,15 @@ class ODCConfig:
             elif os.environ.get("DATACUBE_ENVIRONMENT"):
                 warnings.warn(
                     "Setting the default environment with $DATACUBE_ENVIRONMENT is deprecated. "
-                    "Please use $ODC_ENVIRONMENT instead.")
+                    "Please use $ODC_ENVIRONMENT instead.",
+                    ODC2DeprecationWarning)
                 item = os.environ["DATACUBE_ENVIRONMENT"]
             elif "default" in self.known_environments:
                 item = "default"
             elif "datacube" in self.known_environments:
                 warnings.warn("Defaulting to the 'datacube' environment - "
-                              "this fallback behaviour is deprecated and may change in a future release.")
+                              "this fallback behaviour is deprecated and may change in a future release.",
+                              ODC2DeprecationWarning)
                 item = "datacube"
             else:
                 # No explicitly defined (known) environments - assume default and hope there's config
@@ -260,6 +265,7 @@ class ODCEnvironment:
             warnings.warn("The 'default_environment' setting in the 'user' section is no longer supported - "
                           "please refer to the documentation for more information")
 
+        self._env_overrides_applied = False
         # Aliases are handled here, the alias OptionHandler is a place-holder.
         if "alias" in self._raw:
             alias = self._raw['alias']
@@ -288,6 +294,8 @@ class ODCEnvironment:
                 # Note that handlers may add more handlers to the end of the list while we are iterating over it.
                 for handler in self._option_handlers:
                     self._handle_option(handler)
+                if self._cfg.is_default and not self._env_overrides_applied:
+                    warnings.warn("No configuration file found - using default configuration and environment variables")
 
         # Config already processed
         # 1. From Normalised
@@ -304,7 +312,9 @@ class ODCEnvironment:
 
     def _handle_option(self, handler: ODCOptionHandler) -> None:
         val = handler.get_val_from_environment()
-        if not val:
+        if val:
+            self._env_overrides_applied = True
+        else:
             val = self._raw.get(handler.name)
         val = handler.validate_and_normalise(val)
         self._normalised[handler.name] = val

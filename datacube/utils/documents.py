@@ -20,8 +20,6 @@ from typing import Dict, Any, Mapping
 from copy import deepcopy
 from uuid import UUID
 
-from deprecat import deprecat
-
 import numpy
 import toolz  # type: ignore[import]
 import yaml
@@ -405,13 +403,13 @@ class SimpleDocNav(object):
 
     """
 
-    def __init__(self, doc):
+    def __init__(self, doc, sources_path=None):
         if not isinstance(doc, collections.abc.Mapping):
             raise ValueError("")
 
         self._doc = doc
         self._doc_without = None
-        self._sources_path = ('lineage', 'source_datasets')
+        self._sources_path = sources_path if sources_path else ('lineage', 'source_datasets')
         self._sources = None
         self._doc_uuid = None
 
@@ -531,7 +529,6 @@ class DocReader:
         return {**self.system_fields, **self.search_fields}
 
 
-@deprecat(deprecated_args={'inplace': {'version': '1.9.0', 'reason': 'not being used'}})
 def without_lineage_sources(doc: Dict[str, Any],
                             spec,
                             inplace: bool = False) -> Dict[str, Any]:
@@ -549,6 +546,12 @@ def without_lineage_sources(doc: Dict[str, Any],
     if 'sources' in doc_view.fields:
         if doc_view.sources is not None:
             doc_view.sources = {}
+        # lineage has not been remapped
+        elif 'lineage' in doc:
+            doc["lineage"] = {}
+    # 'sources' path isn't defined
+    elif 'lineage' in doc:
+        doc["lineage"] = {}
 
     return doc
 

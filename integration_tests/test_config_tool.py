@@ -197,7 +197,7 @@ def test_db_init(clirunner, index):
 
     # Run on an empty database.
     if index._db.driver_name == "postgis":
-        result = clirunner(['-E', 'experimental', 'system', 'init'])
+        result = clirunner(['-E', 'postgis', 'system', 'init'])
     else:
         result = clirunner(['system', 'init'])
 

@@ -437,7 +437,9 @@ class Doc2Dataset:
                     doc.doc,
                     auto_skip=auto_skip,
                     remap_lineage=not self.index.supports_external_lineage
-                )
+                ),
+                sources_path=('lineage',) if self.index.supports_external_lineage
+                else ('lineage', 'source_datasets')
             )
 
         dataset, err = self._ds_resolve(doc, uri, source_tree)

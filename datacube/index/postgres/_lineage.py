@@ -5,7 +5,7 @@
 from time import monotonic
 from typing import Iterable
 
-from datacube.index.abstract import NoLineageResource, BatchStatus
+from datacube.index.abstract import BatchStatus, NoLineageResource
 from datacube.index.postgres._transaction import IndexResourceAddIn
 from datacube.model import LineageRelation
 

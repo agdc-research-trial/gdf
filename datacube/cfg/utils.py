@@ -4,13 +4,14 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import re
-from typing import Any, TypeAlias
+from typing import Any, TypeAlias, Callable
 
 from .exceptions import ConfigException
 
 
 # A raw configuration dictionary. A dictionary of dictionaries
 ConfigDict: TypeAlias = dict[str, dict[str, Any]]
+SemaphoreCallback = Callable[[], None]
 
 
 def check_valid_env_name(name: str) -> None:

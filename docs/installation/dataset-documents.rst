@@ -119,7 +119,7 @@ info <image-file>``. ``shape`` is basically ``height, width`` tuple and
 encoded in a row-major order.
 
 For a full description of the eo3 dataset metadata format, refer to the
-`eo3 formal specification`_.
+eo3 `formal specification`_.
 
 
 

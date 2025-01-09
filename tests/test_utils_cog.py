@@ -14,6 +14,7 @@ import dask
 from datacube.testutils import (
     mk_test_image,
     gen_tiff_dataset,
+    suppress_deprecations
 )
 from datacube.testutils.io import native_load, rio_slurp_xarray, rio_slurp
 from datacube.utils.cog import write_cog, to_cog, _write_cog
@@ -56,12 +57,13 @@ def test_cog_file(tmpdir, opts):
     pp = Path(str(tmpdir))
     xx, ds = gen_test_data(pp)
 
-    # write to file
-    ff = write_cog(  # Coverage test of deprecated function.
-        xx,
-        pp / "cog.tif",
-        **opts
-    )
+    with suppress_deprecations():
+        # write to file
+        ff = write_cog(  # Coverage test of deprecated function.
+            xx,
+            pp / "cog.tif",
+            **opts
+        )
     assert isinstance(ff, Path)
     assert ff == pp / "cog.tif"
     assert ff.exists()
@@ -71,13 +73,14 @@ def test_cog_file(tmpdir, opts):
     assert yy.odc.geobox == xx.odc.geobox
     assert yy.nodata == xx.nodata
 
-    _write_cog(  # Test of deprecated function
-        np.stack([xx.values, xx.values]),
-        xx.odc.geobox,
-        pp / "cog-2-bands.tif",
-        overview_levels=[],
-        **opts
-    )
+    with suppress_deprecations():
+        _write_cog(  # Test of deprecated function
+            np.stack([xx.values, xx.values]),
+            xx.odc.geobox,
+            pp / "cog-2-bands.tif",
+            overview_levels=[],
+            **opts
+        )
 
     yy, mm = rio_slurp(pp / "cog-2-bands.tif")
     assert mm.geobox == xx.odc.geobox
@@ -85,18 +88,19 @@ def test_cog_file(tmpdir, opts):
     np.testing.assert_array_equal(yy[0], xx.values)
     np.testing.assert_array_equal(yy[1], xx.values)
 
-    with pytest.raises(ValueError, match="Need 2d or 3d ndarray on input"):
+    with (pytest.raises(ValueError, match="Need 2d or 3d ndarray on input"), suppress_deprecations()):
         _write_cog(xx.values.ravel(), xx.odc.geobox, pp / "wontwrite.tif")  # Test of deprecated function
 
     # sizes that are not multiples of 16
     # also check that supplying `nodata=` doesn't break things
     xx_odd = xx[:23, :63]
-    ff = write_cog(  # Coverage test of deprecated function
-        xx_odd,
-        pp / "cog_odd.tif",
-        nodata=xx_odd.attrs["nodata"],
-        **opts
-    )
+    with suppress_deprecations():
+        ff = write_cog(  # Coverage test of deprecated function
+            xx_odd,
+            pp / "cog_odd.tif",
+            nodata=xx_odd.attrs["nodata"],
+            **opts
+        )
     assert isinstance(ff, Path)
     assert ff == pp / "cog_odd.tif"
     assert ff.exists()
@@ -106,17 +110,18 @@ def test_cog_file(tmpdir, opts):
     assert yy.odc.geobox == xx_odd.odc.geobox
     assert yy.nodata == xx_odd.nodata
 
-    with pytest.warns(UserWarning):
+    with (suppress_deprecations(), pytest.warns(UserWarning)):
         write_cog(xx, pp / "cog_badblocksize.tif", blocksize=50)  # Test of deprecated method
 
     # check writing floating point COG with no explicit nodata
     zz, ds = gen_test_data(pp, dtype="float32", nodata=None)
     # write to file
-    ff = write_cog(
-        zz,
-        pp / "cog_float.tif",
-        **opts
-    )
+    with suppress_deprecations():
+        ff = write_cog(
+            zz,
+            pp / "cog_float.tif",
+            **opts
+        )
     assert isinstance(ff, Path)
     assert ff == pp / "cog_float.tif"
     assert ff.exists()
@@ -130,10 +135,11 @@ def test_cog_file_dask(tmpdir):
     assert dask.is_dask_collection(xx)
 
     path = pp / "cog.tif"
-    ff = write_cog(xx, path, overview_levels=[2, 4])  # Test of deprecated method
-    assert isinstance(ff, Delayed)
-    assert path.exists() is False
-    assert ff.compute() == path
+    with suppress_deprecations():
+        ff = write_cog(xx, path, overview_levels=[2, 4])  # Test of deprecated method
+        assert isinstance(ff, Delayed)
+        assert path.exists() is False
+        assert ff.compute() == path
     assert path.exists()
 
     yy = rio_slurp_xarray(pp / "cog.tif")
@@ -148,7 +154,8 @@ def test_cog_mem(tmpdir, shape):
     xx, ds = gen_test_data(pp, shape=shape)
 
     # write to memory 1
-    bb = write_cog(xx, ":mem:")  # Test of deprecated function
+    with suppress_deprecations():
+        bb = write_cog(xx, ":mem:")  # Test of deprecated function
     assert isinstance(bb, bytes)
     path = pp / "cog1.tiff"
     with open(str(path), "wb") as f:
@@ -160,7 +167,8 @@ def test_cog_mem(tmpdir, shape):
     assert yy.nodata == xx.nodata
 
     # write to memory 2
-    bb = to_cog(xx)  # Test of deprecated function
+    with suppress_deprecations():
+        bb = to_cog(xx)  # Test of deprecated function
     assert isinstance(bb, bytes)
     path = pp / "cog2.tiff"
     with open(str(path), "wb") as f:
@@ -172,7 +180,8 @@ def test_cog_mem(tmpdir, shape):
     assert yy.nodata == xx.nodata
 
     # write to memory 3 -- no overviews
-    bb = to_cog(xx, overview_levels=[])  # Test of deprecated function
+    with suppress_deprecations():
+        bb = to_cog(xx, overview_levels=[])  # Test of deprecated function
     assert isinstance(bb, bytes)
     path = pp / "cog3.tiff"
     with open(str(path), "wb") as f:
@@ -189,10 +198,11 @@ def test_cog_mem_dask(tmpdir):
     xx, ds = gen_test_data(pp, dask=True)
 
     # write to memory 1
-    bb = write_cog(xx, ":mem:")  # Test of deprecated method
-    assert isinstance(bb, Delayed)
-    bb = bb.compute()
-    assert isinstance(bb, bytes)
+    with suppress_deprecations():
+        bb = write_cog(xx, ":mem:")  # Test of deprecated method
+        assert isinstance(bb, Delayed)
+        bb = bb.compute()
+        assert isinstance(bb, bytes)
 
     path = pp / "cog1.tiff"
     with open(str(path), "wb") as f:
@@ -204,10 +214,11 @@ def test_cog_mem_dask(tmpdir):
     assert yy.nodata == xx.nodata
 
     # write to memory 2
-    bb = to_cog(xx)  # Test of deprecated function
-    assert isinstance(bb, Delayed)
-    bb = bb.compute()
-    assert isinstance(bb, bytes)
+    with suppress_deprecations():
+        bb = to_cog(xx)  # Test of deprecated function
+        assert isinstance(bb, Delayed)
+        bb = bb.compute()
+        assert isinstance(bb, bytes)
     path = pp / "cog2.tiff"
     with open(str(path), "wb") as f:
         f.write(bb)
@@ -227,14 +238,15 @@ def test_cog_rgba(tmpdir, use_windowed_writes):
     assert rgba.odc.geobox == xx.odc.geobox
     assert rgba.shape[:2] == rgba.odc.geobox.shape
 
-    ff = write_cog(rgba, pp / "cog.tif", use_windowed_writes=use_windowed_writes)  # Test of deprecated function
+    with suppress_deprecations():
+        ff = write_cog(rgba, pp / "cog.tif", use_windowed_writes=use_windowed_writes)  # Test of deprecated function
     yy = rio_slurp_xarray(ff)
 
     assert yy.odc.geobox == rgba.odc.geobox
     assert yy.shape == rgba.shape
     np.testing.assert_array_equal(yy.values, rgba.values)
 
-    with pytest.raises(ValueError):
+    with (pytest.raises(ValueError), suppress_deprecations()):
         _write_cog(  # Test of deprecated function
             rgba.values[1:, :, :],
             rgba.odc.geobox,

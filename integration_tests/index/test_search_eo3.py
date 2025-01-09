@@ -22,6 +22,7 @@ from datacube.model import Product
 from datacube.model import Range
 
 from datacube import Datacube
+from datacube.testutils import suppress_deprecations
 from .search_utils import _cli_csv_search, _csv_search_raw, _load_product_query
 from datacube.utils.dates import tz_as_utc
 
@@ -289,7 +290,8 @@ def test_search_by_product_eo3(index: Index,
     [dataset] = products[base_eo3_product_doc["name"]]
     assert dataset.id == wo_eo3_dataset.id
     assert dataset.is_eo3
-    assert dataset.type == dataset.product  # DEPRECATED MEMBER
+    with suppress_deprecations():
+        assert dataset.type == dataset.product  # DEPRECATED MEMBER
 
 
 def test_search_limit_eo3(index, ls8_eo3_dataset, ls8_eo3_dataset2, wo_eo3_dataset):
@@ -558,14 +560,15 @@ def test_search_returning_rows_eo3(index,
     }
 
 
-@pytest.mark.parametrize('datacube_env_name', ('experimental', ))
+@pytest.mark.parametrize('datacube_env_name', ('postgis', ))
 def test_search_returning_uri(index, eo3_ls8_dataset_doc,
                               ls8_eo3_dataset):
     dataset = ls8_eo3_dataset
     uri = eo3_ls8_dataset_doc[1]
 
-    # If returning a field like uri, there will be one result per dataset.
-    index.datasets.remove_location(dataset.id, uri)  # deprecated method
+    with suppress_deprecations():
+        # If returning a field like uri, there will be one result per dataset.
+        index.datasets.remove_location(dataset.id, uri)  # deprecated method
     results = list(index.datasets.search_returning(
         ('id', 'uri'),
         platform='landsat-8',
@@ -584,25 +587,26 @@ def test_search_returning_uris_legacy(index,
     uri3 = eo3_ls8_dataset2_doc[1]
 
     # If returning a field like uri, there will be one result per location.
-    # No locations
-    index.datasets.archive_location(dataset.id, uri)
-    index.datasets.remove_location(dataset.id, uri)
-    results = list(index.datasets.search_returning(
-        ('id', 'uri'),
-        platform='landsat-8',
-        instrument='OLI_TIRS',
-    ))
-    assert len(results) == 0
+    with suppress_deprecations():
+        # No locations
+        index.datasets.archive_location(dataset.id, uri)
+        index.datasets.remove_location(dataset.id, uri)
+        results = list(index.datasets.search_returning(
+            ('id', 'uri'),
+            platform='landsat-8',
+            instrument='OLI_TIRS',
+        ))
+        assert len(results) == 0
 
-    # Add a second location and we should get two results
-    index.datasets.add_location(dataset.id, uri)
-    uri2 = 'file:///tmp/test2'
-    index.datasets.add_location(dataset.id, uri2)
-    results = set(index.datasets.search_returning(
-        ('id', 'uri'),
-        platform='landsat-8',
-        instrument='OLI_TIRS',
-    ))
+        # Add a second location and we should get two results
+        index.datasets.add_location(dataset.id, uri)
+        uri2 = 'file:///tmp/test2'
+        index.datasets.add_location(dataset.id, uri2)
+        results = set(index.datasets.search_returning(
+            ('id', 'uri'),
+            platform='landsat-8',
+            instrument='OLI_TIRS',
+        ))
     assert len(results) == 2
     assert results == {
         (dataset.id, uri),
@@ -895,12 +899,11 @@ def test_cli_info_eo3(index: Index,
     opts = [
         'dataset', 'info', str(ls8_eo3_dataset.id)
     ]
-    result = clirunner(opts, verbose_flag='')
+    with suppress_deprecations():
+        result = clirunner(opts, verbose_flag='')
 
     output = result.output
-    # Remove WARNING messages for experimental driver
-    output_lines = [line for line in output.splitlines() if "WARNING:" not in line]
-    output = "\n".join(output_lines)
+    output_lines = list(output.splitlines())
 
     # Should be a valid yaml
     yaml_docs = list(yaml.safe_load_all(output))

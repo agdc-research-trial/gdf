@@ -12,15 +12,17 @@ from odc.geo import CRS, BoundingBox
 from odc.geo.geom import polygon
 from datacube.utils.documents import InvalidDocException
 from datacube.storage import measurement_paths
+from datacube.testutils import suppress_deprecations
 from datacube.testutils.geom import AlbersGS
 from datacube.api.core import output_geobox
 
 
 def test_gridspec():
-    gs = GridSpec(  # Coverage test of deprecated class
-        crs=CRS('EPSG:4326'), tile_size=(1, 1),
-        resolution=(-0.1, 0.1), origin=(10, 10)
-    )
+    with suppress_deprecations():
+        gs = GridSpec(  # Coverage test of deprecated class
+            crs=CRS('EPSG:4326'), tile_size=(1, 1),
+            resolution=(-0.1, 0.1), origin=(10, 10)
+        )
     poly = polygon([(10, 12.2), (10.8, 13), (13, 10.8), (12.2, 10), (10, 12.2)], crs=CRS('EPSG:4326'))
     cells = {index: geobox for index, geobox in list(gs.tiles_from_geopolygon(poly))}
     assert set(cells.keys()) == {(0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1)}
@@ -49,14 +51,16 @@ def test_gridspec_upperleft():
     bbox = BoundingBox(left=1934615, top=2379460, right=1937615, bottom=2376460, crs=CRS('EPSG:5070'))
     # Upper left - validated against WELD product tile calculator
     # http://globalmonitoring.sdstate.edu/projects/weld/tilecalc.php
-    gs = GridSpec(crs=CRS('EPSG:5070'), tile_size=(-150000, 150000), resolution=(-30, 30),
-                  origin=(3314800.0, -2565600.0))  # Coverage test  of deprecated class
+    with suppress_deprecations():
+        gs = GridSpec(crs=CRS('EPSG:5070'), tile_size=(-150000, 150000), resolution=(-30, 30),
+                      origin=(3314800.0, -2565600.0))  # Coverage test  of deprecated class
     cells = {index: geobox for index, geobox in list(gs.tiles(bbox))}
     assert set(cells.keys()) == {(30, 6)}
     assert cells[(30, 6)].extent.boundingbox == tile_bbox
 
-    gs = GridSpec(crs=CRS('EPSG:5070'), tile_size=(150000, 150000), resolution=(-30, 30),
-                  origin=(14800.0, -2565600.0))
+    with suppress_deprecations():
+        gs = GridSpec(crs=CRS('EPSG:5070'), tile_size=(150000, 150000), resolution=(-30, 30),
+                      origin=(14800.0, -2565600.0))
     cells = {index: geobox for index, geobox in list(gs.tiles(bbox))}
     assert set(cells.keys()) == {(30, 15)}  # WELD grid spec has 21 vertical cells -- 21 - 6 = 15
     assert cells[(30, 15)].extent.boundingbox == tile_bbox
@@ -121,17 +125,20 @@ def test_product_basics():
 
 def test_product_dimensions():
     product = mk_sample_product('test_product')
-    assert product.grid_spec is None
+    with suppress_deprecations():
+        assert product.grid_spec is None
     assert product.dimensions == ('time', 'y', 'x')
 
     product = mk_sample_product('test_product', with_grid_spec=True)
-    assert product.grid_spec is not None
+    with suppress_deprecations():
+        assert product.grid_spec is not None
     assert product.dimensions == ('time', 'y', 'x')
 
     partial_storage = product.definition['storage']
     partial_storage.pop('tile_size')
     product = mk_sample_product('tt', storage=partial_storage)
-    assert product.grid_spec is None
+    with suppress_deprecations():
+        assert product.grid_spec is None
 
 
 def test_product_nodata_nan():
@@ -219,14 +226,16 @@ def test_product_load_hints():
 
     # check GridSpec leakage doesn't happen for fully defined gridspec
     product = mk_sample_product('test', with_grid_spec=True)
-    assert product.grid_spec is not None
+    with suppress_deprecations():
+        assert product.grid_spec is not None
     assert product.load_hints() == {}
 
     # check for fallback into partially defined `storage:`
     product = mk_sample_product('test', storage=dict(
         crs='EPSG:3857',
         resolution={'x': 10, 'y': -10}))
-    assert product.grid_spec is None
+    with suppress_deprecations():
+        assert product.grid_spec is None
     assert product.default_resolution.yx == (-10, 10)
     assert product.default_crs == CRS('EPSG:3857')
 
@@ -234,7 +243,8 @@ def test_product_load_hints():
     # no resolution -- no hints
     product = mk_sample_product('test', storage=dict(
         crs='EPSG:3857'))
-    assert product.grid_spec is None
+    with suppress_deprecations():
+        assert product.grid_spec is None
     assert product.load_hints() == {}
 
     # check misspelled load hints

@@ -35,7 +35,7 @@ from datacube.utils.uris import (uri_to_local_path, mk_part_uri, get_part_from_u
                                  pick_uri, uri_resolve, is_vsipath,
                                  normalise_path, default_base_dir)
 from datacube.utils.io import check_write_path
-from datacube.testutils import mk_sample_product
+from datacube.testutils import mk_sample_product, suppress_deprecations
 
 
 def test_stats_dates():
@@ -127,22 +127,23 @@ def test_uri_resolve(base):
 def test_pick_uri():
     f, s, h = ('file://a', 's3://b', 'http://c')
 
-    assert pick_uri([f, s, h]) is f  # Test of deprecated function
-    assert pick_uri([s, h, f]) is f  # Test of deprecated function
-    assert pick_uri([s, h]) is s  # Test of deprecated function
-    assert pick_uri([h, s]) is h  # Test of deprecated function
-    assert pick_uri([f, s, h], 'http:') is h  # Test of deprecated function
-    assert pick_uri([f, s, h], 's3:') is s  # Test of deprecated function
-    assert pick_uri([f, s, h], 'file:') is f  # Test of deprecated function
+    with suppress_deprecations():
+        assert pick_uri([f, s, h]) is f  # Test of deprecated function
+        assert pick_uri([s, h, f]) is f  # Test of deprecated function
+        assert pick_uri([s, h]) is s  # Test of deprecated function
+        assert pick_uri([h, s]) is h  # Test of deprecated function
+        assert pick_uri([f, s, h], 'http:') is h  # Test of deprecated function
+        assert pick_uri([f, s, h], 's3:') is s  # Test of deprecated function
+        assert pick_uri([f, s, h], 'file:') is f  # Test of deprecated function
 
-    with pytest.raises(ValueError):
-        pick_uri([])  # Test of deprecated function
+        with pytest.raises(ValueError):
+            pick_uri([])  # Test of deprecated function
 
-    with pytest.raises(ValueError):
-        pick_uri([f, s, h], 'ftp:')  # Test of deprecated function
+        with pytest.raises(ValueError):
+            pick_uri([f, s, h], 'ftp:')  # Test of deprecated function
 
-    with pytest.raises(ValueError):
-        pick_uri([s, h], 'file:')  # Test of deprecated function
+        with pytest.raises(ValueError):
+            pick_uri([s, h], 'file:')  # Test of deprecated function
 
 
 @given(integers(min_value=10, max_value=30))

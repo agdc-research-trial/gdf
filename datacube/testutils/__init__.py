@@ -14,6 +14,8 @@ import json
 import uuid
 import numpy as np
 import xarray as xr
+import warnings
+import contextlib
 from datetime import datetime
 from collections.abc import Sequence, Mapping
 import pathlib
@@ -254,13 +256,14 @@ def mk_sample_dataset(bands,
             "uris": uri
         }
 
-    return Dataset(product, {
-        'id': id,
-        'format': {'name': format},
-        'image': {'bands': image_bands},
-        'time': timestamp,
-        **geobox_to_gridspatial(geobox),
-    }, **kwargs)
+    with suppress_deprecations():
+        return Dataset(product, {
+            'id': id,
+            'format': {'name': format},
+            'image': {'bands': image_bands},
+            'time': timestamp,
+            **geobox_to_gridspatial(geobox),
+        }, **kwargs)
 
 
 def make_graph_abcde(node):
@@ -501,3 +504,13 @@ def sanitise_doc(d):
         return [sanitise_doc(i) for i in d]
     else:
         return d
+
+
+@contextlib.contextmanager
+def suppress_deprecations():
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", DeprecationWarning)
+        try:
+            yield
+        finally:
+            pass

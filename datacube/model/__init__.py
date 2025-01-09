@@ -111,7 +111,7 @@ class Dataset:
         #: The datasets that this dataset is derived from (if requested on load).
         self.sources = sources
 
-        if self.sources is not None:
+        if self.sources is not None and self.metadata.sources is not None:
             assert set(self.metadata.sources.keys()) == set(self.sources.keys())
 
         self.source_tree = source_tree
@@ -151,6 +151,16 @@ class Dataset:
         if n_locs <= 1:
             return self.uri
         return pick_uri(self._uris, schema)
+
+    def has_multiple_uris(self) -> bool:
+        """
+        This is a 1.9-2.0 transitional method and will be removed in 2.0.
+
+        Returns true if the dataset has multiple locations.
+
+        Allows checking for multiple locations without tripping a deprecation warning.
+        """
+        return len(self._uris) > 1
 
     @property
     @deprecat(

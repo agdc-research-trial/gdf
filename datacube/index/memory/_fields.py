@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from typing import Any, Mapping
 from datacube.model.fields import SimpleField, Field, get_dataset_fields as generic_get_dataset_fields
-from datacube.index.abstract import Offset
+from datacube.utils.changes import Offset
 
 
 # TODO: SimpleFields cannot handle non-metadata fields because e.g. the extract API expects a doc, not a Dataset model

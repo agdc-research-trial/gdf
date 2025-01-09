@@ -22,7 +22,7 @@ from datacube.drivers.postgis._api import non_native_fields, extract_dataset_fie
 from datacube.utils.uris import split_uri
 from datacube.drivers.postgis._spatial import generate_dataset_spatial_values, extract_geometry_from_eo3_projection
 from datacube.migration import ODC2DeprecationWarning
-from datacube.index.abstract import AbstractDatasetResource, DatasetSpatialMixin, DSID, BatchStatus, DatasetTuple
+from datacube.index.abstract import AbstractDatasetResource, DSID, BatchStatus, DatasetTuple, DatasetSpatialMixin
 from datacube.utils.documents import JsonDict
 from datacube.model._base import QueryField
 from datacube.index.postgis._transaction import IndexResourceAddIn
@@ -143,10 +143,7 @@ class DatasetResource(AbstractDatasetResource, IndexResourceAddIn):
         :param dataset: dataset to add
 
         :param with_lineage:
-           - ``True (default)`` record lineage relations in the db
-           Since we no longer accept embedded lineage, any lineage relations should
-           already exist in the db, so there's no longer a need for differentiating between
-           adding and recording. This parameter has been kept for compatibility reasons.s
+           - no effect in this index driver
 
         :param archive_less_mature: if integer, search for less
                mature versions of the dataset with the int value as a millisecond
@@ -173,7 +170,7 @@ class DatasetResource(AbstractDatasetResource, IndexResourceAddIn):
                 transaction.update_search_index(dsids=[dataset.id])
                 # 1c. Store locations
                 if dataset.uri is not None:
-                    if len(dataset.uris) > 1:
+                    if dataset.has_multiple_uris():
                         raise ValueError('Postgis driver does not support multiple locations for a dataset.')
                     self._ensure_new_locations(dataset, transaction=transaction)
             if archive_less_mature is not None:
@@ -305,7 +302,7 @@ class DatasetResource(AbstractDatasetResource, IndexResourceAddIn):
                                                                                          dataset.product.name,
                                                                                          dataset.id))
 
-        if len(dataset.uris) > 1:
+        if dataset.has_multiple_uris():
             raise ValueError('Postgis driver does not support multiple locations for a dataset.')
 
         # TODO: figure out (un)safe changes from metadata type?
