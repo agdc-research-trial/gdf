@@ -266,8 +266,8 @@ class Datacube:
         :class:`xarray.Dataset` and :class:`xarray.DataArray` objects.
 
         **Product and Measurements**
-            A product can be specified using the product name.
-            ::
+
+            A product can be specified using the product name::
 
                 product='ls5_ndvi_albers'
 
@@ -277,30 +277,29 @@ class Datacube:
             list of datasets.
 
             The ``measurements`` argument is a list of measurement names, as listed in :meth:`list_measurements`.
-            If not provided, all measurements for the product will be returned. ::
+            If not provided, all measurements for the product will be returned::
 
                 measurements=['red', 'nir', 'swir2']
 
         **Dimensions**
+
             Spatial dimensions can specified using the ``longitude``/``latitude`` and ``x``/``y`` fields.
 
             The CRS of this query is assumed to be WGS84/EPSG:4326 unless the ``crs`` field is supplied,
             even if the stored data is in another projection or the ``output_crs`` is specified.
-            The dimensions ``longitude``/``latitude`` and ``x``/``y`` can be used interchangeably.
-            ::
+            The dimensions ``longitude``/``latitude`` and ``x``/``y`` can be used interchangeably::
 
                 latitude=(-34.5, -35.2), longitude=(148.3, 148.7)
 
-            or ::
+            or::
 
                 x=(1516200, 1541300), y=(-3867375, -3867350), crs='EPSG:3577'
-
 
             You can also specify a polygon with an arbitrary CRS (in e.g. the native CRS)::
 
                 geopolygon=polygon(coords, crs="EPSG:3577")
 
-            Or an iterable of polygons (search is done against the union of all polygons:
+            Or an iterable of polygons (search is done against the union of all polygons::
 
                 geopolygon=[poly1, poly2, poly3, ....]
 
@@ -312,7 +311,7 @@ class Datacube:
             The ``time`` dimension can be specified using a single or tuple of datetime objects or strings with
             ``YYYY-MM-DD hh:mm:ss`` format. Data will be loaded inclusive of the start and finish times.
             A ``None`` value in the range indicates an open range, with the provided date serving as either the
-            upper or lower bound. E.g::
+            upper or lower bound. E.g.::
 
                 time=('2000-01-01', '2001-12-31')
                 time=('2000-01', '2001-12')
@@ -326,17 +325,16 @@ class Datacube:
 
                 z=(10, 30)
 
-            or ::
+            or::
 
                 z=5
 
-            or ::
+            or::
 
                 wvl=(560.3, 820.5)
 
             For EO-specific datasets that are based around scenes, the time dimension can be reduced to the day level,
-            using solar day to keep scenes together.
-            ::
+            using solar day to keep scenes together::
 
                 group_by='solar_day'
 
@@ -348,6 +346,7 @@ class Datacube:
 
 
         **Output**
+
             To reproject or resample data, supply the ``output_crs``, ``resolution``, ``resampling`` and ``align``
             fields.
 
@@ -403,7 +402,7 @@ class Datacube:
             indicate "apply to all other bands", for example ``{'*': 'cubic', 'fmask': 'nearest'}`` would
             use ``cubic`` for all bands except ``fmask`` for which ``nearest`` will be used.
 
-            Valid values are: ::
+            Valid values are::
 
               'nearest', 'average', 'bilinear', 'cubic', 'cubic_spline',
               'lanczos', 'mode', 'gauss',  'max', 'min', 'med', 'q1', 'q3'

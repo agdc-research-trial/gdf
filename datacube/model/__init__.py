@@ -855,7 +855,7 @@ class GridSpec:
     :param odc.geo.crs.CRS crs: Coordinate System used to define the grid
     :param [float,float] tile_size: (Y, X) size of each tile, in CRS units
     :param [float,float] resolution: (Y, X) size of each data point in the grid, in CRS units. Y will
-                                   usually be negative.
+        usually be negative.
     :param [float,float] origin: (Y, X) coordinates of a corner of the (0,0) tile in CRS units. default is (0.0, 0.0)
     """
 
@@ -1191,7 +1191,7 @@ class ExtraDimensions:
 
         :param dim: The name of the dimension
         :param coord_range: The coordinate range.
-        :return: A tuple containing the integer indexes of `coord_range.
+        :return: A tuple containing the integer indexes of `coord_range`.
         """
         # Convert to Tuple if it's an int or float
         if isinstance(coord_range, int) or isinstance(coord_range, float):

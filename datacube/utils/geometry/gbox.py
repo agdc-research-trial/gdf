@@ -2,7 +2,8 @@
 #
 # Copyright (c) 2015-2025 ODC Contributors
 # SPDX-License-Identifier: Apache-2.0
-""" Geometric operations on GeoBox class
+"""
+Geometric operations on GeoBox class
 """
 
 from typing import Dict, Optional, Tuple, Iterable
@@ -124,10 +125,10 @@ def affine_transform_pix(gbox: GeoBox, transform: Affine) -> GeoBox:
     Apply affine transform on pixel side.
 
     :param transform: Affine matrix mapping from new pixel coordinate space to
-    pixel coordinate space of input gbox
+        pixel coordinate space of input gbox
 
     :returns: GeoBox of the same pixel shape but covering different region,
-    pixels in the output gbox relate to input geobox via `transform`
+        pixels in the output gbox relate to input geobox via `transform`
 
     X_old_pix = transform * X_new_pix
 

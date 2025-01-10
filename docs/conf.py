@@ -35,7 +35,7 @@ extensions = [
     'autodocsumm',
     'nbsphinx',
     'sphinx.ext.napoleon',
-    'sphinx.ext.autosectionlabel',
+    # 'sphinx.ext.autosectionlabel',
     'IPython.sphinxext.ipython_console_highlighting',  # Highlights notebook cells
 ]
 
@@ -43,7 +43,7 @@ extensions = [
 templates_path = ['_templates']
 
 # The suffix of source filenames.
-source_suffix = ['.rst', '.md']
+source_suffix = {'.rst': 'restructuredtext', '.md': 'restructuredtext'}
 
 # The master toctree document.
 master_doc = 'index'

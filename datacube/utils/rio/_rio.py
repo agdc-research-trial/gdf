@@ -66,7 +66,7 @@ def activate_rio_env(aws=None, cloud_defaults=False, **kwargs):
                 OR 'auto' -- session = rasterio.session.AWSSession()
 
     :param cloud_defaults: When True inject settings for reading COGs
-    :param **kwargs: Passed on to rasterio.Env(..) constructor
+    :param kwargs: Passed on to rasterio.Env(..) constructor
     """
     session = DummySession()
 
@@ -143,7 +143,7 @@ def set_default_rio_config(aws=None, cloud_defaults=False, **kwargs):
                 OR 'auto' -- session = rasterio.session.AWSSession()
 
     :param cloud_defaults: When True inject settings for reading COGs
-    :param **kwargs: Passed on to rasterio.Env(..) constructor
+    :param kwargs: Passed on to rasterio.Env(..) constructor
     """
     global _CFG  # pylint: disable=global-statement
 
