@@ -19,7 +19,7 @@ Required software
 
 Postgres:
 
-    Download and install the EnterpriseDB distribution from `here <https://www.enterprisedb.com/downloads/postgres-postgresql-downloads>`_
+    Download and install the `EnterpriseDB distribution <https://www.enterprisedb.com/downloads/postgres-postgresql-downloads>`_
 
 
 .. include:: common_install.rst
@@ -50,10 +50,10 @@ Verify it all works
 ===================
 
 Install additional test dependencies::
-    
+
     cd datacube-core
     pip install --upgrade -e '.[test]'
-    
+
 Run the integration tests::
 
     ./check-code.sh integration_tests

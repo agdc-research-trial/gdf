@@ -9,30 +9,39 @@ for managing and processing gridded Earth observation data.
 It has been designed to manage decades of analysis ready
 Earth observation satellite data and related data from multiple sources.
 
-For more information see the following sections:
 
-:doc:`about-core-concepts/index`
+.. grid:: 1 1 3 3
+   :gutter: 2
 
-* This section contains information on the purpose of the Open Data Cube,
-  as well as its design.
+   .. grid-item-card:: Overview
+      :link: about-core-concepts/index
+      :link-type: doc
 
-:doc:`installation/index`
+      Information on the purpose of the Open Data Cube, as well as its design.
 
-* This section contains information on how to install, maintain and upgrade the Open Data Cube.
+   .. grid-item-card:: Setup
+      :link: installation/index
+      :link-type: doc
 
-:doc:`data-access-analysis/index`
+      How to install the Open Data Cube.
 
-* This section contains information on how to access and analyse data that
-  is managed by an Open Data Cube.
+   .. grid-item-card:: Analysis
+      :link: data-access-analysis/index
+      :link-type: doc
 
-:doc:`api/index`
+      How to access and analyse data that is managed by an Open Data Cube.
 
-* This section contains the Open Data Cube's :term:`Python`` :term:`API`` reference.
+   .. grid-item-card:: API
+      :link: api/index
+      :link-type: doc
 
-:doc:`about/index`
+      The Open Data Cube's Python API reference.
 
-* This section contains information on the project's development.
+   .. grid-item-card:: About
+      :link: about/index
+      :link-type: doc
 
+      Information on the ODC's development.
 
 Contents
 ########

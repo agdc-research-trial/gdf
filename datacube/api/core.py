@@ -398,14 +398,14 @@ class Datacube:
 
         :param resampling:
             The resampling method to use if re-projection is required. This could be a string or
-            a dictionary mapping band name to resampling mode. When using a dict use ``'*'`` to
-            indicate "apply to all other bands", for example ``{'*': 'cubic', 'fmask': 'nearest'}`` would
+            a dictionary mapping band name to resampling mode. When using a dict use ``'\*'`` to
+            indicate "apply to all other bands", for example ``{'\*': 'cubic', 'fmask': 'nearest'}`` would
             use ``cubic`` for all bands except ``fmask`` for which ``nearest`` will be used.
 
             Valid values are::
 
-              'nearest', 'average', 'bilinear', 'cubic', 'cubic_spline',
-              'lanczos', 'mode', 'gauss',  'max', 'min', 'med', 'q1', 'q3'
+               'nearest', 'average', 'bilinear', 'cubic', 'cubic_spline',
+               'lanczos', 'mode', 'gauss',  'max', 'min', 'med', 'q1', 'q3'
 
             Default is to use ``nearest`` for all bands.
 
@@ -439,56 +439,48 @@ class Datacube:
 
                 pq = dc.load(product='ls5_pq_albers', like=nbar_dataset)
 
-        :param fuse_func:
-            Function used to fuse/combine/reduce data with the ``group_by`` parameter. By default,
+        :param fuse_func: Function used to fuse/combine/reduce data with the ``group_by`` parameter. By default,
             data is simply copied over the top of each other in a relatively undefined manner. This function can
             perform a specific combining step. This can be a dictionary if different
             fusers are needed per band (similar format to the resampling dict described above).
 
-        :param group_by:
-            When specified, perform basic combining/reducing of the data. For example, ``group_by='solar_day'``
+        :param group_by: When specified, perform basic combining/reducing of the data. For example, ``group_by='solar_day'``
             can be used to combine consecutive observations along a single satellite overpass into a single time slice.
 
             See also :class:`datacube.api.query.GroupBy`
 
-        :param datasets:
-            Optional. If this is a non-empty list of :class:`datacube.model.Dataset` objects, these will be loaded
+        :param datasets: Optional. If this is a non-empty list of :class:`datacube.model.Dataset` objects, these will be loaded
             instead of performing a database lookup.
 
-        :param dataset_predicate:
-            Optional. A function that can be passed to restrict loaded datasets. A predicate function should
+        :param dataset_predicate: Optional. A function that can be passed to restrict loaded datasets. A predicate function should
             take a :class:`datacube.model.Dataset` object (e.g. as returned from :meth:`find_datasets`) and
             return a boolean.
+
             For example, loaded data could be filtered to January observations only by passing the following
             predicate function that returns True for datasets acquired in January::
 
                 def filter_jan(dataset): return dataset.time.begin.month == 1
 
-        :param progress_cbk:
-            ``Int, Int -> None``,
+            .
+
+        :param progress_cbk: ``Int, Int -> None``,
             if supplied will be called for every file read with ``files_processed_so_far, total_files``. This is
             only applicable to non-lazy loads, ignored when using dask.
 
-        :param patch_url:
-            if supplied, will be used to patch/sign the url(s), as required to access some commercial archives
+        :param patch_url: if supplied, will be used to patch/sign the url(s), as required to access some commercial archives
             (e.g. Microsoft Planetary Computer).
 
-        :param limit:
-            Optional. If provided, limit the maximum number of datasets returned. Useful for testing and debugging.
+        :param limit: Optional. If provided, limit the maximum number of datasets returned. Useful for testing and debugging.
             Can also be provided via the ``dc_load_limit`` config option.
 
-        :param driver:
-            Optional. If provided, use the specified driver to load the data.
+        :param driver: Optional. If provided, use the specified driver to load the data.
 
-        :param **query:
-            Search parameters for products and dimension ranges as described above.
+        :param query: Search parameters for products and dimension ranges as described above.
             For example: ``'x', 'y', 'time', 'crs'``.
 
-        :return:
-            Requested data in a :class:`xarray.Dataset`
+        :return: Requested data in a :class:`xarray.Dataset`
 
-        :rtype:
-            :class:`xarray.Dataset`
+        :rtype: :class:`xarray.Dataset`
         """
         if product is None and datasets is None:
             raise ValueError("Must specify a product or supply datasets")

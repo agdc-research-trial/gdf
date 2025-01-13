@@ -42,8 +42,9 @@ def flipx(gbox: GeoBox) -> GeoBox:
 
 def translate_pix(gbox: GeoBox, tx: float, ty: float) -> GeoBox:
     """
-    Shift GeoBox in pixel plane. (0,0) of the new GeoBox will be at the same
-    location as pixel (tx, ty) in the original GeoBox.
+    Shift GeoBox in pixel plane.
+
+    (0,0) of the new GeoBox will be at the same location as pixel (tx, ty) in the original GeoBox.
     """
     H, W = gbox.shape
     A = gbox.affine*Affine.translation(tx, ty)
@@ -77,6 +78,8 @@ def pad_wh(gbox: GeoBox,
 
 def zoom_out(gbox: GeoBox, factor: float) -> GeoBox:
     """
+    Change the resolution but cover the same region
+
     factor > 1 --> smaller width/height, fewer but bigger pixels
     factor < 1 --> bigger width/height, more but smaller pixels
 
@@ -91,8 +94,7 @@ def zoom_out(gbox: GeoBox, factor: float) -> GeoBox:
 
 def zoom_to(gbox: GeoBox, shape: Tuple[int, int]) -> GeoBox:
     """
-    :returns: GeoBox covering the same region but with different number of pixels
-              and therefore resolution.
+    :returns: GeoBox covering the same region but with different number of pixels and therefore resolution.
     """
     H, W = gbox.shape
     h, w = shape
@@ -109,8 +111,8 @@ def rotate(gbox: GeoBox, deg: float) -> GeoBox:
     It's as if you stick a needle through the center of the GeoBox footprint
     and rotate it counter clock wise by supplied number of degrees.
 
-    Note that from pixel point of view image rotates the other way. If you have
-    source image with an arrow pointing right, and you rotate GeoBox 90 degree,
+    Note that from pixel point of view, the image rotates the other way. If you have
+    a source image with an arrow pointing right, and you rotate the GeoBox 90 degrees,
     in that view arrow should point down (this is assuming usual case of inverted
     y-axis)
     """
@@ -124,30 +126,28 @@ def affine_transform_pix(gbox: GeoBox, transform: Affine) -> GeoBox:
     """
     Apply affine transform on pixel side.
 
-    :param transform: Affine matrix mapping from new pixel coordinate space to
-        pixel coordinate space of input gbox
+        X_old_pix = transform * X_new_pix
 
-    :returns: GeoBox of the same pixel shape but covering different region,
-        pixels in the output gbox relate to input geobox via `transform`
+    :param transform: Affine matrix mapping from new pixel coordinate space to pixel coordinate space of input gbox
 
-    X_old_pix = transform * X_new_pix
-
+    :returns: GeoBox of the same pixel shape but covering different region, pixels in the output gbox relate to input geobox via `transform`
     """
     H, W = gbox.shape
     A = gbox.affine*transform
     return GeoBox(W, H, A, gbox.crs)
 
 
-class GeoboxTiles():
-    """ Partition GeoBox into sub geoboxes
+class GeoboxTiles:
+    """
+    Partition a GeoBox into sub geoboxes
+
+    Construct from a :class:`~datacube.utils.geometry.GeoBox`.
+
+    :param box: the source :class:`~datacube.utils.geometry.GeoBox`
+    :param tile_shape: Shape of sub-tiles in pixels (rows, cols)
     """
 
     def __init__(self, box: GeoBox, tile_shape: Tuple[int, int]):
-        """ Construct from a ``GeoBox``
-
-        :param box: source :class:`datacube.utils.geometry.GeoBox`
-        :param tile_shape: Shape of sub-tiles in pixels (rows, cols)
-        """
         self._gbox = box
         self._tile_shape = tile_shape
         self._shape = tuple(math.ceil(float(N)/n)
@@ -156,11 +156,15 @@ class GeoboxTiles():
 
     @property
     def base(self) -> GeoBox:
+        """
+        The base GeoBox
+        """
         return self._gbox
 
     @property
     def shape(self):
-        """ Number of tiles along each dimension
+        """
+        Number of tiles along each dimension
         """
         return self._shape
 
@@ -177,11 +181,12 @@ class GeoboxTiles():
         return (ir, ic)
 
     def chunk_shape(self, idx: Tuple[int, int]) -> Tuple[int, int]:
-        """ Chunk shape for a given chunk index.
+        """
+        Chunk shape for a given chunk index.
 
-            :param idx: (row, col) index
-            :returns: (nrow, ncols) shape of a tile (edge tiles might be smaller)
-            :raises: IndexError when index is outside of [(0,0) -> .shape)
+        :param idx: (row, col) index
+        :raises: IndexError when index is outside of ``[(0,0) -> .shape)``
+        :returns: tuple (nrow, ncols) shape of a tile (edge tiles might be smaller)
         """
         def _sz(i: int, n: int, tile_sz: int, total_sz: int) -> int:
             if 0 <= i < n - 1:  # not edge tile
@@ -195,11 +200,12 @@ class GeoboxTiles():
         return (n1, n2)
 
     def __getitem__(self, idx: Tuple[int, int]) -> GeoBox:
-        """ Lookup tile by index, index is in matrix access order: (row, col)
+        """
+        Lookup tile by index, index is in matrix access order: (row, col)
 
-            :param idx: (row, col) index
-            :returns: GeoBox of a tile
-            :raises: IndexError when index is outside of [(0,0) -> .shape)
+        :param idx: (row, col) index
+        :raises: IndexError when index is outside of ``[(0,0) -> .shape)``
+        :returns: GeoBox of a tile
         """
         sub_gbox = self._cache.get(idx, None)
         if sub_gbox is not None:
@@ -209,7 +215,8 @@ class GeoboxTiles():
         return self._cache.setdefault(idx, self._gbox[roi])
 
     def range_from_bbox(self, bbox: BoundingBox) -> Tuple[range, range]:
-        """ Compute rows and columns overlapping with a given ``BoundingBox``
+        """
+        Compute rows and columns overlapping with a given :class:`~datacube.utils.geometry.BoundingBox`
         """
         def clamped_range(v1: float, v2: float, N: int) -> range:
             _in = clamp(math.floor(v1), 0, N)
@@ -227,7 +234,8 @@ class GeoboxTiles():
         return (yy, xx)
 
     def tiles(self, polygon: Geometry) -> Iterable[Tuple[int, int]]:
-        """ Return tile indexes overlapping with a given geometry.
+        """
+        Return tile indexes overlapping the polygon
         """
         if self._gbox.crs is None:
             poly = polygon

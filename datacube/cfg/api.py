@@ -118,7 +118,7 @@ class ODCConfig:
             self.raw_config = parse_text(cast(str, self.raw_text))
 
         self._aliases: dict[str, str] = {}
-        self.known_environments: dict[str, ODCEnvironment] = {
+        self.known_environments: dict[str, "ODCEnvironment"] = {
             section: ODCEnvironment(self, section, self.raw_config[section], self.allow_envvar_overrides)
             for section in self.raw_config
         }

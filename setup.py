@@ -40,6 +40,7 @@ doc_require = [
     'nbsphinx',
     'ipython',
     'pydata-sphinx-theme',
+    "sphinx-design",
 ]
 
 extras_require = {
