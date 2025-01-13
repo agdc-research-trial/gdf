@@ -18,7 +18,7 @@ from datacube.ui.click import cli
 _LOG = logging.getLogger('datacube-system')
 
 
-@cli.group(name='spindex', help='System commands')
+@cli.group(name='spindex', help='Spatial Indexes')
 def system():
     pass
 
