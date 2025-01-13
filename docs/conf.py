@@ -32,9 +32,9 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx_click.ext',
     'click_utils',
-    'autodocsumm',
+    # 'autodocsumm',
     'nbsphinx',
-    'sphinx.ext.napoleon',
+    # 'sphinx.ext.napoleon',
     "sphinx_design",
     # 'sphinx.ext.autosectionlabel',
     'IPython.sphinxext.ipython_console_highlighting',  # Highlights notebook cells
