@@ -1,3 +1,6 @@
+
+.. _api-reference:
+
 ***
 API
 ***
@@ -51,3 +54,4 @@ The following pages provide a full API reference for the ``datacube`` python lib
    Amazon Web Services (AWS) <utilities/aws>
    Writing GeoTIFFs <utilities/cogs>
    utilities/dask
+   geometry/index

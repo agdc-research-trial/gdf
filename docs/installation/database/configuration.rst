@@ -1,6 +1,8 @@
 
 .. py:currentmodule:: datacube
 
+.. _runtime-config-doc:
+
 ODC Configuration (Basics)
 **************************
 

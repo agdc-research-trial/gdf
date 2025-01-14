@@ -55,6 +55,15 @@ class ODCConfig:
 
         canonical_names: dict[str, list[str]]   A dictionary mapping canonical environment names to all aliases for
                                                 that environment.
+
+    .. py:attribute:: allow_envvar_overrides
+       :type: bool
+       :value: True
+
+        If True, environment variables can override the values explicitly specified in the supplied configuration.
+
+        Note that environments not explicitly specified in the supplied configuration (dynamic environments) can still be read from
+        environment variables, even if this attribute is False.
     """
     allow_envvar_overrides: bool = True
     raw_text: str | None = None
