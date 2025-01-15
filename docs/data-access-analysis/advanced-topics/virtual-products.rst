@@ -29,16 +29,16 @@ Using virtual products
 
 Virtual products provide an interface to query and load data. The methods are:
 
-    ``query(dc, **search_terms)``
-        Retrieves datasets that match ``search_terms`` from the database index of ``dc``.
+   ``query(dc, **search_terms)``
+       Retrieves datasets that match ``search_terms`` from the database index of ``dc``.
 
-    ``group(datasets, **group_settings)``
-        Groups datasets from ``query`` by timestamp. Does not connect to the database.
+   ``group(datasets, **group_settings)``
+       Groups datasets from ``query`` by timestamp. Does not connect to the database.
 
-    ``fetch(grouped, **load_settings)``
-        Loads the data from the grouped datasets according to ``load_settings``. Does not connect to the database. The
-        on-the-fly transformations are applied at this stage. To load data lazily using ``dask``,
-        specify ``dask_chunks`` in the ``load_settings``.
+   ``fetch(grouped, **load_settings)``
+       Loads the data from the grouped datasets according to ``load_settings``. Does not connect to the database. The
+       on-the-fly transformations are applied at this stage. To load data lazily using ``dask``,
+       specify ``dask_chunks`` in the ``load_settings``.
 
 .. note::
 

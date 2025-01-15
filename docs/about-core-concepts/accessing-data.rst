@@ -15,6 +15,7 @@ spatio-temporal arrays. An example Xarray from the
 :abbr:`ODC (Open Data Cube)` is shown in :numref:`odc-xarray-image`.
 
 .. _odc-xarray-image:
+
 .. figure:: ../diagrams/odc-xarray.png
    :name: odc-xarray
 
@@ -38,6 +39,7 @@ The flowchart in :numref:`stac-or-core-image` may help you understand the best p
 for accessing data depending on how the data are managed.
 
 .. _stac-or-core-image:
+
 .. figure:: ../diagrams/stac-or-core.png
    :name: stac-or-core
 
