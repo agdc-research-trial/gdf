@@ -41,7 +41,7 @@ Earth observation satellite data and related data from multiple sources.
       :link: about/index
       :link-type: doc
 
-      Information on the ODC's development.
+      About the Open Data Cube and its development.
 
 Contents
 ########

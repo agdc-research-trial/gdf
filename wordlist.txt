@@ -1,4 +1,3 @@
-
 AbstractDatasetResource
 AbstractDataSource
 AbstractProductResource
@@ -317,6 +316,7 @@ maxdepth
 md
 metadataType
 MetadataTypes
+Miniforge
 mk
 mkdir
 MODIS
