@@ -20,7 +20,7 @@ at ``docs/installation/MIGRATION-1.8-to-1.9`` before upgrading.
 Major changes from recent 1.8.x releases include:
 
 - A new index driver that uses PostGIS spatial indexes to provide faster and more accurate geospatial search
-  and provide better support for storing data that covers regions where traditional lat/long seach is
+  and provide better support for storing data that covers regions where traditional lat/long search is
   inadequate (i.e. covering polar regions or crossing the anti-meridian).
 
   The new postgis index driver implements a new API for working with dataset lineage, and only supports
