@@ -27,7 +27,7 @@ Example Product Definition
 Product Definition Format Specification
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    For a detailed description of the format of a valid product document, refer to the
-    `formal specification`_ in the eo3 Github repository.
+   For a detailed description of the format of a valid product document, refer to the
+   `formal specification`_ in the eo3 Github repository.
 
 .. _`formal specification`: https://github.com/opendatacube/eo3/blob/develop/SPECIFICATION-odc-product.md

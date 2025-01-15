@@ -16,7 +16,7 @@ tests_require = [
 ]
 
 types_require = [
-    "mypy",
+    "mypy<1.14",
     "types-affine",
     "types-cachetools",
     "types-jsonschema",

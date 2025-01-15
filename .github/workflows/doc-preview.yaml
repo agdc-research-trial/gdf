@@ -1,0 +1,26 @@
+# This Workflow exists solely to push a link into
+# PR descriptions to a preview build of the docs
+# from the PRs source branch.
+#
+# It requires extra permissions, to write to the PR.
+#
+# It uses the unusual `pull_request_target` trigger, which
+# only gives it access to the target of the PR, not the source.
+# But this is a-okay because it doesn't even look at the source
+# code, it just updates the PR description with a link.
+name: Post RTD Preview Link to PRs
+on:
+  pull_request_target:
+     types:
+       - opened
+
+permissions:
+  pull-requests: write
+
+jobs:
+  documentation-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: readthedocs/actions/preview@v1
+        with:
+          project-slug: "datacube-core"

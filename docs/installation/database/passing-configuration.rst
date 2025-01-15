@@ -129,7 +129,6 @@ environment variable.
 
 .. _`Environment variable overrides`: #generic-environment-variable-overrides
 .. _`dynamic environments`: #a-dynamic-environments
-.. _`Raw configuration`: #raw-configuration
 
 2a. Via Python (str or dict)
 ++++++++++++++++++++++++++++
