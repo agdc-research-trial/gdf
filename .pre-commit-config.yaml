@@ -4,9 +4,8 @@ repos:
       hooks:
         - id: yamllint
     - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v2.4.0
+      rev: v5.0.0
       hooks:
-        - id: flake8
         - id: end-of-file-fixer
         - id: check-docstring-first
         - id: check-json
@@ -18,10 +17,15 @@ repos:
           exclude: ^tests/drivers/fail_drivers
         - id: check-added-large-files
         - id: check-merge-conflict
-    -   repo: https://github.com/pre-commit/mirrors-pylint
-        rev: v3.0.0a5  # Use the sha / tag you want to point at
+    -   repo: https://github.com/pylint-dev/pylint
+        rev: v3.3.3  # Use the sha / tag you want to point at
         hooks:
         -   id: pylint
+            language_version: '3.12'  # Reqd of 2025-01-15
+    -   repo: https://github.com/pycqa/flake8
+        rev: '7.1.1'
+        hooks:
+        -   id: flake8
     - repo: https://github.com/Lucas-C/pre-commit-hooks
       rev: v1.5.5
       hooks:
