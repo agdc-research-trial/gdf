@@ -1,12 +1,9 @@
 name: Doc QA
 on:
   # Triggers the workflow on pull request events for the main branch
-  pull_request_target:
-    types:
-      - opened
-
-permissions:
-  pull-requests: write
+  pull_request:
+    paths:
+      - '**'
 
 jobs:
   pyspell:
@@ -46,10 +43,3 @@ jobs:
               args: --short --error-format=github --cache-file=/github/workspace/.cache/doctor-rst.cache
           env:
               DOCS_DIR: 'docs/'
-
-  documentation-preview:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: readthedocs/actions/preview@v1
-        with:
-          project-slug: "datacube-core"
