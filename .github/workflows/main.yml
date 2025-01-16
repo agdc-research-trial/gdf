@@ -15,7 +15,7 @@ on:
 
 env:
   DOCKER_USER: gadockersvc
-  DOCKER_IMAGE: opendatacube/datacube-tests:latest
+  DOCKER_IMAGE: opendatacube/datacube-tests:latest1.8
 
 
 jobs:
@@ -47,10 +47,10 @@ jobs:
           docker:
             - 'docker/**'
 
-    - name: Pull Docker
-      if: steps.changes.outputs.docker == 'false'
-      run: |
-        docker pull "${{ env.DOCKER_IMAGE }}"
+    # - name: Pull Docker
+    #   if: steps.changes.outputs.docker == 'false'
+    #   run: |
+    #     docker pull "${{ env.DOCKER_IMAGE }}"
 
     - name: Set up Docker Buildx
       if: steps.changes.outputs.docker == 'true'
@@ -69,7 +69,7 @@ jobs:
       id: login
       if: |
         github.event_name == 'push'
-        && github.ref == 'refs/heads/develop'
+        && github.ref == 'refs/heads/develop-1.8'
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUBUSER }}
@@ -106,7 +106,7 @@ jobs:
     - name: DockerHub Push
       if: |
         github.event_name == 'push'
-        && github.ref == 'refs/heads/develop'
+        && github.ref == 'refs/heads/develop-1.8'
         && steps.changes.outputs.docker == 'true'
       uses: docker/build-push-action@v6
       with:
