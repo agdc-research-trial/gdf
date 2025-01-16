@@ -137,7 +137,6 @@ at indexing time in the `odc-apps-dc-tools`_ package.
    [Y] = [a3, a4, a5] [ Line ]
    [1]   [ 0,  0,  1] [  1   ]
 
-.. _`formal specification`: https://github.com/opendatacube/eo3/blob/develop/SPECIFICATION.md
 .. _odc-apps-dc-tools: https://github.com/opendatacube/odc-tools/tree/develop/apps/dc_tools
 
 .. _dataset-metadata-doc-3d:
@@ -148,7 +147,7 @@ at indexing time in the `odc-apps-dc-tools`_ package.
 3D loading can be achieved through ``odc-loader`` package.
 
 #. Install odc-loader, e.g. ``pip install odc-loader``
-#. Add a ``driver="rio",` argument to ``dc.load()``
+#. Add a ``driver="rio",`` argument to ``dc.load()``
 
 Time-stacked NetCDF files
 -------------------------

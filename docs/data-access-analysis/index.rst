@@ -1,6 +1,6 @@
-**********************
-Data Access & Analysis
-**********************
+********
+Analysis
+********
 
 For users looking to access data from the Open Data Cube the simplest way to get started is to access a sandbox environment for your Open Data Cube of interest.
 Once you have access to a sandbox environment you'll be able to start searching, loading and analysing data.

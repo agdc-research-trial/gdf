@@ -20,7 +20,7 @@ Steps Overview
     Requires creation of a :ref:`product-definitions` document (yaml)
 
  * Ensure the data is prepared
-    The data to be indexed requires datacube friendly :ref:`dataset-documents` for data which is to be indexed
+    The data to be indexed requires datacube friendly :doc:`../dataset-documents` for data which is to be indexed
 
  * Index the data
     Run the actual indexing process
@@ -70,7 +70,7 @@ no further steps are required for indexing them.
 
 For third party datasets, see the examples detailed `here <https://github.com/opendatacube/datacube-dataset-config#documented-examples>`__.
 For common distribution formats, data can be indexed using one of the tools from `odc-apps-dc-tools <https://github.com/opendatacube/odc-tools/tree/develop/apps/dc_tools>`__.
-In other cases, the metadata may need to be mapped to an ODC-compatible format. You can find examples of data preparation scripts `here <https://github.com/opendatacube/datacube-dataset-config/tree/main/old-prep-scripts>`__. 
+In other cases, the metadata may need to be mapped to an ODC-compatible format. You can find examples of data preparation scripts `here <https://github.com/opendatacube/datacube-dataset-config/tree/main/old-prep-scripts>`__.
 
 
 Step 3. Run the Indexing process

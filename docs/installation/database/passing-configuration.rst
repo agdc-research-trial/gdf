@@ -12,7 +12,7 @@ Summary
 
 The default behaviour is to read in configuration from a `configuration file`_.
 
-Alternatively, `raw configuration`_ can be explicitly passed in.
+Alternatively, `Raw configuration`_ can be explicitly passed in.
 
 Data in a configuration file can be supplemented or overridden by configuration from `environment variables`_.
 
@@ -31,7 +31,7 @@ users and developers upgrading 1.8 systems should read the `migration notes`_.
 
 .. highlight:: python
 
-If `raw configuration`_ is not passed in, ODC attempts to find a configuration file in the file system.
+If `Raw configuration`_ is not passed in, ODC attempts to find a configuration file in the file system.
 
 `Only one`_ configuration file is read.
 
@@ -52,7 +52,7 @@ first readable file it finds:
 1. :file:`./datacube.conf`    (in the current working directory)
 2. :file:`~/.datacube.conf`   (in the user's home directory)
 3. :file:`/etc/default/datacube.conf`
-4. :file:`/etc/datacube.conf``
+4. :file:`/etc/datacube.conf`
 
 If none of the files in the default search path exist, then a basic default configuration is used, equivalent to:
 
@@ -71,9 +71,7 @@ If none of the files in the default search path exist, then a basic default conf
 1b. In Python
 +++++++++++++
 
-In Python, the ``config`` argument can take a path to a config file:
-
-::
+In Python, the ``config`` argument can take a path to a config file::
 
     dc = Datacube(config="/path/to/my/file.conf")
 
@@ -96,7 +94,7 @@ the API documentation for more information.
 ++++++++++++++++++++++++
 
 Configuration file paths can be passed using either the :option:`datacube -C`
-or :option:`datacube --config`` option.
+or :option:`datacube --config` option.
 
 The option can be specified multiple times, with paths being searched in order, and an error being
 raised if none can be read.
@@ -107,12 +105,12 @@ raised if none can be read.
 .. envvar:: ODC_CONFIG_PATH
 
    If config paths have not been passed in through methods 2a. or 2b. above,
-   then they can be read from the :envvar:`ODC_CONFIG_PATH`` environment
-   variable, in a UNIX Path-style colon separated list:
-
-   ::
+   then they can be read from the :envvar:`ODC_CONFIG_PATH` environment
+   variable, in a UNIX Path-style colon separated list::
 
           ODC_CONFIG_PATH=/first/path/checked:/second/path/checked:/last/path/checked
+
+.. _Raw configuration:
 
 2. Raw configuration
 --------------------
@@ -160,16 +158,12 @@ The ``raw_config`` argument can also be passed config as a string, in either INI
 +++++++++++++++++++++++++++++++++++++
 
 The contents of a configuration file can be passed into the ``datacube`` CLI via the ``-R`` or
-``--raw-config`` command line option:
-
-::
+``--raw-config`` command line option::
 
    datacube --raw-config "default: {db_database: this_db}"
 
 Output from a script that generates a configuration file dynamically can be passed in using
-a BASH backquote string:
-
-::
+a BASH backquote string::
 
    datacube --raw-config "`config_file_generator --option blah`"
 
@@ -257,9 +251,8 @@ E.g. to override the :confval:`db_password` field in the ``main`` environment,
 set the ``$ODC_MAIN_DB_PASSWORD`` environment variable.
 
 Environment variable overrides are **NOT** applied to environments defined in
-raw configuration that was passed in `explicitly as a string or dictionary`_.
+raw configuration that was passed in `explicitly as a string or dictionary <Raw configuration>`_.
 
-.. _`explicitly as a string or dictionary`: #raw-config
 
 4a. Dynamic Environments
 ++++++++++++++++++++++++
@@ -287,11 +280,12 @@ You can request the ``aux`` environment and its configuration will be
 dynamically read from the environment variables, even though the "aux"
 environment is not mentioned in the configuration file at all.
 
-..note:: Notes
+.. note::
+
    #. Environment variables are read when first accessing to a named environment (usually just before
       connecting to a database from that environment).  Dynamic changes to environment variables after
       first access have no effect.
-   #. Environment variables cannot override values included in `raw configuration`_, but can still
+   #. Environment variables cannot override values included in `Raw configuration`_, but can still
       be used to create `dynamic environments`_.
 
 4b. Environment Variable Overrides and Environment Aliases
@@ -415,7 +409,7 @@ a new preferred environment variable, as listed in the table below.
 API changes
 -----------
 
-Details of the new API are described in :doc:`cfg`.
+Details of the new API are described in :doc:`/api/cfg`.
 
 The old ``datacube.config.LocalConfig`` class has been replaced by ``datacube.cfg.ODCConfig`` and ``datacube.cfg.ODCEnvironment`` classes.
 

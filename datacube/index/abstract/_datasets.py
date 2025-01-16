@@ -72,7 +72,7 @@ class AbstractDatasetResource(ABC):
             max_depth: int = 0
             ) -> Dataset | None:
         """
-        Get dataset by id (Return None if id_ does not exist.
+        Get dataset by id (Return None if ``id_`` does not exist).
 
         - Index drivers supporting the legacy lineage API:
 
@@ -169,8 +169,8 @@ class AbstractDatasetResource(ABC):
              adding lineage datasets to the db
 
         :param archive_less_mature: if integer, search for less
-        mature versions of the dataset with the int value as a millisecond
-        delta in timestamp comparison
+            mature versions of the dataset with the int value as a millisecond
+            delta in timestamp comparison
 
         :return: Persisted Dataset model
         """
@@ -868,7 +868,7 @@ class AbstractDatasetResource(ABC):
         :param query: query parameters that will be processed against metadata_types,
                       product definitions and/or dataset table.
         :return: A Dynamically generated DatasetLight (a subclass of namedtuple and possibly with
-        property functions).
+            property functions).
         """
 
     @abstractmethod

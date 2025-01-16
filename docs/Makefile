@@ -39,4 +39,4 @@ livehtml:
 
 clean:
 	rm -rf _build/
-	rm -rf dev/api/generate data-access-analysis/apis/generate api/indexed-data/generate api/geometry/generate
+	find . -type d -name generate -exec rm -rf {} +

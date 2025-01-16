@@ -11,4 +11,3 @@ class ConfigException(Exception):
     """
     Exception raised in the configuration API
     """
-    pass

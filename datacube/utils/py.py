@@ -15,8 +15,8 @@ def import_function(func_ref):
     """
     Import a function available in the python path.
 
-    Expects at least one '.' in the `func_ref`,
-    eg:
+    Expects at least one '.' in the `func_ref`, eg::
+
         `module.function_name`
         `package.module.function_name`
 

@@ -13,7 +13,7 @@ Conda environment setup
 Conda environments are recommended for use in isolating your ODC development environment from your system installation and other Python environments.
 
 We recommend you use Mambaforge to set up your conda virtual environment, as all the required packages are obtained from the conda-forge channel.
-Download and install it from `here <https://github.com/conda-forge/miniforge#mambaforge>`_.
+Download and install it from `the Miniforge GitHub <https://github.com/conda-forge/miniforge#mambaforge>`_.
 
 Download the latest version of the Open Data Cube from the `repository <https://github.com/opendatacube/datacube-core>`_::
 
@@ -28,7 +28,7 @@ Activate the ``cubeenv`` conda environment::
 
     conda activate cubeenv
 
-Find out more about conda environments `here <https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html>`_.
+Find out more about `conda environments <https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html>`_.
 
 
 Postgres testing database configuration
@@ -64,7 +64,7 @@ By default, these databases are called ``pgintegration`` and ``pgisintegration``
 
     postgres=# create database pgintegration;
     postgres=# create database pgisintegration;
-    
+
 Or, directly from the bash terminal::
 
     createdb pgintegration

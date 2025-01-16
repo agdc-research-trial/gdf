@@ -35,10 +35,12 @@ doc_require = [
     'sphinx-click',
     'recommonmark',
     'autodocsumm',
+    'ipython',
     'beautifulsoup4',
     'nbsphinx',
     'ipython',
-    'pydata-sphinx-theme==0.9.0',
+    'pydata-sphinx-theme',
+    "sphinx-design",
 ]
 
 extras_require = {

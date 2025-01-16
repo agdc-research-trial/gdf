@@ -6,11 +6,11 @@ The Open Data Cube offers a CLI for common administrative tasks related to the O
 
 .. click:: datacube.scripts.cli_app:cli
    :prog: datacube
-   :show-nested:
+   :nested: full
 
 .. click:: datacube.scripts.search_tool:cli
    :prog: datacube-search
-   :show-nested:
+   :nested: full
 
 
 .. note::

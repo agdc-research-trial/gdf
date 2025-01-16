@@ -1,6 +1,6 @@
-*********************
-About & Core Concepts
-*********************
+********
+Overview
+********
 
 Overview
 ========
@@ -22,7 +22,7 @@ All software in the Open Data Cube project family is released under the `Apache 
 <https://github.com/opendatacube/datacube-core/blob/develop/LICENSE>`_ license.
 
 .. figure:: ../diagrams/f1.png
-   :name: high-level-overview
+   :name: high-level-odc-overview
 
    High-Level ODC Overview
 
@@ -49,8 +49,8 @@ The Open Data Cube has a range of uses, including the following:
 The Open Data Cube Software Ecosystem
 =====================================
 
-The Open Data Cube software ecosystem enables people to manage and process 
-Earth observation data. It is made up of a number of Python packages, 
+The Open Data Cube software ecosystem enables people to manage and process
+Earth observation data. It is made up of a number of Python packages,
 which are described in the :doc:`odc-ecosystem` section.
 
 .. toctree::
@@ -58,6 +58,7 @@ which are described in the :doc:`odc-ecosystem` section.
 
     Overview & Use Cases <self>
     odc-ecosystem
+
 
 .. toctree::
     :caption: Managing Data
@@ -74,6 +75,6 @@ which are described in the :doc:`odc-ecosystem` section.
 
 .. toctree::
     :caption: The ODC Packages and Deployments
-    
+
     extensions
     existing-deployments
