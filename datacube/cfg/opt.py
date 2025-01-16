@@ -234,7 +234,7 @@ class PostgresURLOptionHandler(ODCOptionHandler):
                 ODCOptionHandler("db_hostname", self.env, legacy_env_aliases=['DB_HOSTNAME'],
                                  default=_DEFAULT_HOSTNAME),
                 IntOptionHandler("db_port", self.env, default=5432, legacy_env_aliases=['DB_PORT'],
-                                 minval=1, maxval=49151),
+                                 minval=1, maxval=65535),
                 ODCOptionHandler("db_database", self.env, legacy_env_aliases=['DB_DATABASE'],
                                  default=_DEFAULT_DATABASE),
             )
