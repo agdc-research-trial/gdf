@@ -39,6 +39,8 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
       - name: run linter
+        with:
+          persist-credentials: false
         run: |
           uv run --no-project --with '.[test,types]' ${LINT_COMMAND}
         env:

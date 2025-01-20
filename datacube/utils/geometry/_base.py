@@ -328,7 +328,9 @@ class CRS:
     def crs_str(self) -> str:
         """ DEPRECATED
         """
-        warnings.warn("Please use `str(crs)` instead of `crs.crs_str`", category=DeprecationWarning)
+        warnings.warn("Please use `str(crs)` instead of `crs.crs_str`",
+                      category=DeprecationWarning,
+                      stacklevel=2)
         return self._str
 
     def transformer_to_crs(self, other: 'CRS', always_xy=True) -> Callable[[Any, Any], Tuple[Any, Any]]:

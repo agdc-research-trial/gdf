@@ -10,15 +10,14 @@
 # code, it just updates the PR description with a link.
 name: Post RTD Preview Link to PRs
 on:
-  pull_request_target:
+  pull_request_target: # zizmor: ignore[dangerous-triggers]
      types:
        - opened
 
-permissions:
-  pull-requests: write
-
 jobs:
   documentation-preview:
+    permissions:
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - uses: readthedocs/actions/preview@v1

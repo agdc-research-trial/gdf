@@ -107,12 +107,12 @@ def to_fixed_point(a, dtype='uint16'):
     ii = np.iinfo(dtype)
     a = a*ii.max + 0.5
     a = np.clip(a, 0, ii.max, out=a)
-    warnings.filterwarnings("error")
-    try:
-        b = a.astype(ii.dtype)
-    except RuntimeWarning as e:
-        raise TypeError(e)
-    warnings.resetwarnings()
+    with warnings.catch_warnings():
+        warnings.filterwarnings("error")
+        try:
+            b = a.astype(ii.dtype)
+        except RuntimeWarning as e:
+            raise TypeError(e)
     if not (np.abs(a - b) < 1).all():
         raise TypeError(f"Cannot safely cast float to {dtype}")
     return b
