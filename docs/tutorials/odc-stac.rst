@@ -27,13 +27,25 @@ Prepare the tutorial environment
 ================================
 
 .. note::
-   We may replace this section with instructions for a GitHub code space or Binder to allow people to 
-   run the tutorial without managing their own local environment.
-
-The tutorial materials are available on `GitHub`_ 
+   At this time, you will need working knowledge of git and Conda to run this tutorial
+   on your own computer. 
+   In future, this may be replaced with an online environment where you can run the 
+   tutorial without needing to install anything.
 
 To run this tutorial on your computer, you will need:
 
-- Conda: Miniconda or Anaconda: A Python distribution for managing environments.
+- `git`_: Software for version control.
+- `Conda`_: Software for managing Python packages and environments. 
+  We recommend `Miniconda`_.
 
+Check out tutorial materials
+----------------------------
+
+The tutorial materials are available on `GitHub`_
+
+
+
+.. _git: https://git-scm.com/
+.. _Conda: https://docs.conda.io/projects/conda/en/latest/index.html
+.. _Miniconda: https://docs.anaconda.com/miniconda/
 .. _GitHub: https://github.com/opendatacube/tutorial-odc-stac/tree/main
