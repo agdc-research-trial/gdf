@@ -8,7 +8,7 @@ Datacube
 
 Provides access to multi-dimensional data, with a focus on Earth observations data such as LANDSAT.
 
-To use this module, see the `Developer Guide <https://opendatacube.readthedocs.io/en/stable/dev/developer.html>`_.
+To use this module, see the `Developer Guide <https://opendatacube.readthedocs.io/en/latest/installation/index.html>`_.
 
 The main class to access the datacube is :class:`datacube.Datacube`.
 
