@@ -1,6 +1,6 @@
 # This file is part of the Open Data Cube, see https://opendatacube.org for more information
 #
-# Copyright (c) 2015-2024 ODC Contributors
+# Copyright (c) 2015-2025 ODC Contributors
 # SPDX-License-Identifier: Apache-2.0
 """
 Storage Query and Access API module
@@ -185,15 +185,12 @@ def query_group_by(group_by='time', **kwargs):
     """
     Group by function for loading datasets
 
-    :param group_by: group_by name, supported str are
-    ::
+    :param group_by: group_by name, supported strings are
 
-        - time (default)
-        - solar_day, see :func:`datacube.api.query.solar_day`
+        - `time` (default)
+        - `solar_day`, see :func:`datacube.api.query.solar_day`
 
-    or ::
-
-        - :class:`datacube.api.query.GroupBy` object
+        or pass a :class:`datacube.api.query.GroupBy` object.
 
     :return: :class:`datacube.api.query.GroupBy`
     :raises LookupError: when group_by string is not a valid dictionary key.

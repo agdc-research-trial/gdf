@@ -1,6 +1,6 @@
 # This file is part of the Open Data Cube, see https://opendatacube.org for more information
 #
-# Copyright (c) 2015-2024 ODC Contributors
+# Copyright (c) 2015-2025 ODC Contributors
 # SPDX-License-Identifier: Apache-2.0
 from typing import List, Optional, Callable
 from .driver_cache import load_drivers
@@ -31,7 +31,8 @@ class ReaderDriverCache(object):
 
     def __call__(self, uri_scheme: str, fmt: str,
                  fallback: Optional[DatasourceFactory] = None) -> DatasourceFactory:
-        """Lookup `new_datasource` constructor method from the driver. Returns
+        """
+        Lookup `new_datasource` constructor method from the driver. Returns
         `fallback` method if no driver is found.
 
         :param uri_scheme: Protocol part of the Dataset uri
@@ -47,13 +48,15 @@ class ReaderDriverCache(object):
             raise KeyError("No driver found and no fallback provided")
 
     def drivers(self) -> List[str]:
-        """ Returns list of driver names
+        """
+        Returns list of driver names
         """
         return list(self._drivers.keys())
 
 
 def rdr_cache() -> ReaderDriverCache:
-    """ Singleton for ReaderDriverCache
+    """
+    Singleton for ReaderDriverCache
     """
     return singleton_setup(rdr_cache, '_instance',
                            ReaderDriverCache,
@@ -61,13 +64,15 @@ def rdr_cache() -> ReaderDriverCache:
 
 
 def reader_drivers() -> List[str]:
-    """ Returns list driver names
+    """
+    Returns list driver names
     """
     return rdr_cache().drivers()
 
 
 def choose_datasource(band: BandInfo) -> DatasourceFactory:
-    """Returns appropriate `DataSource` class (or a constructor method) for loading
+    """
+    Returns appropriate `DataSource` class (or a constructor method) for loading
     given `dataset`.
 
     An appropriate `DataSource` implementation is chosen based on:
@@ -85,7 +90,8 @@ def choose_datasource(band: BandInfo) -> DatasourceFactory:
 
 
 def new_datasource(band: BandInfo) -> Optional[DataSource]:
-    """Returns a newly constructed data source to read dataset band data.
+    """
+    Returns a newly constructed data source to read dataset band data.
 
     An appropriate `DataSource` implementation is chosen based on:
 

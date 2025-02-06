@@ -1,19 +1,17 @@
 # This file is part of the Open Data Cube, see https://opendatacube.org for more information
 #
-# Copyright (c) 2015-2024 ODC Contributors
+# Copyright (c) 2015-2025 ODC Contributors
 # SPDX-License-Identifier: Apache-2.0
 import os
 import sys
 
-from bs4 import BeautifulSoup as bs  # noqa: N813
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('..'))
-sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath(".."))
+sys.path.insert(0, os.path.abspath("."))
 print(sys.path)
-on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+on_rtd = os.environ.get("READTHEDOCS", None) == "True"
 
 # -- General configuration ------------------------------------------------
 
@@ -24,33 +22,35 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
-    'sphinx_autodoc_typehints',
-    'sphinx.ext.graphviz',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.extlinks',
-    'sphinx.ext.mathjax',
-    'sphinx_click.ext',
-    'click_utils',
-    'autodocsumm',
-    'nbsphinx',
-    'sphinx.ext.napoleon',
-    'sphinx.ext.autosectionlabel'
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx_autodoc_typehints",
+    "sphinx.ext.graphviz",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.extlinks",
+    "sphinx.ext.mathjax",
+    "sphinx_click.ext",
+    "click_utils",
+    # 'autodocsumm',
+    "nbsphinx",
+    # 'sphinx.ext.napoleon',
+    "sphinx_design",
+    # 'sphinx.ext.autosectionlabel',
+    "IPython.sphinxext.ipython_console_highlighting",  # Highlights notebook cells
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # The suffix of source filenames.
-source_suffix = ['.rst', '.md']
+source_suffix = {".rst": "restructuredtext", ".md": "restructuredtext"}
 
 # The master toctree document.
-master_doc = 'index'
+master_doc = "index"
 
 # General information about the project.
-project = u'Open Data Cube'
+project = "Open Data Cube"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -70,7 +70,7 @@ release = version
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['README.rst', '.condaenv', '.direnv', '_build']
+exclude_patterns = ["README.rst", ".condaenv", ".direnv", "_build"]
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
 add_function_parentheses = True
@@ -80,49 +80,43 @@ add_function_parentheses = True
 show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'friendly'
+pygments_style = "friendly"
 
 autosummary_generate = True
 autoclass_content = "both"
 
-autodoc_default_options = {
-    'autosummary': True,
-    'inherited-members': True
-}
+autodoc_default_options = {"autosummary": True, "inherited-members": True}
 
-extlinks = {'issue': ('https://github.com/opendatacube/datacube-core/issues/%s', 'issue %s'),
-            'pull': ('https://github.com/opendatacube/datacube-core/pulls/%s', 'PR %s')}
+extlinks = {
+    "issue": ("https://github.com/opendatacube/datacube-core/issues/%s", "issue %s"),
+    "pull": ("https://github.com/opendatacube/datacube-core/pulls/%s", "PR %s"),
+}
 
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3', None),
-    'pandas': ('https://pandas.pydata.org/pandas-docs/stable/', None),
-    'numpy': ('https://numpy.org/doc/stable/', None),
-    'xarray': ('https://docs.xarray.dev/en/stable/', None),
+    "python": ("https://docs.python.org/3", None),
+    "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
+    "numpy": ("https://numpy.org/doc/stable/", None),
+    "xarray": ("https://docs.xarray.dev/en/stable/", None),
 }
 
-graphviz_output_format = 'svg'
+graphviz_output_format = "svg"
 
 # -- Options for HTML output ----------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-if on_rtd:
-    html_theme = 'pydata_sphinx_theme'
-else:
-    html_theme = 'pydata_sphinx_theme'
+html_theme = "pydata_sphinx_theme"
 
 html_theme_options = {
-    "navigation_depth": 1,
+    "navigation_depth": 2,  # defaults to 4
+    "show_toc_level": 2,
+    # "header_links_before_dropdown": 3,
+    # "navbar_align": "left",
     "show_prev_next": False,
     "collapse_navigation": True,
     "use_edit_page_button": True,
-    "footer_items": ["odc-footer"],
-    "page_sidebar_items": [
-        "page-toc",
-        "autoclass_page_toc",
-        "autosummary_page_toc",
-        "edit-this-page"
-    ],
+    # "footer_items": ["odc-footer"],
+    "secondary_sidebar_items": ["page-toc", "edit-this-page"],
     "icon_links": [
         {
             "name": "GitHub",
@@ -144,8 +138,8 @@ html_context = {
     "doc_path": "docs",
 }
 
-html_logo = '_static/odc-logo-horizontal.svg'
-html_static_path = ['_static']
+html_logo = "_static/odc-logo-horizontal.svg"
+html_static_path = ["_static"]
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
@@ -154,121 +148,40 @@ html_static_path = ['_static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
-html_last_updated_fmt = '%b %d, %Y'
+html_last_updated_fmt = "%b %d, %Y"
 
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
 html_show_sphinx = False
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'ODCdoc'
+htmlhelp_basename = "ODCdoc"
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    ('index', 'ODC.tex', u'Open Data Cube Documentation', 'Open Data Cube', 'manual')
+    ("index", "ODC.tex", "Open Data Cube Documentation", "Open Data Cube", "manual")
 ]
 
 numfig = True
 
 
-def custom_page_funcs(app, pagename, templatename, context, doctree):
-
-    def get_autosummary_toc():
-        soup = bs(context["body"], "html.parser")
-
-        class_sections = soup.find(class_='class')
-        if class_sections != None:
-            return ""
-
-        matches = soup.find_all('dl')
-        if matches == None or len(matches) == 0:
-            return ""
-
-        out = {
-            'title': '',
-            'menu_items': []
-        }
-
-        #  remove the class dt
-        pyclass = matches.pop(0)
-        pyclass = pyclass.find('dt')
-        if pyclass != None:
-            out['title'] = pyclass.get('id')
-
-        for match in matches:
-            match_dt = match.find('dt')
-            link = match.find(class_="headerlink")
-            if link != None:
-                out['menu_items'].append({
-                    'title': match_dt.get('id'),
-                    'link': link['href']
-                })
-
-        return out
-
-    def get_class_toc():
-        soup = bs(context["body"], "html.parser")
-
-        class_sections = soup.find_all(class_='autosummary')
-        if class_sections == None or len(class_sections) == 0:
-            return ""
-
-        out = {
-            'title': '',
-            'menu_items': []
-        }
-        class_title = soup.find(class_='class')
-        if class_title == None:
-            return ""
-
-        pyclass = class_title.find('dt')
-        if pyclass != None:
-            out['title'] = pyclass.get('id')
-
-        for section in class_sections:
-            out_section = {
-                'title': '',
-                'menu_items': []
-            }
-            out_section['title'] = section.find_previous_sibling('p').text.replace(':', '')
-            matches = section.find_all('tr')
-            for match in matches:
-                link = match.find(class_="internal")
-
-                if link != None:
-                    title = link['title']
-                    if title != None:
-                        title = title.replace(out['title'], '')
-                    out_section['menu_items'].append({
-                        'title': title,
-                        'link': link['href']
-                    })
-            if len(out_section['menu_items']) > 0:
-                out['menu_items'].append(out_section)
-
-        # print(out)
-        return out
-
-    context['get_class_toc'] = get_class_toc
-    context['get_autosummary_toc'] = get_autosummary_toc
-
-
 def setup(app):
     # Fix bug where code isn't being highlighted
-    app.add_css_file('pygments.css')
-    app.add_css_file('custom.css')
+    app.add_css_file("pygments.css")
+    app.add_css_file("custom.css")
 
-    app.add_object_type('confval', 'confval',
-                        objname='configuration value',
-                        indextemplate='pair: %s; configuration value')
-
-    app.connect("html-page-context", custom_page_funcs)
+    app.add_object_type(
+        "confval",
+        "confval",
+        objname="configuration value",
+        indextemplate="pair: %s; configuration value",
+    )
 
 
 # Clean up generated documentation files that RTD seems to be having trouble with
 if on_rtd:
     import shutil
 
-    shutil.rmtree('./dev/generate', ignore_errors=True)
+    shutil.rmtree("./dev/generate", ignore_errors=True)

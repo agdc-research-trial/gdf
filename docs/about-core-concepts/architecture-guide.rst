@@ -23,7 +23,7 @@ This section of the documentation describes the structure of the ODC and the key
 components that make up an implementation, as well as the ecosystem around it.
 
 .. figure:: ../diagrams/odc1.9-arch.png
-   :name: high-level-overview
+   :name: fig-odc1.9-architecture
 
    Datacube-core vs odc-stac
 

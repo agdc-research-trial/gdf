@@ -124,7 +124,7 @@ listed below
 
 It is assumed that individual storage units within a
 :class:`datacube.model.Dataset` are of the same format. In fact storage
-format is usually shared by all datasets belonging to the same :ref:`Product`,
+format is usually shared by all datasets belonging to the same :ref:`Product <Products>`,
 although it is possible to index different formats under one product.
 
 Data load in detail

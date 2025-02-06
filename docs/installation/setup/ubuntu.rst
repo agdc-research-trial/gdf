@@ -21,7 +21,7 @@ GDAL, HDF5, and netCDF4::
     sudo apt-get install libgdal-dev libhdf5-serial-dev libnetcdf-dev
 
 Install the latest Postgres version `available <https://packages.ubuntu.com/search?keywords=postgresql>`_ for your
-Ubuntu distribution, and the corresponsing version of PostGIS, eg::
+Ubuntu distribution, and the corresponding version of PostGIS, eg::
 
     sudo apt-get install postgresql-16-postgis-3
 

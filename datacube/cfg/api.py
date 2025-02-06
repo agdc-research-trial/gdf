@@ -1,6 +1,6 @@
 # This file is part of the Open Data Cube, see https://opendatacube.org for more information
 #
-# Copyright (c) 2015-2024 ODC Contributors
+# Copyright (c) 2015-2025 ODC Contributors
 # SPDX-License-Identifier: Apache-2.0
 
 """
@@ -15,7 +15,13 @@ from typing import Any, TypeAlias, Union, cast
 
 from .cfg import find_config, parse_text
 from .exceptions import ConfigException
-from .opt import ODCOptionHandler, AliasOptionHandler, IndexDriverOptionHandler, BoolOptionHandler, IntOptionHandler
+from .opt import (
+    ODCOptionHandler,
+    AliasOptionHandler,
+    IndexDriverOptionHandler,
+    BoolOptionHandler,
+    IntOptionHandler,
+)
 from .utils import ConfigDict, check_valid_env_name
 from ..migration import ODC2DeprecationWarning
 
@@ -31,31 +37,48 @@ class ODCConfig:
     """
     Configuration finder/reader/parser.
 
-    Attributes:
-        allow_envvar_overrides: bool        If True, environment variables can override the values explicitly specified
-                                            in the supplied configuration.
+    **Attributes**
 
-                                            Note that environments not explicitly specified in the supplied
-                                            configuration (dynamic environments) can still be read from
-                                            environment variables, even if this attribute is False.
+    .. py:attribute:: allow_envvar_overrides
+       :type: bool
+       :value: True
 
-        raw_text: str | None                The raw configuration text being used, as read from the configuration
-                                            file or supplied directly by the user.  May be None if the user
-                                            directly supplied configuration as a dictionary. May be in ini or yaml
-                                            format.  Does not include dynamic environments or values overridden by
-                                            environment variables.
+       If True, environment variables can override the values explicitly specified in the supplied configuration.
 
-        raw_config: dict[str, dict[str, Any]]   The raw dictionary form of the configuration, as supplied directly
-                                                by the user, or as parsed from raw_text. Does not include dynamic
-                                                environments or values overridden by environment variables.
+       Note that environments not explicitly specified in the supplied configuration (dynamic environments) can
+       still be read from environment variables, even if this attribute is False.
 
-        known_environments: dict[str, "ODCEnvironment"] A dictionary containing all environments defined in raw_config,
-                                                        plus any dynamic environments read so far.
-                                                        Environment themselves are not validated until read from.
+    .. py:attribute:: raw_text
+       :type: str | None
 
-        canonical_names: dict[str, list[str]]   A dictionary mapping canonical environment names to all aliases for
-                                                that environment.
+       The raw configuration text being used, as read from the configuration
+       file or supplied directly by the user.  May be None if the user
+       directly supplied configuration as a dictionary. May be in ini or yaml
+       format.  Does not include dynamic environments or values overridden by
+       environment variables.
+
+    .. py:attribute:: raw_config
+       :type: dict[str, dict[str, Any]]
+
+       The raw dictionary form of the configuration, as supplied directly
+       by the user, or as parsed from raw_text. Does not include dynamic
+       environments or values overridden by environment variables.
+
+    .. py:attribute:: known_environments
+       :type: dict[str, "ODCEnvironment"]
+
+       A dictionary containing all environments defined in raw_config,
+       plus any dynamic environments read so far.
+       Environment themselves are not validated until read from.
+
+    .. py:attribute:: canonical_names
+       :type: dict[str, list[str]]
+
+       A dictionary mapping canonical environment names to all aliases for
+       that environment.
+
     """
+
     allow_envvar_overrides: bool = True
     raw_text: str | None = None
     raw_config: ConfigDict = {}
@@ -64,10 +87,11 @@ class ODCConfig:
     is_default = False
 
     def __init__(
-            self,
-            paths: GeneralisedPath | None = None,
-            raw_dict: ConfigDict | None = None,
-            text: str | None = None):
+        self,
+        paths: GeneralisedPath | None = None,
+        raw_dict: ConfigDict | None = None,
+        text: str | None = None,
+    ):
         """
         When called with no args, reads the first config file found in the config path list is used.
         The config path list is taken from:
@@ -97,8 +121,10 @@ class ODCConfig:
         # Cannot supply both text AND paths.
         args_supplied: int = sum(map(lambda x: int(bool(x)), (paths, raw_dict, text)))
         if args_supplied > 1:
-            raise ConfigException("Can only supply one of configuration path(s), raw dictionary, "
-                                  "and explicit configuration text.")
+            raise ConfigException(
+                "Can only supply one of configuration path(s), raw dictionary, "
+                "and explicit configuration text."
+            )
 
         # Suppress environment variable overrides if explicit config text or dictionary is supplied.
         self.allow_envvar_overrides = not text and not raw_dict
@@ -118,8 +144,10 @@ class ODCConfig:
             self.raw_config = parse_text(cast(str, self.raw_text))
 
         self._aliases: dict[str, str] = {}
-        self.known_environments: dict[str, ODCEnvironment] = {
-            section: ODCEnvironment(self, section, self.raw_config[section], self.allow_envvar_overrides)
+        self.known_environments: dict[str, "ODCEnvironment"] = {
+            section: ODCEnvironment(
+                self, section, self.raw_config[section], self.allow_envvar_overrides
+            )
             for section in self.raw_config
         }
         self.canonical_names: dict[str, list[str]] = {}
@@ -131,10 +159,12 @@ class ODCConfig:
                 self.canonical_names[canonical] = [canonical, alias]
 
     @classmethod
-    def get_environment(cls,
-                        env: GeneralisedEnv | None = None,
-                        config: GeneralisedCfg | None = None,
-                        raw_config: GeneralisedRawCfg | None = None) -> "ODCEnvironment":
+    def get_environment(
+        cls,
+        env: GeneralisedEnv | None = None,
+        config: GeneralisedCfg | None = None,
+        raw_config: GeneralisedRawCfg | None = None,
+    ) -> "ODCEnvironment":
         """
         Obtain an ODCConfig object from the most general possible arguments.
 
@@ -216,14 +246,17 @@ class ODCConfig:
                 warnings.warn(
                     "Setting the default environment with $DATACUBE_ENVIRONMENT is deprecated. "
                     "Please use $ODC_ENVIRONMENT instead.",
-                    ODC2DeprecationWarning)
+                    ODC2DeprecationWarning,
+                )
                 item = os.environ["DATACUBE_ENVIRONMENT"]
             elif "default" in self.known_environments:
                 item = "default"
             elif "datacube" in self.known_environments:
-                warnings.warn("Defaulting to the 'datacube' environment - "
-                              "this fallback behaviour is deprecated and may change in a future release.",
-                              ODC2DeprecationWarning)
+                warnings.warn(
+                    "Defaulting to the 'datacube' environment - "
+                    "this fallback behaviour is deprecated and may change in a future release.",
+                    ODC2DeprecationWarning,
+                )
                 item = "datacube"
             else:
                 # No explicitly defined (known) environments - assume default and hope there's config
@@ -248,11 +281,14 @@ class ODCEnvironment:
 
     ODCEnvironment objects should only be instantiated by and acquired from an ODCConfig object.
     """
-    def __init__(self,
-                 cfg: ODCConfig,
-                 name: str,
-                 raw: dict[str, Any],
-                 allow_env_overrides: bool = True):
+
+    def __init__(
+        self,
+        cfg: ODCConfig,
+        name: str,
+        raw: dict[str, Any],
+        allow_env_overrides: bool = True,
+    ):
         self._cfg: ODCConfig = cfg
         check_valid_env_name(name)
         self._name: str = name
@@ -262,19 +298,22 @@ class ODCEnvironment:
         self._normalised: dict[str, Any] = {}
 
         if name == "user" and "default_environment" in raw:
-            warnings.warn("The 'default_environment' setting in the 'user' section is no longer supported - "
-                          "please refer to the documentation for more information")
+            warnings.warn(
+                "The 'default_environment' setting in the 'user' section is no longer supported - "
+                "please refer to the documentation for more information"
+            )
 
         self._env_overrides_applied = False
         # Aliases are handled here, the alias OptionHandler is a place-holder.
         if "alias" in self._raw:
-            alias = self._raw['alias']
+            alias = self._raw["alias"]
             check_valid_env_name(alias)
             self._cfg._add_alias(self._name, alias)
             for opt in self._raw.keys():
                 if opt != "alias":
                     raise ConfigException(
-                        f"Alias environments should only contain an alias option. Extra option {opt} found.")
+                        f"Alias environments should only contain an alias option. Extra option {opt} found."
+                    )
 
         self._option_handlers: list[ODCOptionHandler] = [
             AliasOptionHandler("alias", self),
@@ -295,7 +334,9 @@ class ODCEnvironment:
                 for handler in self._option_handlers:
                     self._handle_option(handler)
                 if self._cfg.is_default and not self._env_overrides_applied:
-                    warnings.warn("No configuration file found - using default configuration and environment variables")
+                    warnings.warn(
+                        "No configuration file found - using default configuration and environment variables"
+                    )
 
         # Config already processed
         # 1. From Normalised

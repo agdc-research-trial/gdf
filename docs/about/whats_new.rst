@@ -20,7 +20,7 @@ at ``docs/installation/MIGRATION-1.8-to-1.9`` before upgrading.
 Major changes from recent 1.8.x releases include:
 
 - A new index driver that uses PostGIS spatial indexes to provide faster and more accurate geospatial search
-  and provide better support for storing data that covers regions where traditional lat/long seach is
+  and provide better support for storing data that covers regions where traditional lat/long search is
   inadequate (i.e. covering polar regions or crossing the anti-meridian).
 
   The new postgis index driver implements a new API for working with dataset lineage, and only supports
@@ -1374,7 +1374,7 @@ The major changes include:
     - Added dependency on ``pandas`` for nicer search results listing and
       handling.
 
-    - :ref:`Indexing <indexing>` and :ref:`ingestion` have been split into
+    - :ref:`Indexing <indexing>` and "ingestion" have been split into
       separate steps.
 
     - Data that has been :ref:`indexed <indexing>` can be accessed without
@@ -1385,10 +1385,10 @@ The major changes include:
 
     - **Dataset Type** has been replaced by :ref:`Product <product-definitions>`
 
-    - **Storage Type** has been removed, and an :ref:`Ingestion Configuration <ingest-config>`
+    - **Storage Type** has been removed, and an "Ingestion Configuration"
       has taken it's place.
 
-    - A new :ref:`datacube-class` for querying and accessing data.
+    - A new ``Datacube class`` for querying and accessing data.
 
 
 1.0.4 Square Clouds (3 June 2016)

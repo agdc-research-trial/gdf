@@ -1,6 +1,6 @@
 # This file is part of the Open Data Cube, see https://opendatacube.org for more information
 #
-# Copyright (c) 2015-2024 ODC Contributors
+# Copyright (c) 2015-2025 ODC Contributors
 # SPDX-License-Identifier: Apache-2.0
 import numpy as np
 import collections.abc
@@ -14,7 +14,8 @@ from affine import Affine
 
 
 class WindowFromSlice:
-    """ Translate numpy slices to rasterio window tuples.
+    """
+    Translate numpy slices to rasterio window tuples.
     """
     def __getitem__(self, roi):
         if roi is None:
@@ -32,17 +33,19 @@ w_ = WindowFromSlice()
 
 
 def polygon_path(x, y=None):
-    """A little bit like numpy.meshgrid, except returns only boundary values and
+    """
+    A little bit like numpy.meshgrid, except returns only boundary values and
     limited to 2d case only.
 
-    Examples:
-      [0,1], [3,4] =>
-      array([[0, 1, 1, 0, 0],
-             [3, 3, 4, 4, 3]])
+    Examples::
 
-      [0,1] =>
-      array([[0, 1, 1, 0, 0],
-             [0, 0, 1, 1, 0]])
+       [0,1], [3,4] =>
+       array([[0, 1, 1, 0, 0],
+              [3, 3, 4, 4, 3]])
+
+       [0,1] =>
+       array([[0, 1, 1, 0, 0],
+              [0, 0, 1, 1, 0]])
     """
 
     if y is None:

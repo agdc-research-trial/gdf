@@ -1,6 +1,6 @@
 # This file is part of the Open Data Cube, see https://opendatacube.org for more information
 #
-# Copyright (c) 2015-2024 ODC Contributors
+# Copyright (c) 2015-2025 ODC Contributors
 # SPDX-License-Identifier: Apache-2.0
 from typing import List, Optional
 
@@ -37,13 +37,15 @@ class IndexDriverCache(object):
         return self._drivers.get(name, None)
 
     def drivers(self) -> List[str]:
-        """ Returns list of driver names
+        """
+        Returns list of driver names
         """
         return list(self._drivers.keys())
 
 
 def index_cache() -> IndexDriverCache:
-    """ Singleton for IndexDriverCache
+    """
+    Singleton for IndexDriverCache
     """
     return singleton_setup(index_cache, '_instance',
                            IndexDriverCache,
@@ -51,13 +53,15 @@ def index_cache() -> IndexDriverCache:
 
 
 def index_drivers() -> List[str]:
-    """ Returns list driver names
+    """
+    Returns list driver names
     """
     return index_cache().drivers()
 
 
 def index_driver_by_name(name: str) -> Optional[AbstractIndexDriver]:
-    """ Lookup index driver by name
+    """
+    Lookup index driver by name
 
     :returns: Initialised index driver instance
     :returns: None if driver with this name doesn't exist

@@ -5,7 +5,6 @@ Geometry Classes
 .. currentmodule:: datacube
 
 .. autosummary::
-
    :toctree: generate/
 
    utils.geometry.Coordinate

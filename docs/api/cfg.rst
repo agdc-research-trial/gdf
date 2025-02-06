@@ -10,7 +10,6 @@ Executive Summary
 .. currentmodule:: datacube.cfg
 
 .. autosummary::
-
    :nosignatures:
    :toctree: generate/
 
@@ -22,17 +21,14 @@ Full API
 .. currentmodule:: datacube.cfg
 
 .. autoclass:: ODCConfig
-
    :members:
 
 .. currentmodule:: datacube.cfg
 
 .. autoclass:: ConfigException
-
    :members:
 
 .. currentmodule:: datacube.cfg
 
 .. autoclass:: ODCEnvironment
-
    :members:

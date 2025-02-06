@@ -1,6 +1,6 @@
 # This file is part of the Open Data Cube, see https://opendatacube.org for more information
 #
-# Copyright (c) 2015-2024 ODC Contributors
+# Copyright (c) 2015-2025 ODC Contributors
 # SPDX-License-Identifier: Apache-2.0
 """
 Core classes used across modules.
@@ -60,7 +60,7 @@ class Dataset:
     Dataset objects should be constructed by an index driver, or with the
     datacube.index.hl.Doc2Dataset
 
-    :param metadata_doc: the document (typically a parsed json/yaml)
+    :param metadata_doc: the document (typically a parsed JSON/YAML)
     :param uris: All active uris for the dataset
     """
 
@@ -842,20 +842,20 @@ class GridSpec:
     """
     Definition for a regular spatial grid
 
-    >>> gs = GridSpec(crs=CRS('EPSG:4326'), tile_size=(1, 1), resolution=(-0.1, 0.1), origin=(-50.05, 139.95))
-    >>> gs.tile_resolution
-    (10, 10)
-    >>> list(gs.tiles(BoundingBox(140, -50, 141.5, -48.5)))
-    [((0, 0), GeoBox((10, 10), Affine(0.1, 0.0, 139.95,
-           0.0, -0.1, -49.05), CRS('EPSG:4326'))), ((1, 0), GeoBox((10, 10), Affine(0.1, 0.0, 140.95,
-           0.0, -0.1, -49.05), CRS('EPSG:4326'))), ((0, 1), GeoBox((10, 10), Affine(0.1, 0.0, 139.95,
-           0.0, -0.1, -48.05), CRS('EPSG:4326'))), ((1, 1), GeoBox((10, 10), Affine(0.1, 0.0, 140.95,
-           0.0, -0.1, -48.05), CRS('EPSG:4326')))]
+        >>> gs = GridSpec(crs=CRS('EPSG:4326'), tile_size=(1, 1), resolution=(-0.1, 0.1), origin=(-50.05, 139.95))
+        >>> gs.tile_resolution
+        (10, 10)
+        >>> list(gs.tiles(BoundingBox(140, -50, 141.5, -48.5)))
+        [((0, 0), GeoBox((10, 10), Affine(0.1, 0.0, 139.95,
+               0.0, -0.1, -49.05), CRS('EPSG:4326'))), ((1, 0), GeoBox((10, 10), Affine(0.1, 0.0, 140.95,
+               0.0, -0.1, -49.05), CRS('EPSG:4326'))), ((0, 1), GeoBox((10, 10), Affine(0.1, 0.0, 139.95,
+               0.0, -0.1, -48.05), CRS('EPSG:4326'))), ((1, 1), GeoBox((10, 10), Affine(0.1, 0.0, 140.95,
+               0.0, -0.1, -48.05), CRS('EPSG:4326')))]
 
     :param odc.geo.crs.CRS crs: Coordinate System used to define the grid
     :param [float,float] tile_size: (Y, X) size of each tile, in CRS units
     :param [float,float] resolution: (Y, X) size of each data point in the grid, in CRS units. Y will
-                                   usually be negative.
+        usually be negative.
     :param [float,float] origin: (Y, X) coordinates of a corner of the (0,0) tile in CRS units. default is (0.0, 0.0)
     """
 
@@ -1191,7 +1191,7 @@ class ExtraDimensions:
 
         :param dim: The name of the dimension
         :param coord_range: The coordinate range.
-        :return: A tuple containing the integer indexes of `coord_range.
+        :return: A tuple containing the integer indexes of `coord_range`.
         """
         # Convert to Tuple if it's an int or float
         if isinstance(coord_range, int) or isinstance(coord_range, float):

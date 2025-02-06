@@ -1,3 +1,5 @@
+:html_theme.sidebar_secondary.remove:
+
 %%%%%%%%%%%%%%%%%%
 The Open Data Cube
 %%%%%%%%%%%%%%%%%%
@@ -7,37 +9,51 @@ for managing and processing gridded Earth observation data.
 It has been designed to manage decades of analysis ready
 Earth observation satellite data and related data from multiple sources.
 
-For more information see the following sections:
 
-:doc:`about-core-concepts/index`
+.. grid:: 1 1 3 3
+   :gutter: 2
 
-* This section contains information on the purpose of the Open Data Cube,
-  as well as its design.
+   .. grid-item-card:: Overview
+      :link: about-core-concepts/index
+      :link-type: doc
 
-:doc:`tutorials/index`
+      Information on the purpose of the Open Data Cube, as well as its design.
 
-* This section contains tutorials to help you get started with the 
-  Open Data Cube.
+   .. grid-item-card:: Tutorials
+      :link: tutorials/index
+      :link-type: doc
 
-:doc:`installation/index`
+      Tutorials to help you learn about different features of the Open Data Cube.
+   
+   .. grid-item-card:: Setup
+      :link: installation/index
+      :link-type: doc
 
-* This section contains information on how to install, maintain and upgrade the Open Data Cube.
+      How to install the Open Data Cube.
 
-:doc:`data-access-analysis/index`
+   .. grid-item-card:: Analysis
+      :link: data-access-analysis/index
+      :link-type: doc
 
-* This section contains information on how to access and analyse data that
-  is managed by an Open Data Cube.
+      How to access and analyse data that is managed by an Open Data Cube.
 
-:doc:`api/index`
+   .. grid-item-card:: API
+      :link: api/index
+      :link-type: doc
 
-* This section contains the Open Data Cube's :term:`Python`` :term:`API`` reference.
+      The Open Data Cube's Python API reference.
 
-:doc:`about/index`
+   .. grid-item-card:: About
+      :link: about/index
+      :link-type: doc
 
-* This section contains information on the project's development.
+      About the Open Data Cube and its development.
+
+Contents
+########
 
 .. toctree::
-    :maxdepth: 5
+    :maxdepth: 3
 
     about-core-concepts/index
     tutorials/index

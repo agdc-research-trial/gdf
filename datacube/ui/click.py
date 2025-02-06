@@ -1,6 +1,6 @@
 # This file is part of the Open Data Cube, see https://opendatacube.org for more information
 #
-# Copyright (c) 2015-2024 ODC Contributors
+# Copyright (c) 2015-2025 ODC Contributors
 # SPDX-License-Identifier: Apache-2.0
 """
 Common functions for click-based cli scripts.
@@ -10,6 +10,7 @@ import logging
 import os
 import copy
 import sys
+from textwrap import dedent
 
 import click
 
@@ -324,7 +325,7 @@ def parsed_search_expressions(f):
     """
     if not f.__doc__:
         f.__doc__ = ""
-    f.__doc__ += """
+    f.__doc__ += dedent("""
     EXPRESSIONS
 
     Select datasets using [EXPRESSIONS] to filter by date, product type,
@@ -350,7 +351,7 @@ def parsed_search_expressions(f):
         'lon in [130, 140]' 'lat in [-40, -30]'
         product=ls5_nbar_albers
 
-    """
+    """)
 
     def my_parse(ctx, param, value):
         return parse_expressions(*list(value))
