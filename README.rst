@@ -39,7 +39,7 @@ reading and following our `Code of Conduct <code-of-conduct.md>`__.
 
 This is a ``1.9.x`` series release of the Open Data Cube.  If you are migrating from a ``1.8.x``
 series release, please refer to the
-`1.8.x to 1.9.x Migration Notes <https://opendatacube.readthedocs.io/en/latest/MIGRATION-1.8-to-1.9.html>`_.
+`1.8.x to 1.9.x Migration Notes <https://opendatacube.readthedocs.io/en/latest/installation/MIGRATION-1.8-to-1.9.html>`_.
 
 Requirements
 ============
@@ -105,7 +105,7 @@ Run unit tests with:
       ``~/.datacube_integration.conf`` and edit to customise.
 
    - For instructions on setting up a password-less Postgres database, see
-      the `developer setup instructions <https://opendatacube.readthedocs.io/en/latest/installation/setup/ubuntu.html#postgres-database-configuration>`__.
+      the `developer setup instructions <https://opendatacube.readthedocs.io/en/latest/installation/setup/ubuntu.html#postgres-testing-database-configuration>`__.
 
 
 Alternatively one can use the ``opendatacube/datacube-tests`` docker image to run
