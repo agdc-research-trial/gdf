@@ -13,38 +13,73 @@ Sentinel-2 imagery and load it into memory.
 
 During the tutorial, we will:
 
-- Specify our data search in terms of:
+* Specify our search in terms of:
   
-  - what (data provider and satellite)
-  - where (area of interest)
-  - when (date range)
-- Use `pystac-client` to connect to a Spatio-Temporal Asset Catalog (STAC) 
+  * what (data provider and satellite)
+  * where (area of interest)
+  * when (date range)
+* Use `pystac-client`_ to connect to a Spatio-Temporal Asset Catalog (STAC) 
   endpoint and search for data matching our what, where, and when
-- Use `odc-stac` to load the matching data into memory
-- Visualise and export the data
+* Use `odc-stac`_ to load the matching data into memory
+* Visualise and export the data
 
-Prepare the tutorial environment
-================================
+Requirements
+------------
 
 .. note::
-   At this time, you will need working knowledge of git and Conda to run this tutorial
-   on your own computer. 
+   At this time, you will need Python 3.9 or higher installed to run this tutorial. 
    In future, this may be replaced with an online environment where you can run the 
    tutorial without needing to install anything.
 
 To run this tutorial on your computer, you will need:
 
-- `git`_: Software for version control.
-- `Conda`_: Software for managing Python packages and environments. 
-  We recommend `Miniconda`_.
+* Python version 3.9 or higher
+* A terminal environment to run commands
+* A text editor (e.g. VS Code)
 
-Check out tutorial materials
+We recommend that you use a Python environment manager. 
+This tutorial will use `venv`_ which comes with Python, but you may use your preferred 
+environment manager. 
+
+Set up
+======
+
+Create a virtual environment
 ----------------------------
 
-The tutorial materials are available on `GitHub`_
+#. Open a terminal
+#. Create a virtual environment
+
+   .. code-block:: bash
+
+      python -m venv odcstactutorial
+
+#. Activate the virtual environment
+  
+   * MacOS/Linux
+
+     .. code-block:: bash
+  
+        source myenv/bin/activate
+
+   * Windows
+
+     .. code-block:: powershell
+
+        myenv\Scripts\activate
+
+#. Install the required packages:
+
+   .. code-block:: bash
+
+      pip install pystac_client
+      pip install odc-stac
+      pip install ipykernel
 
 
 
+.. _pystac-client: https://pystac-client.readthedocs.io/en/stable/
+.. _odc-stac: https://odc-stac.readthedocs.io/en/latest/ 
 .. _git: https://git-scm.com/
 .. _Conda: https://docs.conda.io/projects/conda/en/latest/index.html
 .. _Miniconda: https://docs.anaconda.com/miniconda/
