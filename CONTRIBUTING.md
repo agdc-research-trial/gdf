@@ -39,6 +39,6 @@ and consider major enhancements, and there are a number of [current and past enh
 
 In case you haven't found them yet, please checkout the following resources:
 
-* [Documentation](https://datacube-core.readthedocs.io/en/latest/)
+* [Documentation](https://opendatacube.readthedocs.io/en/latest/)
 * [Discord](https://discord.com/invite/4hhBQVas5U)
 * [GIS Stack Exchange](https://gis.stackexchange.com/questions/tagged/open-data-cube).

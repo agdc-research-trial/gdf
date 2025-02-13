@@ -11,7 +11,7 @@ Open Data Cube Core
 
 .. image:: https://readthedocs.org/projects/datacube-core/badge/?version=latest
     :alt: Documentation Status
-    :target: http://datacube-core.readthedocs.org/en/latest/
+    :target: https://opendatacube.readthedocs.org/en/latest/
 
 .. image:: https://img.shields.io/discord/1212501566326571070?label=Discord&logo=discord&logoColor=white&color=7289DA)](https://discord.gg/4hhBQVas5U
     :alt: Discord
@@ -28,7 +28,7 @@ systems.
 Documentation
 =============
 
-See the `user guide <http://datacube-core.readthedocs.io/en/latest/>`__ for
+See the `user guide <https://opendatacube.readthedocs.io/en/latest/>`__ for
 installation and usage of the datacube, and for documentation of the API.
 
 `Join our Discord <https://discord.com/invite/4hhBQVas5U>`__ if you need help
@@ -39,7 +39,7 @@ reading and following our `Code of Conduct <code-of-conduct.md>`__.
 
 This is a ``1.9.x`` series release of the Open Data Cube.  If you are migrating from a ``1.8.x``
 series release, please refer to the
-`1.8.x to 1.9.x Migration Notes <https://datacube-core.readthedocs.io/en/latest/MIGRATION-1.8-to-1.9.html>`_.
+`1.8.x to 1.9.x Migration Notes <https://opendatacube.readthedocs.io/en/latest/installation/MIGRATION-1.8-to-1.9.html>`_.
 
 Requirements
 ============
@@ -105,7 +105,7 @@ Run unit tests with:
       ``~/.datacube_integration.conf`` and edit to customise.
 
    - For instructions on setting up a password-less Postgres database, see
-      the `developer setup instructions <https://datacube-core.readthedocs.io/en/latest/installation/setup/ubuntu.html#postgres-database-configuration>`__.
+      the `developer setup instructions <https://opendatacube.readthedocs.io/en/latest/installation/setup/ubuntu.html#postgres-testing-database-configuration>`__.
 
 
 Alternatively one can use the ``opendatacube/datacube-tests`` docker image to run
