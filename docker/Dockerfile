@@ -14,8 +14,6 @@ ARG V_PGIS=16-postgis-3
 
 USER root
 RUN apt-get update -y \
-    && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y \
-    && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --allow-change-held-packages --fix-missing --no-install-recommends \
         git \
         libpq-dev libudunits2-dev libproj-dev \
