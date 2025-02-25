@@ -5,6 +5,13 @@
 What's New
 **********
 
+v1.9.next
+=========
+
+- Fix bug in postgis implementation of datasets.count() (with search filters).  Wasn't handling
+  table joins properly so was cartesian-joining with search tables resulting in wildly inaccurate
+  results and very slow queries on large databases. :pull:`1717`
+
 v1.9.1 (25th February 2025)
 ===========================
 
@@ -39,7 +46,7 @@ Maintenance
 
 - Update pre-commit hooks. :pull:`1701`, :pull:`1699`, :pull:`1710`
 - Update copyright dates for 2025.
-- Remove our GitHub Actions dependency on DockerHub (and credentials). :pull:`1711` 
+- Remove our GitHub Actions dependency on DockerHub (and credentials). :pull:`1711`
 - Update the release process to be a bit simpler, and use OIDC for authentication with
   PyPI. :pull:`1713`
 
