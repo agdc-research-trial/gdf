@@ -11,6 +11,7 @@ v1.9.next
 - Fix bug in postgis implementation of datasets.count() (with search filters).  Wasn't handling
   table joins properly so was cartesian-joining with search tables resulting in wildly inaccurate
   results and very slow queries on large databases. :pull:`1717`
+- Suppress SQLAlchemy cartesian product warnings in datasets.find_duplicates_with_time :pull:`1719`
 
 v1.9.1 (25th February 2025)
 ===========================
