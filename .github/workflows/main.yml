@@ -9,7 +9,9 @@ on:
       - '**'
       - '!docs/**'
       - '!contrib/**'
-
+  release:
+    types:
+      - published
   workflow_dispatch:
 
 env:
@@ -53,39 +55,18 @@ jobs:
             integration_tests
         EOF
 
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+
     - name: Build Packages
       run: |
-        cat <<EOF | docker run --rm -i  \
-                  -v $(pwd):/code \
-                  -e SKIP_DB=yes \
-                  ${{ env.DOCKER_IMAGE }} bash -
-        python setup.py bdist_wheel sdist
-        ls -lh ./dist/
-        twine check ./dist/*
-        EOF
+        uv build
+        uv tool run twine check dist/*
 
-    - name: Publish to PyPi
-      if: |
-        github.repository_owner == 'opendatacube' && github.event.action == 'published'
-      run: |
-        if [ -n "${TWINE_PASSWORD}" ]; then
-          docker run --rm  \
-            -v $(pwd):/code \
-            -e SKIP_DB=yes \
-            ${{ env.DOCKER_IMAGE }} \
-            twine upload \
-              --verbose \
-              --non-interactive \
-              --disable-progress-bar \
-              --username=__token__ \
-              --password=${TWINE_PASSWORD} \
-              --skip-existing dist/*
-        else
-           echo "Skipping upload as 'PyPiToken' is not set"
-        fi
-
-      env:
-        TWINE_PASSWORD: ${{ secrets.PyPiToken }}
+    # Uses to OIDC identification between GitHub and PyPI
+    - name: Upload package to PyPI on GitHub Release
+      if: "github.repository_owner == 'opendatacube' && github.event.action == 'published'"
+      uses: pypa/gh-action-pypi-publish@release/v1
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
