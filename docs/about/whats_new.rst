@@ -5,8 +5,44 @@
 What's New
 **********
 
-v1.9.next
-=========
+v1.9.1 (25th February 2025)
+===========================
+
+Changes
+-------
+
+- Make compatible with Dask/Distributed versions 2024.11 and above. A change in how
+  Dask transmitted ODC data structures broke data loading in these versions. We
+  had a dependency restriction to prevent incompatible versions being installed,
+  which is now removed. :pull:`1706`
+
+- New Documentation Theme which scales properly for mobiles, includes a dark mode,
+  looks cleaner and is much more maintainable. :pull:`1676`, :pull:`1702`
+
+- Extend the allowed range of PostgreSQL TCP Ports to 65,535. Known as dynamic or
+  ephemeral port numbers, they aren't used for permanent servers, but are useful
+  when dynamically running servers for tests. :pull:`1697`
+
+Test fixes
+----------
+
+- Fix compatibility with antimeridian 0.4+, which includes a superior
+  implementation of splitting, using great circle coordinates instead of a simple
+  2D plane. :pull:`1708`
+
+- Make tests pass when run as root, which often happens within a docker container. :pull:`1705`
+
+- Hard code the use of nanosecond precision within xarray data. :pull:`1707`
+
+Maintenance
+-----------
+
+- Update pre-commit hooks. :pull:`1701`, :pull:`1699`, :pull:`1710`
+- Update copyright dates for 2025.
+- Remove our GitHub Actions dependency on DockerHub (and credentials). :pull:`1711` 
+- Update the release process to be a bit simpler, and use OIDC for authentication with
+  PyPI. :pull:`1713`
+
 
 v1.9.0 (23rd December 2024)
 ===========================
