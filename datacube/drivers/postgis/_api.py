@@ -815,7 +815,7 @@ class PostgisDbAPI:
         t1 = query.alias("t1")
         t2 = query.alias("t2")
 
-        t1fields = [getattr(t1.c, f.name) for f in fields]
+        t1fields = [getattr(t1.c, f.name) for f in fields]  # type: ignore[union-attr]
         time_overlap = select(
             t1.c.id,
             t1.c.time.intersection(t2.c.time).label('time_intersect'),
@@ -827,7 +827,7 @@ class PostgisDbAPI:
             )
         )
 
-        tovlap_fields = [getattr(time_overlap.c, f.name) for f in fields]
+        tovlap_fields = [getattr(time_overlap.c, f.name) for f in fields]  # type: ignore[union-attr]
         query = select(
             func.array_agg(func.distinct(time_overlap.c.id)).label("ids"),
             *tovlap_fields,  # type: ignore[arg-type]
