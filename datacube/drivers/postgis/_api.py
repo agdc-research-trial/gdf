@@ -863,10 +863,14 @@ class PostgisDbAPI:
             where_expressions = and_(*raw_expressions)
 
         query = select(func.count(Dataset.id))
+
         if geom:
             SpatialIndex, spatialquery = self.geospatial_query(geom)
             where_expressions = and_(where_expressions, spatialquery)
             query = query.join(SpatialIndex)
+
+        for join in self._join_tables(expressions=expressions):
+            query = query.join(*join)
 
         select_query = query.where(where_expressions)
         return self._connection.scalar(select_query)
