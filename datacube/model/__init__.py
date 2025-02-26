@@ -448,7 +448,6 @@ class Measurement():
         if key == '_data':
             # return self._data
             raise AttributeError("Measurement() object has no attribute '_data'")
-        print(f"Measurement() accessing {key} attribute")
         return self._data.get(key)
 
     def __getitem__(self, key):

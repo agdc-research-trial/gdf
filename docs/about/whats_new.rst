@@ -5,13 +5,16 @@
 What's New
 **********
 
-v1.9.next
-=========
+v1.9.2 (26th February 2025)
+===========================
+
+Bug fix release.
 
 - Fix bug in postgis implementation of datasets.count() (with search filters).  Wasn't handling
   table joins properly so was cartesian-joining with search tables resulting in wildly inaccurate
   results and very slow queries on large databases. :pull:`1717`
 - Suppress SQLAlchemy cartesian product warnings in datasets.find_duplicates_with_time :pull:`1719`
+- Update whats_new ready for 1.9.2 release :pull:`1720`
 
 v1.9.1 (25th February 2025)
 ===========================
