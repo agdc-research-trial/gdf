@@ -9,6 +9,7 @@ We recommend starting with :doc:`odc-stac <odc-stac>`, which will demonstrate ho
 the :abbr:`ODC (Open Data Cube)` enables access to Earth observation data.
 
 .. toctree::
+    :maxdepth: 1
     :caption: Tutorials
 
     odc-stac

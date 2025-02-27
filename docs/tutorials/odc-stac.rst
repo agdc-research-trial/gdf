@@ -10,6 +10,7 @@ Introduction
 
 In this tutorial we will use Python libraries to search for freely available 
 Sentinel-2 imagery and load it into memory.
+You will then create a true-colour image and export it as a cloud-optimised GeoTiff.
 
 During the tutorial, we will:
 
@@ -23,64 +24,114 @@ During the tutorial, we will:
 * Use `odc-stac`_ to load the matching data into memory
 * Visualise and export the data
 
-Requirements
-------------
+There is no need to install anything.
+This tutorial runs in an online environment that we have prepared for you. 
+
+Launch tutorial environment
+===========================
+
+Click on the Binder button below to launch the tutorial environment.
+We recommend right-clicking the button and selecting "Open Link in New Tab" 
+or "Open Link in New Window" so that you can keep the tutorial instructions in view.
+
+The tutorial environment may take a few minutes to start.
+
+.. image:: https://mybinder.org/badge_logo.svg
+ :target: https://mybinder.org/v2/gh/opendatacube/tutorial-odc-stac/binder?urlpath=%2Fdoc%2Ftree%2FREADME.md
+
+Once launched, you should see INSERTIMAGE.
+The tutorial notebook has headers that match up with the tutorial instructions below.
 
 .. note::
-   At this time, you will need Python 3.9 or higher installed to run this tutorial. 
-   In future, this may be replaced with an online environment where you can run the 
-   tutorial without needing to install anything.
+   For this tutorial, we believe you will learn more if you type the code yourself, rather than using copy-paste.
+   Typing encourages you to slow down and think about what you're doing, which will help you gain understanding!
 
-To run this tutorial on your computer, you will need:
+Tutorial
+========
 
-* Python version 3.9 or higher
-* A terminal environment to run commands
-* A text editor (e.g. VS Code)
+Python imports
+--------------
 
-We recommend that you use a Python environment manager. 
-This tutorial will use `venv`_ which comes with Python, but you may use your preferred 
-environment manager. 
+The notebook requires three libraries to run:
 
-Set up
-======
+* :code:`geopandas` for loading an area of interest from a file
+* :code:`odc.stac` for loading satellite data
+* :code:`pystac-client` for querying catalogs of satellite data
 
-Create a virtual environment
-----------------------------
+Type the following into the empty cell below the **Python imports** heading:
 
-#. Open a terminal
-#. Create a virtual environment
+.. code-block:: python
 
-   .. code-block:: bash
+   import geopandas as gpd
+   from odc.stac import load
+   from pystac_client import Client
 
-      python -m venv odcstactutorial
+When you have finished, run the cell by pressing :code:`Shift+Enter` on your keyboard.
+   
+Set up query parameters
+-----------------------
 
-#. Activate the virtual environment
-  
-   * MacOS/Linux
+In this section of the tutorial, you will specify:
 
-     .. code-block:: bash
-  
-        source myenv/bin/activate
+* The area you want to load data for
+* The date range you want to load data for
+* The catalog you want to load data from
 
-   * Windows
+Area of interest
+^^^^^^^^^^^^^^^^
 
-     .. code-block:: powershell
+Type the following into the empty cell below the **Area of interest** heading:
 
-        myenv\Scripts\activate
+.. code-block:: python
 
-#. Install the required packages:
+   aoi = gpd.read_file("aoi.geojson")
+   aoi_geometry = aoi.iloc[0].geometry
 
-   .. code-block:: bash
+When you have finished, run the cell by pressing :code:`Shift+Enter` on your keyboard.
 
-      pip install pystac_client
-      pip install odc-stac
-      pip install ipykernel
+Date range
+^^^^^^^^^^
 
+Type the following into the empty cell below the **Date range** heading:
+
+.. code-block:: python
+
+   start_date = "2021-12-24"
+   end_date = "2021-12-26"
+   date_query = (start_date, end_date)
+
+
+When you have finished, run the cell by pressing :code:`Shift+Enter` on your keyboard.
+
+Catalog and measurements
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Type the following into the empty cell below the **Catalog and measurements** heading:
+
+.. code-block:: python
+
+   catalog = "https://earth-search.aws.element84.com/v1/"
+   collections_query = ["sentinel-2-l2a"]
+   bands_query = ["red", "green", "blue"]
+
+When you have finished, run the cell by pressing :code:`Shift+Enter` on your keyboard.
+
+Connect to catalog and find items
+---------------------------------
+
+Search for items
+^^^^^^^^^^^^^^^^
+
+Load items with odc-stac
+------------------------
+
+Visualise loaded data
+---------------------
+
+Export loaded data
+------------------
 
 
 .. _pystac-client: https://pystac-client.readthedocs.io/en/stable/
 .. _odc-stac: https://odc-stac.readthedocs.io/en/latest/ 
-.. _git: https://git-scm.com/
-.. _Conda: https://docs.conda.io/projects/conda/en/latest/index.html
-.. _Miniconda: https://docs.anaconda.com/miniconda/
 .. _GitHub: https://github.com/opendatacube/tutorial-odc-stac/tree/main
